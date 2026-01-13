@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel, { EmblaCarouselType, EmblaOptionsType } from "embla-carousel-react";
-import { motion, useTransform, useMotionValue } from "framer-motion";
+import { motion, useTransform, useMotionValue, MotionValue } from "framer-motion";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 
@@ -22,64 +22,75 @@ type PropType = {
 const DURATION = 0.7;
 
 export const ParallaxCarousel = ({ projects, options }: PropType) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel(options);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, ...options });
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [prevBtnDisabled, setPrevBtnDisabled] = useState(true);
-  const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
 
   const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
     setSelectedIndex(emblaApi.selectedScrollSnap());
-    setPrevBtnDisabled(!emblaApi.canScrollPrev());
-    setNextBtnDisabled(!emblaApi.canScrollNext());
+  }, []);
+  
+  const onScroll = useCallback((emblaApi: EmblaCarouselType) => {
+    setScrollProgress(emblaApi.scrollProgress());
   }, []);
 
   useEffect(() => {
     if (!emblaApi) return;
     onSelect(emblaApi);
+    onScroll(emblaApi);
     emblaApi.on("reInit", onSelect);
+    emblaApi.on("reInit", onScroll);
     emblaApi.on("select", onSelect);
-  }, [emblaApi, onSelect]);
+    emblaApi.on("scroll", onScroll);
+  }, [emblaApi, onSelect, onScroll]);
 
   const currentProject = projects[selectedIndex];
-  const otherProjects = projects.filter((_, i) => i !== selectedIndex);
 
   return (
     <div className="w-full h-full flex flex-col">
       <div className="overflow-hidden flex-1" ref={emblaRef}>
         <div className="flex h-full">
           {projects.map((project, index) => (
-            <CarouselSlide project={project} key={index} emblaApi={emblaApi} index={index} />
+            <CarouselSlide 
+              project={project} 
+              key={project.id} 
+              index={index}
+              emblaApi={emblaApi}
+              scrollProgress={scrollProgress}
+            />
           ))}
         </div>
       </div>
       
-      <div className="relative z-10 bg-[#1A1A1A] border-t border-white/10">
+      <div className="absolute bottom-0 left-0 w-full z-10 bg-gradient-to-t from-black/80 via-black/50 to-transparent">
         <motion.div 
             key={currentProject.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: DURATION, ease: "easeOut" }}
             className="px-6 md:px-12 lg:px-24 pt-12 pb-8"
         >
           <div className="flex flex-col lg:flex-row justify-between lg:items-end gap-6 mb-8">
-            <h3 className="font-cormorant text-5xl md:text-7xl leading-none">
-              {currentProject.title}
-            </h3>
+            <div>
+              <h3 className="font-cormorant text-5xl md:text-7xl leading-none">
+                {currentProject.title}
+              </h3>
+              <p className="font-inter text-base text-white mt-4">{currentProject.location}</p>
+            </div>
             <div className="flex gap-3">
               <button
                 onClick={scrollPrev}
-                disabled={prevBtnDisabled}
-                className="p-3 border border-white/20 rounded-full text-white disabled:opacity-30 hover:bg-white hover:text-black transition-colors"
+                className="p-3 border border-white/20 rounded-full text-white hover:bg-white hover:text-black transition-colors"
               >
                 <ArrowLeft size={20} />
               </button>
               <button
                 onClick={scrollNext}
-                disabled={nextBtnDisabled}
-                className="p-3 border border-white/20 rounded-full text-white disabled:opacity-30 hover:bg-white hover:text-black transition-colors"
+                className="p-3 border border-white/20 rounded-full text-white hover:bg-white hover:text-black transition-colors"
               >
                 <ArrowRight size={20} />
               </button>
@@ -88,12 +99,13 @@ export const ParallaxCarousel = ({ projects, options }: PropType) => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-end border-t border-white/20 pt-8">
             <div>
-              <p className="font-inter text-sm text-gray-300 uppercase tracking-wider mb-2">Location</p>
-              <p className="font-inter text-base text-white">{currentProject.location}</p>
-            </div>
-            <div>
               <p className="font-inter text-sm text-gray-300 uppercase tracking-wider mb-2">Status</p>
               <p className="font-inter text-base text-white">{currentProject.status}</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <p className="font-inter text-sm text-gray-300 uppercase tracking-wider">
+                {String(selectedIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+              </p>
             </div>
             <div className="flex lg:justify-end">
               <button className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-inter group">
@@ -107,40 +119,37 @@ export const ParallaxCarousel = ({ projects, options }: PropType) => {
   );
 };
 
-const CarouselSlide = ({ project, emblaApi, index }: { project: Project, emblaApi: EmblaCarouselType | undefined, index: number }) => {
-    const [progress, setProgress] = useState(0);
+const CarouselSlide = ({ project, emblaApi, index, scrollProgress }: { project: Project, emblaApi: EmblaCarouselType | undefined, index: number, scrollProgress: number }) => {
+    const TWEEN_FACTOR = 4.2;
+
+    const y = useMotionValue(0);
 
     useEffect(() => {
         if (!emblaApi) return;
+
+        const engine = emblaApi.internalEngine();
+        const tweenNodes = engine.tweenNodes.get(emblaApi.selectedScrollSnap());
+        
         const onScroll = () => {
-            const engine = emblaApi.internalEngine();
-            const scrollProgress = emblaApi.scrollProgress();
-            const scrollSnapList = emblaApi.scrollSnapList();
-            const snapLength = scrollSnapList.length;
-            const snapIndex = engine.index.get();
-            const distanceToSnap = scrollSnapList[snapIndex] - scrollProgress;
-
-            const progress = 1 - Math.abs(distanceToSnap);
-            if (snapIndex === index) {
-                setProgress(progress);
-            } else {
-                setProgress(0);
-            }
+            const progress = Math.max(0, Math.min(1, emblaApi.scrollProgress()));
+            engine.location.add(-engine.scrollBody.velocity());
+            const a = emblaApi.scrollSnapList().length;
+            const b = 1/a
+            const c = (index * b)
+            const d = (progress - c) / b
+            const e = d*100*-1;
+            
+            y.set(e);
         };
-
+        
         emblaApi.on('scroll', onScroll);
-        return () => {
-            emblaApi && emblaApi.off('scroll', onScroll);
-        };
-    }, [emblaApi, index]);
+        return () => { emblaApi.off('scroll', onScroll) };
 
-    const y = useTransform(useMotionValue(progress), [0, 1], ['0%', '-10%']);
-    const scale = useTransform(useMotionValue(progress), [0, 1], [1, 1.15]);
-
+    }, [emblaApi, index, y]);
 
     return (
-        <div className="flex-shrink-0 flex-grow-0 basis-full relative">
-            <motion.div className="h-full" style={{ y }}>
+        <div className="flex-[0_0_100%] relative" key={project.id}>
+            <motion.div className="h-full" style={{ y: y.get() > -100 && y.get() < 100 ? {y: `${y.get()}%`} : {y:0} }}>
                 <div className="relative h-full w-full">
                     <Image
                         src={project.image}
@@ -148,11 +157,10 @@ const CarouselSlide = ({ project, emblaApi, index }: { project: Project, emblaAp
                         fill
                         className="object-cover"
                         style={{
-                            scale,
+                            scale: 1.35,
                             objectPosition: "center",
                         }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/50 to-transparent" />
                 </div>
             </motion.div>
         </div>

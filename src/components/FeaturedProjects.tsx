@@ -39,9 +39,9 @@ const projects = [
 
 export default function FeaturedProjects() {
   return (
-    <section className="relative w-full min-h-screen bg-[#1A1A1A] text-white flex flex-col">
+    <section className="relative w-full h-screen bg-[#1A1A1A] text-white flex flex-col">
       {/* --- Top Header Section --- */}
-      <div className="px-6 md:px-12 lg:px-24 py-20 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+      <div className="px-6 md:px-12 lg:px-24 pt-20 pb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8 z-20">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -69,7 +69,7 @@ export default function FeaturedProjects() {
       </div>
 
       {/* --- Main Project Display Area --- */}
-      <div className="flex-1 w-full relative">
+      <div className="absolute inset-0 z-0">
          <ParallaxCarousel projects={projects} />
       </div>
     </section>
