@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { Phone, MessageCircle, ArrowRight, Menu, X } from "lucide-react";
 import About from "@/components/About";
+import FeaturedProjects from "@/components/FeaturedProjects";
 
 // --- Animation Variants (Framer Motion) ---
 const fadeUp = {
@@ -204,8 +205,7 @@ export default function Home() {
         </div>
       </div>
       <About />
+      <FeaturedProjects />
     </main>
   );
 }
-
-    
