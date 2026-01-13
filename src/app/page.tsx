@@ -51,13 +51,10 @@ export default function Home() {
     <main className="relative w-full h-screen overflow-hidden bg-black">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <Image
+        <img
           src="/hero-v.webp"
           alt="Luxury Interior"
-          fill
-          className="object-cover opacity-90"
-          priority
-          unoptimized
+          className="object-cover w-full h-full opacity-90"
         />
         {/* Dark Gradient Overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
