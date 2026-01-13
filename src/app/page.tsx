@@ -68,7 +68,7 @@ export default function Home() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/hero-v.webp"
+          src="/hero.gif"
           alt="Luxury Interior"
           className="absolute inset-0 w-full h-full object-cover opacity-90"
         />
