@@ -120,36 +120,27 @@ export const ParallaxCarousel = ({ projects, options }: PropType) => {
 };
 
 const CarouselSlide = ({ project, emblaApi, index, scrollProgress }: { project: Project, emblaApi: EmblaCarouselType | undefined, index: number, scrollProgress: number }) => {
-    const TWEEN_FACTOR = 4.2;
-
     const y = useMotionValue(0);
 
     useEffect(() => {
         if (!emblaApi) return;
-
-        const engine = emblaApi.internalEngine();
-        const tweenNodes = engine.tweenNodes.get(emblaApi.selectedScrollSnap());
         
         const onScroll = () => {
-            const progress = Math.max(0, Math.min(1, emblaApi.scrollProgress()));
-            engine.location.add(-engine.scrollBody.velocity());
-            const a = emblaApi.scrollSnapList().length;
-            const b = 1/a
-            const c = (index * b)
-            const d = (progress - c) / b
-            const e = d*100*-1;
-            
-            y.set(e);
+            const scrollOffset = emblaApi.scrollProgress() - index / (emblaApi.scrollSnapList().length -1);
+            // Use a smaller multiplier for a more subtle effect
+            const yValue = scrollOffset * 50; 
+            y.set(yValue);
         };
         
         emblaApi.on('scroll', onScroll);
+        // Clean up the event listener on component unmount
         return () => { emblaApi.off('scroll', onScroll) };
 
     }, [emblaApi, index, y]);
 
     return (
         <div className="flex-[0_0_100%] relative" key={project.id}>
-            <motion.div className="h-full" style={{ y: y.get() > -100 && y.get() < 100 ? {y: `${y.get()}%`} : {y:0} }}>
+            <motion.div className="h-full" style={{ y: `${y.get()}%` }}>
                 <div className="relative h-full w-full">
                     <Image
                         src={project.image}
