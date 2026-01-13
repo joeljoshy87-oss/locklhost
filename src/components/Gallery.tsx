@@ -27,9 +27,7 @@ export default function Gallery() {
             A Glimpse Into <br className="hidden lg:block" /> Elegance
           </h2>
           <p className="font-inter font-normal text-base md:text-[18px] leading-[28px] text-[#555555] mb-12">
-            Elixir Homes stands as a symbol of refined architecture and uncompromised quality. 
-            With every project, we aim to create living spaces that embody elegance and functional 
-            distinction.
+            As a symbol of refined architecture, we create living spaces that embody elegance, functional excellence, and lasting quality.
           </p>
 
           <motion.button
