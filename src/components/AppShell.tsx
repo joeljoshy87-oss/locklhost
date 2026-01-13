@@ -48,8 +48,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </SidebarMenuItem>
             <Separator className="my-2" />
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === "/"}>
-                <Link href="/">
+              <SidebarMenuButton asChild isActive={pathname === "/dashboard"}>
+                <Link href="/dashboard">
                   <Home />
                   <span>Dashboard</span>
                 </Link>

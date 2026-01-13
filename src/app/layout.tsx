@@ -1,25 +1,35 @@
-import type {Metadata} from 'next';
+// app/layout.tsx
+import type { Metadata } from 'next';
+import { Inter, Cormorant_Garamond } from 'next/font/google';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from '@/components/ui/toaster';
+
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter',
+  weight: ['400', '500', '600']
+});
+
+const cormorant = Cormorant_Garamond({ 
+  subsets: ['latin'],
+  variable: '--font-cormorant-garamond', // Changed variable to be more specific
+  weight: ['400', '600']
+});
 
 export const metadata: Metadata = {
   title: 'Simple Journal',
-  description: 'A simple journaling application.',
+  description: 'A simple app for your daily thoughts.',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap" rel="stylesheet" />
-      </head>
-      <body className="font-body antialiased">
+    <html lang="en" suppressHydrationWarning>
+      <head />
+      <body className={`${inter.variable} ${cormorant.variable} font-sans antialiased`}>
         {children}
         <Toaster />
       </body>
