@@ -2,7 +2,7 @@
 
 import React, { useRef, useLayoutEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -112,7 +112,34 @@ export default function FeaturedProjects() {
   }, []);
 
   return (
-    <div ref={component} className="bg-[#1B1A1F] w-full overflow-hidden">
+    <div ref={component} className="bg-[#1B1A1F] text-white w-full overflow-hidden">
+      {/* --- Header Section --- */}
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 py-20 lg:py-24">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
+          <div className="max-w-2xl">
+            <span className="font-inter text-sm uppercase tracking-[0.2em] text-gray-400 mb-4 block">
+              FEATURED PROJECTS
+            </span>
+            <h2 className="font-cormorant font-semibold text-5xl md:text-6xl lg:text-7xl leading-none">
+              Shaping Skylines with Distinction
+            </h2>
+          </div>
+          <div className="max-w-sm">
+             <p className="text-gray-300 font-inter font-light text-base md:text-lg leading-relaxed mb-6">
+              Elixir Homes stands as a symbol of refined architecture and uncompromised quality. With every project, we aim to create living spaces that embody elegance and functional excellence.
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              className="group w-fit bg-[#E31E24] text-white px-8 py-3.5 font-inter text-sm uppercase tracking-widest flex items-center gap-4 transition-colors"
+            >
+              View All Projects
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            </motion.button>
+          </div>
+        </div>
+      </div>
+      
+      {/* --- Horizontal Scrolling Section --- */}
       <div ref={slider} className="h-screen w-[400vw] flex relative">
         {projects.map((project, index) => (
           <div
@@ -184,7 +211,7 @@ export default function FeaturedProjects() {
                       {project.thumbnails.map((thumb, thumbIndex) => (
                           <div 
                               key={thumb.id}
-                              className={`relative w-20 h-14 md:w-28 md:h-20 transition-all duration-300 ease-in-out ${index === thumbIndex ? 'border-2 border-white' : 'opacity-50 hover:opacity-80'}`}
+                              className={`relative w-20 h-14 md:w-28 md:h-20 transition-all duration-300 ease-in-out cursor-pointer ${index === thumbIndex ? 'border-2 border-white' : 'opacity-50 hover:opacity-80'}`}
                           >
                               <Image 
                                   src={thumb.image}
@@ -199,7 +226,7 @@ export default function FeaturedProjects() {
 
                               {index === thumbIndex && (
                                 <div className="absolute -top-2 -right-2 w-5 h-5 bg-white rounded-full flex items-center justify-center">
-                                    <div className="w-3 h-3 bg-purple-600 rounded-full" />
+                                    <div className="w-3 h-3 bg-red-600 rounded-full" />
                                 </div>
                               )}
                           </div>
