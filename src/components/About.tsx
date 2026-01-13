@@ -87,11 +87,18 @@ export default function About() {
           </div>
           
           {/* Decorative Badge Overlay */}
-          <div className="absolute -bottom-10 -right-10 md:-right-4 w-40 h-40">
-             <SpinningText text="THE ETHICAL BUILDER">
-                <span className="text-[60px] font-bold font-cormorant text-[#FF0000]">E</span>
-             </SpinningText>
-          </div>
+          <div className="absolute 
+            /* Mobile: Bottom Center */
+            bottom-[-20px] left-1/2 -translate-x-1/2 
+            /* Desktop: Bottom Right Overlap */
+            lg:bottom-[-65px] lg:right-[-80px] lg:left-auto lg:translate-x-0 
+            w-40 h-40 z-20">
+        <SpinningText text="THE ETHICAL BUILDER">
+        <span className="text-[100px] font-bold font-cormorant text-[#FF0000] leading-none select-none">
+            E
+        </span>
+        </SpinningText>
+        </div>
         </motion.div>
 
       </div>
