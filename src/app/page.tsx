@@ -91,8 +91,8 @@ export default function Home() {
               <img src="/logo/logo.webp" alt="Elixir Homes Logo" className="w-24 md:w-32" />
             </div>
 
-            {/* Desktop Links */}
-            <div className="hidden lg:flex items-center gap-10 font-inter text-sm font-light tracking-wide text-gray-200">
+            {/* Desktop Links  para-text text-white font-[350]! font-inter whitespace-nowrap */}
+            <div className="hidden lg:flex items-center gap-10 font-inter text-sm font-light tracking-wide text-white font-[350]!">
               {menuItems.map((item) => (
                 <Link
                   key={item}
@@ -207,3 +207,5 @@ export default function Home() {
     </main>
   );
 }
+
+    
