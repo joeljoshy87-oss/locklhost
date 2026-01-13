@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import gsap from "gsap";
-import { Phone, MessageCircle, ArrowRight } from "lucide-react"; // install lucide-react for icons
+import { Phone, MessageCircle, ArrowRight } from "lucide-react";
 
 // --- Animation Variants (Framer Motion) ---
 const fadeUp = {
@@ -52,11 +52,12 @@ export default function Home() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/img/hero.jpg" // Ensure this exists in public/img/
+          src="/hero-v.webp"
           alt="Luxury Interior"
           fill
           className="object-cover opacity-90"
           priority
+          unoptimized
         />
         {/* Dark Gradient Overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
