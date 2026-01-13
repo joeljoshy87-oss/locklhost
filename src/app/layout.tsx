@@ -2,7 +2,6 @@
 import type { Metadata } from 'next';
 import { Inter, Cormorant_Garamond } from 'next/font/google';
 import './globals.css';
-import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -12,13 +11,13 @@ const inter = Inter({
 
 const cormorant = Cormorant_Garamond({ 
   subsets: ['latin'],
-  variable: '--font-cormorant-garamond', // Changed variable to be more specific
-  weight: ['400', '600']
+  variable: '--font-cormorant',
+  weight: ['400', '600'] // As per your spec (SemiBold is 600)
 });
 
 export const metadata: Metadata = {
-  title: 'Simple Journal',
-  description: 'A simple app for your daily thoughts.',
+  title: 'Elixir Homes',
+  description: 'Crafting Spaces Beyond Ordinary',
 };
 
 export default function RootLayout({
@@ -27,11 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head />
-      <body className={`${inter.variable} ${cormorant.variable} font-sans antialiased`}>
+    <html lang="en">
+      <body className={`${inter.variable} ${cormorant.variable} antialiased`}>
         {children}
-        <Toaster />
       </body>
     </html>
   );
