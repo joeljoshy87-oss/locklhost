@@ -9,6 +9,7 @@ import { Phone, MessageCircle, ArrowRight, Menu, X } from "lucide-react";
 import About from "@/components/About";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import Gallery from "@/components/Gallery";
+import Testimonials from "@/components/Testimonials";
 
 // --- Animation Variants (Framer Motion) ---
 const fadeUp = {
@@ -90,7 +91,7 @@ export default function Home() {
           <div className="flex items-center gap-10">
             {/* Logo */}
             <div className="flex flex-col items-center z-50 relative">
-              <img src="/logo/logo.webp" alt="Elixir Homes Logo" className="w-24 md:w-32" />
+              <img src="/logo/logo.webp" alt="Elixir Homes Logo" className="w-10 md:w-15" />
             </div>
 
             {/* Desktop Links  para-text text-white font-[350]! font-inter whitespace-nowrap */}
@@ -208,6 +209,7 @@ export default function Home() {
       <About />
       <FeaturedProjects />
       <Gallery />
+      <Testimonials />
     </main>
   );
 }
