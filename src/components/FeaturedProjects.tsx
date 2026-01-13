@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState, useRef, useLayoutEffect, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
-import useEmblaCarousel from "embla-carousel-react";
+import React, { useRef, useLayoutEffect } from "react";
+import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -42,135 +41,101 @@ const projects = [
 ];
 
 export default function FeaturedProjects() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const sectionRef = useRef(null);
+  const component = useRef(null);
+  const slider = useRef(null);
 
-  // Sync Embla state with React state
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onSelect);
-  }, [emblaApi, onSelect]);
-
-  // GSAP: Viewport Reveal
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".reveal-content", {
-        y: 60,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power3.out",
-        stagger: 0.2,
+    // Reset scroll position on load
+    window.history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+
+    let ctx = gsap.context(() => {
+      let panels = gsap.utils.toArray(".panel");
+      gsap.to(panels, {
+        xPercent: -100 * (panels.length - 1),
+        ease: "none",
         scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
+          trigger: slider.current,
+          pin: true,
+          scrub: 1,
+          snap: 1 / (panels.length - 1),
+          // base vertical scrolling on how wide the container is so it feels responsive
+          end: () => "+=" + slider.current.offsetWidth,
+          invalidateOnRefresh: true,
         },
       });
-    }, sectionRef);
+    }, component);
     return () => ctx.revert();
   }, []);
 
-  const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
-  const scrollNext = () => emblaApi && emblaApi.scrollNext();
-
   return (
-    <section 
-      ref={sectionRef}
-      className="w-full bg-[#1B1A1F] flex flex-col items-center py-12 md:py-24 overflow-hidden min-h-screen"
-    >
-      {/* --- Header Panel --- */}
-      <div className="reveal-content w-full max-w-[1440px] px-6 md:px-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16 md:mb-24">
-        <div className="flex flex-col">
-          <span className="font-inter text-[#FF0000] text-sm md:text-[14px] uppercase tracking-widest mb-4">
-            Featured Projects
-          </span>
-          <h2 className="font-cormorant font-semibold text-4xl md:text-6xl lg:text-[64px] leading-[1.1] text-white mb-6">
-            Shaping Skylines with <br className="hidden md:block" /> Distinction
-          </h2>
-          <p className="font-inter font-normal text-base md:text-[18px] leading-relaxed text-gray-400 max-w-[700px]">
-            Our portfolio features elegant completed and ongoing projects across Thrissur, 
-            driven by our values of trust and innovation.
-          </p>
-        </div>
-
-        <motion.button 
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="w-full md:w-[250px] h-[60px] bg-[#E31E24] text-white flex items-center justify-center gap-4 shrink-0 transition-colors hover:bg-red-700"
-        >
-          <span className="font-inter text-sm md:text-[18px] uppercase">View All Projects</span>
-          <ArrowUpRight size={20} />
-        </motion.button>
+    <div ref={component} className="bg-[#1B1A1F] w-full overflow-hidden">
+        <div className="w-full max-w-[1440px] mx-auto px-6 md:px-12 py-12 md:py-24 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+            <div>
+                 <span className="font-inter text-[#FF0000] text-sm md:text-[14px] uppercase tracking-widest mb-4">
+                    Featured Projects
+                </span>
+                <h2 className="font-cormorant font-semibold text-4xl md:text-6xl lg:text-[64px] leading-[1.1] text-white">
+                    Shaping Skylines with <br className="hidden md:block" /> Distinction
+                </h2>
+            </div>
+            <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full md:w-auto px-8 py-4 bg-[#E31E24] text-white flex items-center justify-center gap-4 shrink-0 transition-colors hover:bg-red-700"
+            >
+            <span className="font-inter text-sm md:text-[18px] uppercase">View All Projects</span>
+            <ArrowUpRight size={20} />
+            </motion.button>
       </div>
 
-      {/* --- Main Display (Slider) --- */}
-      <div className="reveal-content w-full max-w-[1600px] px-0 md:px-6">
-        <div className="relative overflow-hidden group aspect-[4/5] md:aspect-[16/9] max-h-[85vh]">
-          <div className="h-full" ref={emblaRef}>
-            <div className="flex h-full">
-              {projects.map((project) => (
-                <div key={project.id} className="flex-[0_0_100%] relative h-full">
-                  <Image 
+      <div ref={slider} className="h-screen w-[400vw] flex relative">
+        {projects.map((project, index) => (
+          <div
+            key={project.id}
+            className="panel w-screen h-full flex flex-col md:flex-row items-center justify-center gap-12 px-12 lg:px-24"
+          >
+            <div className="w-full md:w-1/2 relative aspect-[4/3] rounded-lg overflow-hidden">
+               <Image 
                     src={project.image} 
                     alt={project.title} 
                     fill 
-                    className="object-cover transition-transform duration-[2000ms] group-hover:scale-105" 
-                    priority
-                  />
-                  {/* Dark overlay for text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1B1A1F] via-black/20 to-transparent" />
-                </div>
-              ))}
+                    className="object-cover"
+                    priority={index === 0}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                />
+            </div>
+            <div className="w-full md:w-1/3 text-white">
+                <p className="text-gray-400 text-sm uppercase tracking-widest mb-2">{project.status}</p>
+                <h3 className="font-cormorant text-5xl lg:text-7xl font-semibold mb-4">{project.title}</h3>
+                <p className="text-gray-300 mb-6">{project.location}</p>
+                 <button className="group flex items-center gap-4 md:gap-6 px-7 py-3 md:px-9 md:py-3 border border-white text-white font-inter text-xs md:text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300">
+                    View Details
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </button>
             </div>
           </div>
-
-          {/* --- Content Overlay --- */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 lg:p-20 flex flex-col justify-end pointer-events-none">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-white/20 pb-6 md:pb-10 pointer-events-auto">
-              <h3 className="font-cormorant text-4xl md:text-6xl lg:text-[80px] leading-none text-white mb-6 md:mb-0">
-                {projects[selectedIndex]?.title}
-              </h3>
-              
-              <div className="flex gap-3 md:gap-4">
-                <button onClick={scrollPrev} className="p-3 md:p-4 border border-white/20 rounded-full text-white hover:bg-white hover:text-black transition-all">
-                  <ArrowLeft size={20} className="md:w-6 md:h-6" />
-                </button>
-                <button onClick={scrollNext} className="p-3 md:p-4 border border-white/20 rounded-full text-white hover:bg-white hover:text-black transition-all">
-                  <ArrowRight size={20} className="md:w-6 md:h-6" />
-                </button>
-              </div>
-            </div>
-
-            {/* Project Details Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 pt-6 md:pt-10 gap-6 pointer-events-auto">
-                <div className="font-inter text-xs md:text-sm text-gray-400 space-y-1">
-                  <p className="text-white font-medium">{projects[selectedIndex]?.status}</p>
-                  <p className="hidden md:block">Completed Project | Sold Out</p>
-                </div>
-                
-                <div className="md:text-center font-inter text-xs md:text-sm text-gray-400">
-                  <p className="uppercase tracking-widest">{projects[selectedIndex]?.location}</p>
-                </div>
-                
-                <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-start gap-2">
-                  <p className="font-inter text-sm text-white tabular-nums">
-                    {String(selectedIndex + 1).padStart(2, '0')} <span className="text-gray-500">of</span> {String(projects.length).padStart(2, '0')}
-                  </p>
-                  <button className="flex items-center gap-2 text-[10px] md:text-xs uppercase tracking-widest text-white group">
-                    View Project <ArrowUpRight size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                  </button>
-                </div>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
-    </section>
+    </div>
   );
 }
+
+// Dummy icon, replace if you have a real one
+const ArrowRight = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <line x1="5" y1="12" x2="19" y2="12" />
+    <polyline points="12 5 19 12 12 19" />
+  </svg>
+);

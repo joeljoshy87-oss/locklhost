@@ -19,73 +19,83 @@ const galleryItems = [
 ];
 
 export default function Gallery() {
-  const containerRef = useRef(null);
+  const sectionRef = useRef(null);
   const galleryWrapperRef = useRef(null);
-  const triggerRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // The total distance the gallery needs to move up
-      // We calculate the height of the gallery content minus the height of the viewable area
-      const scrollAmount = galleryWrapperRef.current.offsetHeight - window.innerHeight;
+      // 1. Calculate how much the gallery needs to move
+      // We subtract the height of the window so the last image stops at the bottom
+      const totalHeight = galleryWrapperRef.current.offsetHeight;
+      const viewportHeight = window.innerHeight;
+      const scrollDistance = totalHeight - (viewportHeight * 0.8);
 
+      // 2. The Pinning Animation
       gsap.to(galleryWrapperRef.current, {
-        y: -scrollAmount,
+        y: -scrollDistance,
         ease: "none",
         scrollTrigger: {
-          trigger: triggerRef.current,
-          start: "top top",      // Pin when the top of the section hits the top of viewport
-          end: `+=${scrollAmount + 500}`, // Duration of the "lock"
+          trigger: sectionRef.current,
+          start: "top top",      // Pin when the section hits the top
+          end: "+=250%",         // LOCK duration: increase this to make scrolling slower/tighter
           pin: true,             // This locks the viewport
           scrub: 1,              // Smoothly links scroll to movement
-          invalidateOnRefresh: true,
+          anticipatePin: 1,
+          onRefresh: (self) => {
+            // Re-calculate if layout changes
+            if (galleryWrapperRef.current) {
+               gsap.set(galleryWrapperRef.current, { y: 0 });
+            }
+          }
         },
       });
-    }, triggerRef);
+    }, sectionRef);
+
+    // Ensure GSAP knows the correct heights after React finishes rendering
+    ScrollTrigger.refresh();
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <div ref={triggerRef} className="bg-white overflow-hidden">
-      <section className="flex flex-col lg:flex-row min-h-screen max-w-[1512px] mx-auto px-6 md:px-[100px] py-20 gap-12">
+    // sectionRef is the "Pin Container"
+    <section ref={sectionRef} className="bg-white w-full overflow-hidden">
+      <div className="flex flex-col lg:flex-row h-screen max-w-[1512px] mx-auto px-6 md:px-[100px] items-center gap-12">
         
-        {/* --- Pinned Left Side (Header) --- */}
-        <div className="w-full lg:w-1/3 flex flex-col justify-start pt-10">
-          <span className="text-[#FF0000] font-inter text-sm md:text-[18px] leading-[28px] uppercase tracking-widest mb-4 block">
+        {/* --- Left Side: Pinned Content --- */}
+        <div className="w-full lg:w-1/2 flex flex-col justify-center py-20">
+          <span className="text-[#FF0000] font-inter text-sm md:text-[18px] uppercase tracking-widest mb-4">
             GALLERY
           </span>
           <h2 className="font-cormorant font-semibold text-4xl md:text-[64px] leading-[105%] text-[#1A1A1A] mb-8">
-            A Glimpse Into <br className="hidden lg:block" /> Elegance
+            A Glimpse Into <br /> Elegance
           </h2>
-          <p className="font-inter font-normal text-base md:text-[18px] leading-[28px] text-[#555555] mb-12">
-            Elixir Homes stands as a symbol of refined architecture and uncompromised quality. 
-            With every project, we aim to create living spaces that embody elegance and functional 
-            distinction.
+          <p className="font-inter text-base md:text-[18px] text-[#555555] max-w-md mb-12">
+            Elixir Homes stands as a symbol of refined architecture. Every project 
+            is thoughtfully crafted for modern lifestyles.
           </p>
 
           <motion.button
-            whileHover={{ scale: 1.02 }}
-            className="w-full md:w-[250px] h-[60px] bg-[#E31E24] text-white flex items-center justify-center gap-4 transition-colors hover:bg-black"
+            whileHover={{ scale: 1.05 }}
+            className="w-full md:w-[250px] h-[60px] bg-[#E31E24] text-white flex items-center justify-center gap-4 transition-all hover:bg-black"
           >
-            <span className="font-inter text-sm md:text-[18px] uppercase">
-              View Gallery
-            </span>
+            <span className="font-inter text-sm md:text-[18px] uppercase">View Gallery</span>
             <ArrowRight size={20} />
           </motion.button>
         </div>
 
-        {/* --- Scrolling Right Side (Images) --- */}
-        <div className="w-full lg:w-2/3 h-[80vh] overflow-hidden relative rounded-lg bg-gray-50">
+        {/* --- Right Side: The Scrolling Reel --- */}
+        <div className="w-full lg:w-1/2 h-screen relative">
+          {/* This div moves UP while the parent is PINNED */}
           <div 
             ref={galleryWrapperRef} 
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 md:p-8"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 py-[10vh]"
           >
             {galleryItems.map((item, index) => (
               <div
                 key={item.id}
                 className={`relative overflow-hidden group rounded-sm w-full 
-                  ${index % 3 === 1 ? 'h-[400px] md:h-[600px] md:mt-20' : 'h-[300px] md:h-[450px]'}
+                  ${index % 3 === 1 ? 'h-[400px] md:h-[550px] md:mt-12' : 'h-[300px] md:h-[450px]'}
                 `}
               >
                 <Image
@@ -93,11 +103,9 @@ export default function Gallery() {
                   alt={item.alt}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="50vw"
                 />
-                
-                {/* Floating Badge */}
-                <div className="absolute bottom-6 right-6 w-12 h-12 bg-[#FFD700] rounded-full flex items-center justify-center text-black font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
+                <div className="absolute bottom-4 right-4 w-10 h-10 bg-[#FFD700] rounded-full flex items-center justify-center text-black font-bold opacity-0 group-hover:opacity-100 transition-all">
                   D
                 </div>
               </div>
@@ -105,7 +113,7 @@ export default function Gallery() {
           </div>
         </div>
 
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
