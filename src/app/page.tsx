@@ -10,6 +10,7 @@ import About from "@/components/About";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import Gallery from "@/components/Gallery";
 import Testimonials from "@/components/Testimonials";
+import Insights from "@/components/Insights";
 
 // --- Animation Variants (Framer Motion) ---
 const fadeUp = {
@@ -210,6 +211,7 @@ export default function Home() {
       <FeaturedProjects />
       <Gallery />
       <Testimonials />
+      <Insights />
     </main>
   );
 }
