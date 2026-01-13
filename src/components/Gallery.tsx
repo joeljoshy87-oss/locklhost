@@ -5,11 +5,11 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-// Placeholder data for the images
+// Use project images for the gallery
 const galleryImages = [
-  { id: 1, src: "/img/gallery-1.jpg", alt: "Modern Dining Area", span: "col-span-1" },
-  { id: 2, src: "/img/gallery-2.jpg", alt: "Luxury Villa Exterior", span: "col-span-1 md:col-span-2 lg:col-span-1" },
-  { id: 3, src: "/img/gallery-3.jpg", alt: "Contemporary Interior", span: "col-span-1" },
+  { id: 1, src: "/buildings/2.webp", alt: "Elixir Highbury", span: "col-span-1" },
+  { id: 2, src: "/buildings/3.webp", alt: "Elixir Greens", span: "col-span-1 md:col-span-2 lg:col-span-1" },
+  { id: 3, src: "/buildings/4.webp", alt: "Elixir Avalon", span: "col-span-1" },
 ];
 
 const containerVariants = {
