@@ -14,29 +14,76 @@ const projects = [
     id: "01",
     title: "Elixir Anfield",
     location: "Thrissur - Kuttanellur Main Road | Thrissur",
-    status: "Ongoing Apartment Project",
+    description: "Elixir Homes stands as a symbol of refined architecture and uncompromised quality.",
     image: "/buildings/flat.jpg",
+    statuses: [
+      "Ongoing Apartment Project",
+      "Completed Apartment Project | Sold Out",
+      "Completed Villa Project | Sold Out",
+      "Completed Land Development Project | Sold Out",
+    ],
+    thumbnails: [
+      { id: "t1", image: "/buildings/flat.jpg" },
+      { id: "t2", image: "/buildings/2.webp" },
+      { id: "t3", image: "/buildings/3.webp" },
+      { id: "t4", image: "/buildings/4.webp" },
+    ],
   },
   {
     id: "02",
     title: "Elixir Highbury",
     location: "Ayyanthole | Thrissur",
-    status: "Completed Apartment Project",
+    description: "A testament to modern design, offering unparalleled comfort and style.",
     image: "/buildings/2.webp",
+    statuses: [
+      "Completed Apartment Project",
+      "Luxury 3BHK Apartments",
+      "Prime Location with City Access",
+    ],
+     thumbnails: [
+      { id: "t1", image: "/buildings/flat.jpg" },
+      { id: "t2", image: "/buildings/2.webp" },
+      { id: "t3", image: "/buildings/3.webp" },
+      { id: "t4", image: "/buildings/4.webp" },
+    ],
   },
   {
     id: "03",
     title: "Elixir Greens",
     location: "Puranattukara | Thrissur",
-    status: "Completed Villa Project",
+    description: "Experience tranquility and luxury in our exclusive villa community.",
     image: "/buildings/3.webp",
+    statuses: [
+      "Completed Villa Project",
+      "Spacious 4BHK Villas",
+      "Eco-Friendly Design",
+      "Gated Community with Amenities",
+    ],
+     thumbnails: [
+      { id: "t1", image: "/buildings/flat.jpg" },
+      { id: "t2", image: "/buildings/2.webp" },
+      { id: "t3", image: "/buildings/3.webp" },
+      { id: "t4", image: "/buildings/4.webp" },
+    ],
   },
   {
     id: "04",
     title: "Elixir Avalon",
     location: "Kuttanellur | Thrissur",
-    status: "Ongoing Apartment Project",
+    description: "Cutting-edge apartments designed for the future of urban living.",
     image: "/buildings/4.webp",
+    statuses: [
+      "Ongoing Apartment Project",
+      "Smart Home Features",
+      "Rooftop Infinity Pool",
+      "Strategic Location",
+    ],
+     thumbnails: [
+      { id: "t1", image: "/buildings/flat.jpg" },
+      { id: "t2", image: "/buildings/2.webp" },
+      { id: "t3", image: "/buildings/3.webp" },
+      { id: "t4", image: "/buildings/4.webp" },
+    ],
   },
 ];
 
@@ -45,9 +92,7 @@ export default function FeaturedProjects() {
   const slider = useRef(null);
 
   useLayoutEffect(() => {
-    // Reset scroll position on load
     window.history.scrollRestoration = 'manual';
-    window.scrollTo(0, 0);
 
     let ctx = gsap.context(() => {
       let panels = gsap.utils.toArray(".panel");
@@ -60,7 +105,6 @@ export default function FeaturedProjects() {
           scrub: 1,
           snap: 1 / (panels.length - 1),
           end: () => "+=" + slider.current.offsetWidth,
-          invalidateOnRefresh: true,
         },
       });
     }, component);
@@ -69,25 +113,6 @@ export default function FeaturedProjects() {
 
   return (
     <div ref={component} className="bg-[#1B1A1F] w-full overflow-hidden">
-        <div className="w-full max-w-[1440px] mx-auto px-6 md:px-12 py-12 md:py-24 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
-            <div>
-                 <span className="font-inter text-[#FF0000] text-sm md:text-[14px] uppercase tracking-widest mb-4">
-                    Featured Projects
-                </span>
-                <h2 className="font-cormorant font-semibold text-4xl md:text-6xl lg:text-[64px] leading-[1.1] text-white">
-                    Shaping Skylines with <br className="hidden md:block" /> Distinction
-                </h2>
-            </div>
-            <motion.button 
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full md:w-auto px-8 py-4 bg-[#E31E24] text-white flex items-center justify-center gap-4 shrink-0 transition-colors hover:bg-red-700"
-            >
-            <span className="font-inter text-sm md:text-[18px] uppercase">View All Projects</span>
-            <ArrowUpRight size={20} />
-            </motion.button>
-      </div>
-
       <div ref={slider} className="h-screen w-[400vw] flex relative">
         {projects.map((project, index) => (
           <div
@@ -96,26 +121,91 @@ export default function FeaturedProjects() {
           >
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
-                <Image 
-                    src={project.image} 
-                    alt={project.title} 
-                    fill 
-                    className="object-cover"
-                    priority={index === 0}
-                    sizes="100vw"
-                />
-                 <div className="absolute inset-0 bg-black/40" />
+              <Image 
+                src={project.image} 
+                alt={project.title} 
+                fill 
+                className="object-cover"
+                priority={index === 0}
+                sizes="100vw"
+              />
+              <div className="absolute inset-0 bg-black/50" />
             </div>
 
             {/* Content Overlay */}
-            <div className="relative z-10 w-full max-w-[1312px] text-white px-6 md:px-12">
-                 <p className="text-gray-300 text-sm uppercase tracking-widest mb-4">{project.status}</p>
-                <h3 className="font-cormorant text-5xl md:text-6xl lg:text-[64px] font-semibold leading-none mb-4">{project.title}</h3>
-                <p className="text-gray-200 text-base md:text-lg mb-8">{project.location}</p>
-                 <button className="group flex items-center gap-4 md:gap-6 px-7 py-3 md:px-9 md:py-3 border border-white text-white font-inter text-xs md:text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300">
-                    View Details
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </button>
+            <div className="relative z-10 w-full h-full max-w-[1400px] mx-auto text-white p-6 md:p-12 lg:px-24 lg:py-20 flex flex-col justify-between">
+              
+              {/* Top Section */}
+              <div className="w-full">
+                <h2 className="font-cormorant text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter text-white/90">
+                  {project.title}
+                </h2>
+                <div className="w-full h-[1px] bg-white/20 mt-4" />
+              </div>
+
+              {/* Middle Section */}
+              <div className="w-full grid grid-cols-2 gap-8 items-start -mt-20">
+                {/* Left: Status List */}
+                <div className="font-inter text-sm md:text-base text-white/80 space-y-2">
+                  {project.statuses.map((status, i) => (
+                    <p key={i}>{status}</p>
+                  ))}
+                </div>
+
+                {/* Right: Location & Counter */}
+                <div className="flex flex-col items-start md:items-end text-left md:text-right">
+                  <p className="font-inter text-sm md:text-base text-white/80 mb-4">
+                    {project.location}
+                  </p>
+                  <p className="font-mono text-sm text-white/60">
+                    {String(index + 1).padStart(2, '0')} of {String(projects.length).padStart(2, '0')}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="w-full h-[1px] bg-white/20" />
+
+              {/* Bottom Section */}
+              <div className="w-full flex justify-between items-end gap-8">
+                  {/* Left: Description & CTA */}
+                  <div className="max-w-xs">
+                      <p className="font-inter text-sm text-white/70 mb-6">
+                        {project.description}
+                      </p>
+                      <button className="group flex items-center gap-3 text-sm font-medium tracking-wide text-white/90 hover:text-white transition-colors">
+                          VIEW PROJECT
+                          <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                      </button>
+                      <div className="w-1/3 h-[1px] bg-white/40 mt-2" />
+                  </div>
+
+                  {/* Right: Thumbnails */}
+                  <div className="flex items-end gap-3">
+                      {project.thumbnails.map((thumb, thumbIndex) => (
+                          <div 
+                              key={thumb.id}
+                              className={`relative w-20 h-14 md:w-28 md:h-20 transition-all duration-300 ease-in-out ${index === thumbIndex ? 'border-2 border-white' : 'opacity-50 hover:opacity-80'}`}
+                          >
+                              <Image 
+                                  src={thumb.image}
+                                  alt={`thumbnail ${thumb.id}`}
+                                  fill
+                                  className="object-cover"
+                              />
+                               <div className={`absolute inset-0 bg-black/20 ${index === thumbIndex ? 'bg-transparent' : ''}`} />
+                              <span className="absolute top-1 left-2 font-mono text-xs text-white/80">
+                                {`0${thumbIndex + 1}`}
+                              </span>
+
+                              {index === thumbIndex && (
+                                <div className="absolute -top-2 -right-2 w-5 h-5 bg-white rounded-full flex items-center justify-center">
+                                    <div className="w-3 h-3 bg-purple-600 rounded-full" />
+                                </div>
+                              )}
+                          </div>
+                      ))}
+                  </div>
+              </div>
             </div>
           </div>
         ))}
@@ -123,22 +213,3 @@ export default function FeaturedProjects() {
     </div>
   );
 }
-
-// Dummy icon, replace if you have a real one
-const ArrowRight = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <line x1="5" y1="12" x2="19" y2="12" />
-    <polyline points="12 5 19 12 12 19" />
-  </svg>
-);
