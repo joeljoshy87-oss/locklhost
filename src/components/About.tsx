@@ -3,13 +3,14 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { SpinningText } from "./SpinningText";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.8, ease: [0.21, 0.45, 0.32, 0.9] } 
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: [0.21, 0.45, 0.32, 0.9] }
   }
 };
 
@@ -25,7 +26,7 @@ export default function About() {
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         
         {/* Left Content Side */}
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -58,18 +59,18 @@ export default function About() {
             ))}
           </motion.div>
 
-          <motion.button 
+          <motion.button
             variants={fadeUp}
             whileHover={{ scale: 1.02 }}
             className="w-fit bg-[#FF0000] text-white px-8 py-4 font-inter text-sm uppercase tracking-widest flex items-center gap-4 group transition-all"
           >
-            Know More 
+            Know More
             <span className="group-hover:translate-x-1 transition-transform">→</span>
           </motion.button>
         </motion.div>
 
         {/* Right Image Side */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -77,7 +78,7 @@ export default function About() {
           className="relative h-[500px] md:h-[700px] w-full"
         >
           <div className="relative h-full w-full rounded-sm overflow-hidden">
-            <Image 
+            <Image
               src="/about.webp" // Ensure image is in public folder
               alt="Our Team"
               fill
@@ -86,14 +87,10 @@ export default function About() {
           </div>
           
           {/* Decorative Badge Overlay */}
-          <div className="absolute -bottom-10 -right-10 md:right-0 w-40 h-40">
-             <Image 
-                src="/badge-logo.png" // The circular "Ethical Builder" logo shown in your image
-                alt="Ethical Builder Badge"
-                width={160}
-                height={160}
-                className="animate-spin-slow"
-             />
+          <div className="absolute -bottom-10 -right-10 md:-right-4 w-40 h-40">
+             <SpinningText text="THE ETHICAL BUILDER">
+                <span className="text-[60px] font-bold font-cormorant text-[#FF0000]">E</span>
+             </SpinningText>
           </div>
         </motion.div>
 

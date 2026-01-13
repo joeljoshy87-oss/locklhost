@@ -19,8 +19,8 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)", "sans-serif"],
-        headline: ["var(--font-cormorant-garamond)", "serif"],
+        inter: ["var(--font-inter)", "sans-serif"],
+        cormorant: ["var(--font-cormorant)", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -85,10 +85,15 @@ const config: Config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "spin-slow": {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "spin-slow": "spin-slow 20s linear infinite",
       },
     },
   },
