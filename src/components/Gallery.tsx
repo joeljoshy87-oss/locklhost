@@ -7,9 +7,9 @@ import Image from "next/image";
 
 // Use project images for the gallery
 const galleryImages = [
-  { id: 1, src: "/buildings/2.webp", alt: "Elixir Highbury", span: "col-span-1" },
-  { id: 2, src: "/buildings/3.webp", alt: "Elixir Greens", span: "col-span-1 md:col-span-2 lg:col-span-1" },
-  { id: 3, src: "/buildings/4.webp", alt: "Elixir Avalon", span: "col-span-1" },
+  { id: 1, src: "/buildings/2.webp", alt: "Elixir Highbury", className: "lg:h-[450px]" },
+  { id: 2, src: "/buildings/3.webp", alt: "Elixir Greens", className: "lg:h-[600px] mt-[-75px]" },
+  { id: 3, src: "/buildings/4.webp", alt: "Elixir Avalon", className: "lg:h-[450px]" },
 ];
 
 const containerVariants = {
@@ -64,15 +64,13 @@ export default function Gallery() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-center"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-center"
         >
-          {galleryImages.map((image, index) => (
+          {galleryImages.map((image) => (
             <motion.div
               key={image.id}
               variants={itemVariants}
-              className={`relative overflow-hidden group rounded-sm ${image.span} ${
-                index === 1 ? 'aspect-[4/5] md:aspect-square lg:h-[600px]' : 'aspect-square lg:h-[450px]'
-              }`}
+              className={`relative overflow-hidden group rounded-sm w-full h-[300px] md:h-[400px] ${image.className}`}
             >
               <Image
                 src={image.src}
