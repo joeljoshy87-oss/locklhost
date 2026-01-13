@@ -16,10 +16,10 @@ export default function Gallery() {
 
   return (
     <div className="bg-white">
-      <section className="flex flex-col lg:flex-row min-h-screen max-w-[1512px] mx-auto px-6 md:px-[100px] py-20 gap-12">
+      <section className="max-w-[1512px] mx-auto px-6 md:px-[100px] py-20 lg:py-24">
         
-        {/* --- Pinned Left Side (Header) --- */}
-        <div className="w-full lg:w-1/3 flex flex-col justify-start pt-10">
+        {/* --- Header Section --- */}
+        <div className="w-full lg:w-1/3">
           <span className="text-[#FF0000] font-inter text-sm md:text-[18px] leading-[28px] uppercase tracking-widest mb-4 block">
             GALLERY
           </span>
