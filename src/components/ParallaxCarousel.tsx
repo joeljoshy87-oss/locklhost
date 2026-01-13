@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import useEmblaCarousel, { EmblaCarouselType, EmblaOptionsType } from "embla-carousel-react";
-import { motion, useTransform, useMotionValue, MotionValue } from "framer-motion";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import gsap from "gsap";
 
 type Project = {
   id: string;
@@ -24,7 +24,6 @@ const DURATION = 0.7;
 export const ParallaxCarousel = ({ projects, options }: PropType) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, ...options });
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
@@ -33,19 +32,12 @@ export const ParallaxCarousel = ({ projects, options }: PropType) => {
     setSelectedIndex(emblaApi.selectedScrollSnap());
   }, []);
   
-  const onScroll = useCallback((emblaApi: EmblaCarouselType) => {
-    setScrollProgress(emblaApi.scrollProgress());
-  }, []);
-
   useEffect(() => {
     if (!emblaApi) return;
     onSelect(emblaApi);
-    onScroll(emblaApi);
     emblaApi.on("reInit", onSelect);
-    emblaApi.on("reInit", onScroll);
     emblaApi.on("select", onSelect);
-    emblaApi.on("scroll", onScroll);
-  }, [emblaApi, onSelect, onScroll]);
+  }, [emblaApi, onSelect]);
 
   const currentProject = projects[selectedIndex];
 
@@ -57,29 +49,23 @@ export const ParallaxCarousel = ({ projects, options }: PropType) => {
             <CarouselSlide 
               project={project} 
               key={project.id} 
-              index={index}
               emblaApi={emblaApi}
-              scrollProgress={scrollProgress}
+              index={index}
             />
           ))}
         </div>
       </div>
       
       <div className="absolute bottom-0 left-0 w-full z-10 bg-gradient-to-t from-black/80 via-black/50 to-transparent">
-        <motion.div 
-            key={currentProject.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: DURATION, ease: "easeOut" }}
+        <div 
             className="px-6 md:px-12 lg:px-24 pt-12 pb-8"
         >
           <div className="flex flex-col lg:flex-row justify-between lg:items-end gap-6 mb-8">
             <div>
               <h3 className="font-cormorant text-5xl md:text-7xl leading-none">
-                {currentProject.title}
+                {currentProject?.title}
               </h3>
-              <p className="font-inter text-base text-white mt-4">{currentProject.location}</p>
+              <p className="font-inter text-base text-white mt-4">{currentProject?.location}</p>
             </div>
             <div className="flex gap-3">
               <button
@@ -100,7 +86,7 @@ export const ParallaxCarousel = ({ projects, options }: PropType) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-end border-t border-white/20 pt-8">
             <div>
               <p className="font-inter text-sm text-gray-300 uppercase tracking-wider mb-2">Status</p>
-              <p className="font-inter text-base text-white">{currentProject.status}</p>
+              <p className="font-inter text-base text-white">{currentProject?.status}</p>
             </div>
             <div className="flex items-center gap-4">
               <p className="font-inter text-sm text-gray-300 uppercase tracking-wider">
@@ -113,47 +99,55 @@ export const ParallaxCarousel = ({ projects, options }: PropType) => {
               </button>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
 };
 
-const CarouselSlide = ({ project, emblaApi, index, scrollProgress }: { project: Project, emblaApi: EmblaCarouselType | undefined, index: number, scrollProgress: number }) => {
-    const y = useMotionValue(0);
+const CarouselSlide = ({ project, emblaApi, index }: { project: Project, emblaApi: EmblaCarouselType | undefined, index: number }) => {
+    const slideRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (!emblaApi) return;
         
         const onScroll = () => {
-            const scrollOffset = emblaApi.scrollProgress() - index / (emblaApi.scrollSnapList().length -1);
-            // Use a smaller multiplier for a more subtle effect
-            const yValue = scrollOffset * 50; 
-            y.set(yValue);
+            if (!slideRef.current) return;
+            const progress = emblaApi.scrollProgress();
+            const slideProgress = progress - index / (emblaApi.scrollSnapList().length - 1);
+            // Move slide up and down based on its position in the carousel
+            const y = slideProgress * 50; 
+            
+            gsap.to(slideRef.current, { 
+                y: `${y}%`, 
+                duration: 0.1, // A short duration for smooth tracking
+                ease: 'power1.out' 
+            });
         };
         
         emblaApi.on('scroll', onScroll);
         // Clean up the event listener on component unmount
         return () => { emblaApi.off('scroll', onScroll) };
 
-    }, [emblaApi, index, y]);
+    }, [emblaApi, index]);
 
     return (
-        <div className="flex-[0_0_100%] relative" key={project.id}>
-            <motion.div className="h-full" style={{ y: `${y.get()}%` }}>
+        <div className="flex-[0_0_100%] relative overflow-hidden">
+            <div className="h-full" ref={slideRef}>
                 <div className="relative h-full w-full">
                     <Image
                         src={project.image}
                         alt={project.title}
                         fill
                         className="object-cover"
+                        sizes="100vw"
                         style={{
                             scale: 1.35,
                             objectPosition: "center",
                         }}
                     />
                 </div>
-            </motion.div>
+            </div>
         </div>
     );
 };
