@@ -1,20 +1,15 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { HorizontalScrollCarousel } from "./HorizontalScrollCarousel";
 
-gsap.registerPlugin(ScrollTrigger);
-
 const galleryItems = [
-    { id: 1, src: "/img/gallery-1.jpg", alt: "Dining Room" },
-    { id: 2, src: "/img/gallery-2.jpg", alt: "Modern Villa Exterior" },
-    { id: 3, src: "/img/gallery-3.jpg", alt: "Living Space" },
-    { id: 4, src: "/img/gallery-4.jpg", alt: "Kitchen Area" },
+    { id: 1, src: "/buildings/flat.jpg", alt: "Elixir Anfield" },
+    { id: 2, src: "/buildings/2.webp", alt: "Elixir Highbury" },
+    { id: 3, src: "/buildings/3.webp", alt: "Elixir Greens" },
+    { id: 4, src: "/buildings/4.webp", alt: "Elixir Avalon" },
 ];
 
 export default function Gallery() {
@@ -48,7 +43,7 @@ export default function Gallery() {
           </motion.button>
         </div>
       </section>
-      <HorizontalScrollCarousel testimonials={galleryItems} />
+      <HorizontalScrollCarousel items={galleryItems} />
     </div>
   );
 }

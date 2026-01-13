@@ -144,7 +144,7 @@ export default function FeaturedProjects() {
         {projects.map((project, index) => (
           <div
             key={project.id}
-            className="panel w-screen h-full flex items-center justify-center relative"
+            className="panel w-screen h-80% flex items-center justify-center relative"
           >
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
@@ -154,16 +154,16 @@ export default function FeaturedProjects() {
                 fill 
                 className="object-cover"
                 priority={index === 0}
-                sizes="100vw"
+                sizes="90vw"
               />
               <div className="absolute inset-0 bg-black/50" />
             </div>
 
             {/* Content Overlay */}
-            <div className="relative z-10 w-full h-full max-w-[1400px] mx-auto text-white p-6 md:p-12 lg:px-24 lg:py-20 flex flex-col justify-between">
+            <div className="relative z-10 w-full h-full max-w-[1400px] mx-auto text-white p-10 md:p-7 lg:px-24 lg:py-20 flex flex-col justify-between mt-20">
               
               {/* Top Section */}
-              <div className="w-full">
+              <div className="w-full mt-35">
                 <h2 className="font-cormorant text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter text-white/90">
                   {project.title}
                 </h2>

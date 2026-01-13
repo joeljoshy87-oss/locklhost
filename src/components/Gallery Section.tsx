@@ -10,12 +10,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const galleryItems = [
-  { id: 1, src: "/img/gallery-1.jpg", alt: "Dining Room" },
-  { id: 2, src: "/img/gallery-2.jpg", alt: "Modern Villa Exterior" },
-  { id: 3, src: "/img/gallery-3.jpg", alt: "Living Space" },
-  { id: 4, src: "/img/gallery-4.jpg", alt: "Kitchen Area" },
-  { id: 5, src: "/img/gallery-5.jpg", alt: "Master Bedroom" },
-  { id: 6, src: "/img/gallery-6.jpg", alt: "Exterior Night" },
+  { id: 1, src: "/buildings/1.jpg", alt: "Dining Room" },
+  { id: 2, src: "/buildings/2.webp", alt: "Modern Villa Exterior" },
+  { id: 3, src: "/buildings/3.webp", alt: "Living Space" },
+  { id: 4, src: "/buildings/4.webp", alt: "Kitchen Area" },
+  { id: 5, src: "/buildings/flat.jpg", alt: "Master Bedroom" },
+ 
 ];
 
 export default function Gallery() {
