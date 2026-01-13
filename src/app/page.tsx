@@ -86,12 +86,7 @@ export default function Home() {
         <div className="flex items-center gap-10">
           {/* Logo */}
           <div className="flex flex-col items-center z-50 relative">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-[#FF0000] flex items-center justify-center text-white font-serif font-bold text-lg md:text-xl rounded-sm">
-              E
-            </div>
-            <span className="text-[8px] md:text-[10px] tracking-widest mt-1 uppercase font-inter">
-              Elixir Homes
-            </span>
+            <img src="/logo/logo.webp" alt="Elixir Homes Logo" className="w-24 md:w-32" />
           </div>
 
           {/* Desktop Links */}
@@ -208,3 +203,5 @@ export default function Home() {
     </main>
   );
 }
+
+    
