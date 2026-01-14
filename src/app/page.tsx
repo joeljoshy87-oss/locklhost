@@ -1,7 +1,7 @@
 // app/page.tsx
 "use client";
 
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
@@ -12,6 +12,7 @@ import Gallery from "@/components/Gallery";
 import Testimonials from "@/components/Testimonials";
 import Insights from "@/components/Insights";
 import { ProjectsDropdown } from "@/components/ProjectsDropdown";
+import { cn } from "@/lib/utils";
 
 // --- Animation Variants (Framer Motion) ---
 const fadeUp = {
@@ -50,6 +51,7 @@ export default function Home() {
   const headlineRef = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProjectsOpen, setIsProjectsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // --- GSAP Animation for Headline ---
   useLayoutEffect(() => {
@@ -66,6 +68,18 @@ export default function Home() {
     }, headlineRef);
 
     return () => ctx.revert();
+  }, []);
+
+  // --- Sticky Navbar Logic ---
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const menuItems = ["Our Story", "Projects", "Gallery", "Testimonial", "Contact"];
@@ -89,7 +103,10 @@ export default function Home() {
           variants={navVariant}
           initial="hidden"
           animate="visible"
-          className="relative z-50 flex items-center justify-between px-6 md:px-12 py-6 md:py-8 w-full text-white"
+          className={cn(
+            "fixed top-0 left-0 z-50 flex items-center justify-between px-6 md:px-12 py-6 md:py-8 w-full text-white transition-all duration-300",
+            isScrolled ? "bg-black/80 backdrop-blur-sm shadow-lg" : "bg-transparent",
+          )}
           onMouseLeave={() => setIsProjectsOpen(false)}
         >
           <div className="flex items-center gap-10">
@@ -145,7 +162,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="absolute top-0 left-0 w-full z-40"
+              className="fixed top-0 left-0 w-full z-40"
               onMouseLeave={() => setIsProjectsOpen(false)}
             >
               <ProjectsDropdown />
