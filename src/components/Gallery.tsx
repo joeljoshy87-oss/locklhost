@@ -25,23 +25,23 @@ export default function Gallery() {
   return (
     <div className="bg-white w-full py-20 lg:py-24 overflow-hidden">
       {/* Header aligned with max-width and padding */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 pt-20 mb-16">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-y-8">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 mb-16">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-y-8">
           {/* Text content on the left */}
-          <div className="w-full lg:w-auto">
+          <div className="lg:max-w-[55%]">
             <span className="text-[#FF0000] font-inter text-sm md:text-[18px] leading-[28px] uppercase tracking-widest block mb-4">
               GALLERY
             </span>
-            <h2 className="font-cormorant font-semibold text-4xl md:text-[64px] leading-[105%] text-[#1A1A1A] whitespace-nowrap mb-2 [word-spacing:0.1em] text-left">
+            <h2 className="font-cormorant font-semibold text-4xl md:text-[64px] leading-[105%] text-[#1A1A1A] [word-spacing:0.1em] text-left">
               A Glimpse Into Elegance
             </h2>
-            <p className="font-inter font-normal text-base md:text-[18px] leading-[28px] text-[#7B7B7B] max-w-[550px]">
+            <p className="font-inter font-normal text-base md:text-[18px] leading-[28px] text-[#7B7B7B] mt-6">
               Step into the world of Elixir Homes through our gallery, where every image reflects our commitment to quality and fine living. From architectural brilliance to crafted interiors, each frame showcases excellence.
             </p>
           </div>
 
-          {/* Button on the right */}
-          <div className="flex-shrink-0">
+          {/* Button on the right, aligned to the end */}
+          <div className="w-full lg:w-auto flex justify-end lg:items-end flex-shrink-0">
             <motion.button
               whileHover={{ scale: 1.02 }}
               className="h-[60px] bg-[#E31E24] text-white flex items-center justify-center gap-4 transition-colors hover:bg-black px-10 uppercase tracking-widest font-inter text-sm md:text-[16px]"
