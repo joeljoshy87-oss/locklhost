@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef, useLayoutEffect, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
@@ -13,77 +13,38 @@ const projects = [
   {
     id: "01",
     title: "Elixir Anfield",
-    location: "Thrissur - Kuttanellur Main Road | Thrissur",
-    description: "Elixir Homes stands as a symbol of refined architecture and uncompromised quality.",
+    location: "Near Hill Gardens Colony & HiLite Mall, Thrissur - Kuttanellur Main Road",
+    description: "Elixir Anfield is set in one of Thrissur's finest residential localities, surrounded by well-known colonies such as Hill Gardens, Lesona Enclave, Garden Enclave, Green Valley, and Silent Valley.",
     image: "/buildings/flat.jpg",
-    statuses: [
-      "Ongoing Apartment Project",
-      "Completed Apartment Project | Sold Out",
-      "Completed Villa Project | Sold Out",
-      "Completed Land Development Project | Sold Out",
-    ],
-    thumbnails: [
-      { id: "t1", image: "/buildings/flat.jpg" },
-      { id: "t2", image: "/buildings/2.webp" },
-      { id: "t3", image: "/buildings/3.webp" },
-      { id: "t4", image: "/buildings/4.webp" },
-    ],
+    status: "Ongoing Apartment Project",
+    thumbnails: ["/buildings/flat.jpg", "/buildings/2.webp", "/buildings/3.webp", "/buildings/4.webp", "/buildings/5.webp"],
   },
   {
     id: "02",
     title: "Elixir Highbury",
     location: "Ayyanthole | Thrissur",
-    description: "A testament to modern design, offering unparalleled comfort and style.",
+    description: "A testament to modern design, offering unparalleled comfort and style in the heart of the city.",
     image: "/buildings/2.webp",
-    statuses: [
-      "Completed Apartment Project",
-      "Luxury 3BHK Apartments",
-      "Prime Location with City Access",
-    ],
-     thumbnails: [
-      { id: "t1", image: "/buildings/flat.jpg" },
-      { id: "t2", image: "/buildings/2.webp" },
-      { id: "t3", image: "/buildings/3.webp" },
-      { id: "t4", image: "/buildings/4.webp" },
-    ],
+    status: "Completed Apartment Project",
+    thumbnails: ["/buildings/flat.jpg", "/buildings/2.webp", "/buildings/3.webp", "/buildings/4.webp", "/buildings/5.webp"],
   },
   {
     id: "03",
     title: "Elixir Greens",
     location: "Puranattukara | Thrissur",
-    description: "Experience tranquility and luxury in our exclusive villa community.",
+    description: "Experience tranquility and luxury in our exclusive villa community, designed for sustainable living.",
     image: "/buildings/3.webp",
-    statuses: [
-      "Completed Villa Project",
-      "Spacious 4BHK Villas",
-      "Eco-Friendly Design",
-      "Gated Community with Amenities",
-    ],
-     thumbnails: [
-      { id: "t1", image: "/buildings/flat.jpg" },
-      { id: "t2", image: "/buildings/2.webp" },
-      { id: "t3", image: "/buildings/3.webp" },
-      { id: "t4", image: "/buildings/4.webp" },
-    ],
+    status: "Completed Villa Project",
+    thumbnails: ["/buildings/flat.jpg", "/buildings/2.webp", "/buildings/3.webp", "/buildings/4.webp", "/buildings/5.webp"],
   },
   {
     id: "04",
     title: "Elixir Avalon",
     location: "Kuttanellur | Thrissur",
-    description: "Cutting-edge apartments designed for the future of urban living.",
+    description: "Cutting-edge apartments designed for the future of urban living with smart home features.",
     image: "/buildings/4.webp",
-    statuses: [
-      "Ongoing Apartment Project",
-      "Smart Home Features",
-      "Rooftop Infinity Pool",
-      "Strategic Location",
-    ],
-     thumbnails: [
-      { id: "t1", image: "/buildings/flat.jpg" },
-      { id: "t2", image: "/buildings/2.webp" },
-      { id: "t3", image: "/buildings/3.webp" },
-      { id: "t4", image: "/buildings/4.webp" },
-    ],
+    status: "Ongoing Apartment Project",
+    thumbnails: ["/buildings/flat.jpg", "/buildings/2.webp", "/buildings/3.webp", "/buildings/4.webp", "/buildings/5.webp"],
   },
 ];
 
@@ -91,9 +52,12 @@ export default function FeaturedProjects() {
   const component = useRef(null);
   const slider = useRef(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     window.history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+  }, []);
 
+  useLayoutEffect(() => {
     let ctx = gsap.context(() => {
       let panels = gsap.utils.toArray(".panel");
       gsap.to(panels, {
@@ -104,7 +68,7 @@ export default function FeaturedProjects() {
           pin: true,
           scrub: 1,
           snap: 1 / (panels.length - 1),
-          end: () => "+=" + slider.current.offsetWidth,
+          end: () => "+=" + (slider.current.offsetWidth),
         },
       });
     }, component);
@@ -113,125 +77,98 @@ export default function FeaturedProjects() {
 
   return (
     <div ref={component} className="bg-[#1B1A1F] text-white w-full overflow-hidden">
-      {/* --- Header Section --- */}
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 py-20 lg:py-24">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
-          <div className="max-w-2xl">
-            <span className="font-inter text-sm uppercase tracking-[0.2em] text-gray-400 mb-4 block">
+      {/* --- Section Header --- */}
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-24">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12">
+          <div className="max-w-3xl">
+            <span className="font-inter text-xs uppercase tracking-[0.3em] text-[#E31E24] mb-6 block font-medium">
               FEATURED PROJECTS
             </span>
-            <h2 className="font-cormorant font-semibold text-5xl md:text-6xl lg:text-7xl leading-none">
+            <h2 className="font-cormorant font-semibold text-5xl md:text-7xl lg:text-[80px] leading-[0.9] text-white">
               Shaping Skylines with Distinction
             </h2>
           </div>
           <div className="max-w-sm">
-             <p className="text-gray-300 font-inter font-light text-base md:text-lg leading-relaxed mb-6">
-              Elixir Homes stands as a symbol of refined architecture and uncompromised quality. With every project, we aim to create living spaces that embody elegance and functional excellence.
+            <p className="text-gray-400 font-inter text-base md:text-lg leading-relaxed mb-8">
+              Elixir Homes stands as a symbol of refined architecture and uncompromised quality across Thrissur.
             </p>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              className="group w-fit bg-[#E31E24] text-white px-8 py-3.5 font-inter text-sm uppercase tracking-widest flex items-center gap-4 transition-colors"
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              className="bg-[#E31E24] text-white px-8 py-4 flex items-center gap-4 text-sm uppercase tracking-widest font-inter"
             >
-              View All Projects
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              View All Projects <ArrowRight size={18} />
             </motion.button>
           </div>
         </div>
       </div>
-      
-      {/* --- Horizontal Scrolling Section --- */}
-      <div ref={slider} className="h-screen w-[400vw] flex relative">
+
+      {/* --- Horizontal Locked Slider --- */}
+      <div ref={slider} className="flex w-[400vw] h-screen overflow-hidden relative">
         {projects.map((project, index) => (
-          <div
-            key={project.id}
-            className="panel w-screen h-80% flex items-center justify-center relative"
-          >
-            {/* Background Image */}
+          <div key={project.id} className="panel w-screen h-full flex items-center justify-center relative">
+            
+            {/* Background Image with Darker Overlay for Text Clarity */}
             <div className="absolute inset-0 z-0">
               <Image 
                 src={project.image} 
                 alt={project.title} 
                 fill 
-                className="object-cover"
+                className="object-cover" 
                 priority={index === 0}
-                sizes="90vw"
               />
-              <div className="absolute inset-0 bg-black/50" />
+              <div className="absolute inset-0 bg-black/60 md:bg-black/40" />
             </div>
 
-            {/* Content Overlay */}
-            <div className="relative z-10 w-full h-full max-w-[1400px] mx-auto text-white p-10 md:p-7 lg:px-24 lg:py-20 flex flex-col justify-between mt-20">
+            {/* Exact Figma Layout Overlay */}
+            <div className="relative z-10 w-full max-w-[1312px] mx-auto px-6 h-full flex flex-col justify-center">
               
-              {/* Top Section */}
-              <div className="w-full mt-35">
-                <h2 className="font-cormorant text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter text-white/90">
-                  {project.title}
-                </h2>
-                <div className="w-full h-[1px] bg-white/20 mt-4" />
+              {/* Main Title - Matches Figma Height/Position */}
+              <div className="mb-4">
+                 <h3 className="font-cormorant text-6xl md:text-8xl lg:text-[96px] text-white leading-none">
+                    {project.title}
+                 </h3>
               </div>
 
-              {/* Middle Section */}
-              <div className="w-full grid grid-cols-2 gap-8 items-start -mt-20">
-                {/* Left: Status List */}
-                <div className="font-inter text-sm md:text-base text-white/80 space-y-2">
-                  {project.statuses.map((status, i) => (
-                    <p key={i}>{status}</p>
+              {/* Data Row with Top and Bottom Borders */}
+              <div className="border-t border-b border-white/30 py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+                <span className="font-inter text-sm md:text-base text-white/90 uppercase tracking-wide flex-1">
+                  {project.status}
+                </span>
+                <span className="font-inter text-sm md:text-base text-white/70 flex-[2] text-center px-4">
+                  {project.location}
+                </span>
+                <span className="font-inter text-sm md:text-base text-white/90 tabular-nums flex-1 text-right">
+                  {String(index + 1).padStart(2, '0')} of {String(projects.length).padStart(2, '0')}
+                </span>
+              </div>
+
+              {/* Bottom Details & Thumbnails Row */}
+              <div className="flex flex-col md:flex-row justify-between items-end mt-16 gap-8">
+                
+                {/* Left: Description & Button */}
+                <div className="max-w-md">
+                  <p className="font-inter text-sm md:text-base text-gray-300 leading-relaxed mb-8">
+                    {project.description}
+                  </p>
+                  <button className="flex items-center gap-2 group text-white uppercase text-sm tracking-[0.2em] border-b border-white/30 pb-2 hover:border-white transition-all">
+                    VIEW PROJECT <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </button>
+                </div>
+
+                {/* Right: Sequential Thumbnails */}
+                <div className="flex items-center gap-2 md:gap-4 overflow-x-auto max-w-full pb-4">
+                  {project.thumbnails.map((thumb, tIndex) => (
+                    <div key={tIndex} className="relative group">
+                      <div className={`relative w-20 h-14 md:w-32 md:h-20 overflow-hidden transition-all duration-500 ${index === tIndex ? 'border-2 border-white scale-105' : 'opacity-40 grayscale hover:grayscale-0 hover:opacity-100'}`}>
+                        <Image src={thumb} alt="thumb" fill className="object-cover" />
+                      </div>
+                      <span className="absolute -bottom-6 left-0 text-[10px] font-mono text-white/40">
+                        {String(tIndex + 1).padStart(2, '0')}
+                      </span>
+                    </div>
                   ))}
                 </div>
 
-                {/* Right: Location & Counter */}
-                <div className="flex flex-col items-start md:items-end text-left md:text-right">
-                  <p className="font-inter text-sm md:text-base text-white/80 mb-4">
-                    {project.location}
-                  </p>
-                  <p className="font-mono text-sm text-white/60">
-                    {String(index + 1).padStart(2, '0')} of {String(projects.length).padStart(2, '0')}
-                  </p>
-                </div>
-              </div>
-              
-              <div className="w-full h-[1px] bg-white/20" />
-
-              {/* Bottom Section */}
-              <div className="w-full flex justify-between items-end gap-8">
-                  {/* Left: Description & CTA */}
-                  <div className="max-w-xs">
-                      <p className="font-inter text-sm text-white/70 mb-6">
-                        {project.description}
-                      </p>
-                      <button className="group flex items-center gap-3 text-sm font-medium tracking-wide text-white/90 hover:text-white transition-colors">
-                          VIEW PROJECT
-                          <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                      </button>
-                      <div className="w-1/3 h-[1px] bg-white/40 mt-2" />
-                  </div>
-
-                  {/* Right: Thumbnails */}
-                  <div className="flex items-end gap-3">
-                      {project.thumbnails.map((thumb, thumbIndex) => (
-                          <div 
-                              key={thumb.id}
-                              className={`relative w-20 h-14 md:w-28 md:h-20 transition-all duration-300 ease-in-out cursor-pointer ${index === thumbIndex ? 'border-2 border-white' : 'opacity-50 hover:opacity-80'}`}
-                          >
-                              <Image 
-                                  src={thumb.image}
-                                  alt={`thumbnail ${thumb.id}`}
-                                  fill
-                                  className="object-cover"
-                              />
-                               <div className={`absolute inset-0 bg-black/20 ${index === thumbIndex ? 'bg-transparent' : ''}`} />
-                              <span className="absolute top-1 left-2 font-mono text-xs text-white/80">
-                                {`0${thumbIndex + 1}`}
-                              </span>
-
-                              {index === thumbIndex && (
-                                <div className="absolute -top-2 -right-2 w-5 h-5 bg-white rounded-full flex items-center justify-center">
-                                    <div className="w-3 h-3 bg-red-600 rounded-full" />
-                                </div>
-                              )}
-                          </div>
-                      ))}
-                  </div>
               </div>
             </div>
           </div>

@@ -11,6 +11,7 @@ import FeaturedProjects from "@/components/FeaturedProjects";
 import Gallery from "@/components/Gallery";
 import Testimonials from "@/components/Testimonials";
 import Insights from "@/components/Insights";
+import { ProjectsDropdown } from "@/components/ProjectsDropdown";
 
 // --- Animation Variants (Framer Motion) ---
 const fadeUp = {
@@ -48,6 +49,7 @@ const mobileMenuVariant = {
 export default function Home() {
   const headlineRef = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
 
   // --- GSAP Animation for Headline ---
   useLayoutEffect(() => {
@@ -88,6 +90,7 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           className="relative z-50 flex items-center justify-between px-6 md:px-12 py-6 md:py-8 w-full text-white"
+          onMouseLeave={() => setIsProjectsOpen(false)}
         >
           <div className="flex items-center gap-10">
             {/* Logo */}
@@ -98,15 +101,20 @@ export default function Home() {
             {/* Desktop Links  para-text text-white font-[350]! font-inter whitespace-nowrap */}
             <div className="hidden lg:flex items-center gap-10 font-inter text-sm font-light tracking-wide text-white font-[350]!">
               {menuItems.map((item) => (
-                <Link
+                <div
                   key={item}
-                  href="#"
-                  className="hover:text-white transition-colors relative group"
+                  className="relative"
+                  onMouseEnter={() => item === "Projects" && setIsProjectsOpen(true)}
                 >
-                  {item}
-                  {item === "Projects" && <span className="ml-1 text-[10px]">▼</span>}
-                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all group-hover:w-full"></span>
-                </Link>
+                  <Link
+                    href="#"
+                    className="hover:text-white transition-colors relative group flex items-center"
+                  >
+                    {item}
+                    {item === "Projects" && <span className="ml-1 text-[10px]">▼</span>}
+                    <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all group-hover:w-full"></span>
+                  </Link>
+                </div>
               ))}
             </div>
           </div>
@@ -128,6 +136,22 @@ export default function Home() {
             </button>
           </div>
         </motion.nav>
+
+        {/* --- Projects Dropdown --- */}
+        <AnimatePresence>
+          {isProjectsOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="absolute top-0 left-0 w-full z-40"
+              onMouseLeave={() => setIsProjectsOpen(false)}
+            >
+              <ProjectsDropdown />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* --- Mobile Menu Overlay --- */}
         <AnimatePresence>
