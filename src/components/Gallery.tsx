@@ -27,7 +27,7 @@ export default function Gallery() {
       {/* Centered Header */}
       <div className="max-w-[1512px] mx-auto px-6 md:px-[100px]">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-16">
-            <div className="w-full lg:w-2/3">
+            <div className="w-full h-auto md:w-[48%] lg:w-[45%] xl:w-[740px] mb-10 md:mb-0">
               <span className="text-[#FF0000] font-inter text-sm md:text-[18px] leading-[28px] uppercase tracking-widest mb-4 block">
                 GALLERY
               </span>
