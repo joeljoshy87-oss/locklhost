@@ -115,7 +115,7 @@ export default function Home() {
           <div className="flex items-center gap-10">
             {/* Logo */}
             <div className="flex flex-col items-center z-50 relative">
-              <img src="/logo/hlogo3.svg" alt="Elixir Homes Logo" className="w-15 md:w-17" />
+              <img src="/logo/hlogo3.svg" alt="Elixir Homes Logo" className="w-15 md:w-16" />
             </div>
 
             {/* Desktop Links  para-text text-white font-[350]! font-inter whitespace-nowrap */}
