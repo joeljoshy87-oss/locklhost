@@ -10,13 +10,13 @@ const blogPosts = [
   {
     id: 1,
     title: "How space and light define modern luxury living",
-    image: "/buildings/4.jpg", // Using one of the provided images
+    image: "/buildings/5.jpg", // Using one of the provided images
     alt: "Modern interior with warm lighting",
   },
   {
     id: 2,
     title: "Luxury living redefined: what modern homebuyers desire most",
-    image: "/buildings/5.webp", // Using one of the provided images
+    image: "/buildings/6.jpg", // Using one of the provided images
     alt: "Luxury villa with a pool at sunset",
   },
 ];

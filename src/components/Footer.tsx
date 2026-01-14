@@ -1,111 +1,104 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from 'react';
+import Link from 'next/link';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { ArrowRight, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const galleryItems = [
-  { id: 1, src: "/img/gallery-1.jpg", alt: "Dining Room" },
-  { id: 2, src: "/img/gallery-2.jpg", alt: "Modern Villa Exterior" },
-  { id: 3, src: "/img/gallery-3.jpg", alt: "Living Space" },
-  { id: 4, src: "/img/gallery-4.jpg", alt: "Kitchen Area" },
-  { id: 5, src: "/img/gallery-5.jpg", alt: "Master Bedroom" },
-  { id: 6, src: "/img/gallery-6.jpg", alt: "Exterior Night" },
+const socialLinks = [
+  { icon: <Facebook size={20} />, href: '#' },
+  { icon: <Twitter size={20} />, href: '#' },
+  { icon: <Instagram size={20} />, href: '#' },
+  { icon: <Linkedin size={20} />, href: '#' },
 ];
 
-export default function Gallery() {
-  const containerRef = useRef(null);
-  const galleryWrapperRef = useRef(null);
-  const triggerRef = useRef(null);
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      // The total distance the gallery needs to move up
-      // We calculate the height of the gallery content minus the height of the viewable area
-      const scrollAmount = galleryWrapperRef.current.offsetHeight - window.innerHeight;
-
-      gsap.to(galleryWrapperRef.current, {
-        y: -scrollAmount,
-        ease: "none",
-        scrollTrigger: {
-          trigger: triggerRef.current,
-          start: "top top",      // Pin when the top of the section hits the top of viewport
-          end: `+=${scrollAmount + 500}`, // Duration of the "lock"
-          pin: true,             // This locks the viewport
-          scrub: 1,              // Smoothly links scroll to movement
-          invalidateOnRefresh: true,
-        },
-      });
-    }, triggerRef);
-
-    return () => ctx.revert();
-  }, []);
-
+export default function Footer() {
   return (
-    <div ref={triggerRef} className="bg-white overflow-hidden">
-      <section className="flex flex-col lg:flex-row min-h-screen max-w-[1512px] mx-auto px-6 md:px-[100px] py-20 gap-12">
+    <footer className="bg-[#121212] text-gray-300 font-inter pt-24 pb-8 px-6 md:px-12 lg:px-24">
+      <div className="max-w-[1512px] mx-auto">
         
-        {/* --- Pinned Left Side (Header) --- */}
-        <div className="w-full lg:w-1/3 flex flex-col justify-start pt-10">
-          <span className="text-[#FF0000] font-inter text-sm md:text-[18px] leading-[28px] uppercase tracking-widest mb-4 block">
-            GALLERY
-          </span>
-          <h2 className="font-cormorant font-semibold text-4xl md:text-[64px] leading-[105%] text-[#1A1A1A] mb-8">
-            A Glimpse Into <br className="hidden lg:block" /> Elegance
+        {/* Top Section: Newsletter Signup */}
+        <div className="flex flex-col lg:flex-row justify-between items-center border-b border-gray-700 pb-16 mb-16">
+          <h2 className="font-cormorant text-4xl md:text-5xl text-white font-semibold text-center lg:text-left mb-8 lg:mb-0">
+            Subscribe to Our Newsletter
           </h2>
-          <p className="font-inter font-normal text-base md:text-[18px] leading-[28px] text-[#555555] mb-12">
-            Elixir Homes stands as a symbol of refined architecture and uncompromised quality. 
-            With every project, we aim to create living spaces that embody elegance and functional 
-            distinction.
-          </p>
-
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            className="w-full md:w-[250px] h-[60px] bg-[#E31E24] text-white flex items-center justify-center gap-4 transition-colors hover:bg-black"
-          >
-            <span className="font-inter text-sm md:text-[18px] uppercase">
-              View Gallery
-            </span>
-            <ArrowRight size={20} />
-          </motion.button>
+          <form className="w-full max-w-lg flex items-center">
+            <Input 
+              type="email" 
+              placeholder="Enter your email" 
+              className="bg-transparent border border-gray-600 text-white rounded-l-sm rounded-r-none h-14 flex-grow focus:ring-brand-red focus:border-brand-red" 
+            />
+            <Button 
+              type="submit" 
+              className="bg-[#FF0000] text-white h-14 px-6 rounded-r-sm rounded-l-none hover:bg-red-700"
+            >
+              <ArrowRight size={20} />
+            </Button>
+          </form>
         </div>
 
-        {/* --- Scrolling Right Side (Images) --- */}
-        <div className="w-full lg:w-2/3 h-[80vh] overflow-hidden relative rounded-lg bg-gray-50">
-          <div 
-            ref={galleryWrapperRef} 
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 md:p-8"
-          >
-            {galleryItems.map((item, index) => (
-              <div
-                key={item.id}
-                className={`relative overflow-hidden group rounded-sm w-full 
-                  ${index % 3 === 1 ? 'h-[400px] md:h-[600px] md:mt-20' : 'h-[300px] md:h-[450px]'}
-                `}
-              >
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                
-                {/* Floating Badge */}
-                <div className="absolute bottom-6 right-6 w-12 h-12 bg-[#FFD700] rounded-full flex items-center justify-center text-black font-bold opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
-                  D
-                </div>
-              </div>
-            ))}
+        {/* Middle Section: Links and Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          {/* Column 1: Logo & Description */}
+          <div className="flex flex-col items-start">
+             <div className="flex flex-col items-center z-50 relative mb-4">
+              <img src="/logo/hlogo3.svg" alt="Elixir Homes Logo" className="w-15 md:w-17" />
+            </div>
+            <p className="text-sm leading-relaxed max-w-xs">
+              Crafting spaces beyond the ordinary, Elixir Homes is your trusted partner in building the future of luxury living.
+            </p>
+          </div>
+
+          {/* Column 2: Quick Links */}
+          <div>
+            <h3 className="font-cormorant text-xl font-semibold text-white mb-6">Quick Links</h3>
+            <ul className="space-y-3">
+              <li><Link href="#" className="hover:text-white transition-colors">Our Story</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">Projects</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">Gallery</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">Contact</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 3: Contact Info */}
+          <div>
+            <h3 className="font-cormorant text-xl font-semibold text-white mb-6">Get In Touch</h3>
+            <ul className="space-y-4 text-sm">
+              <li className="flex items-start">
+                <span className="font-semibold text-white mr-2">A:</span> 
+                <span>Elixir Homes, 2nd Floor, Hi-Life Building, Kuttanellur, Thrissur - 680014</span>
+              </li>
+              <li className="flex items-start">
+                <span className="font-semibold text-white mr-2">P:</span>
+                <Link href="tel:+919876543210" className="hover:text-white transition-colors">+91 987 654 3210</Link>
+              </li>
+              <li className="flex items-start">
+                <span className="font-semibold text-white mr-2">E:</span>
+                <Link href="mailto:info@elixirhomes.com" className="hover:text-white transition-colors">info@elixirhomes.com</Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Social Media */}
+          <div>
+            <h3 className="font-cormorant text-xl font-semibold text-white mb-6">Follow Us</h3>
+            <div className="flex items-center gap-4">
+              {socialLinks.map((link, index) => (
+                <Link key={index} href={link.href} className="w-10 h-10 flex items-center justify-center border border-gray-700 rounded-full text-gray-400 hover:bg-[#FF0000] hover:text-white hover:border-[#FF0000] transition-all">
+                  {link.icon}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
 
-      </section>
-    </div>
+        {/* Bottom Section: Copyright */}
+        <div className="text-center text-xs text-gray-500 pt-8 border-t border-gray-800">
+          <p>&copy; {new Date().getFullYear()} Elixir Homes. All Rights Reserved. Designed with love.</p>
+        </div>
+
+      </div>
+    </footer>
   );
 }
