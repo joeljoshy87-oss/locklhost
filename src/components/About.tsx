@@ -40,12 +40,12 @@ export default function About() {
             Inspired by Vision, Built <br className="hidden md:block" /> with Precision
           </motion.h2>
 
-          <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <p className="font-inter font-normal text-[18px] leading-[28px] text-[#555555]">
-              Our power comes in the form of our values. We call ourselves "The Ethical Builder" not as a slogan, but as a guarantee. We are not trying to be the largest, we work on being the most trustworthy.
+          <motion.div variants={fadeUp} className="text-[#7B7B7B] flex flex-col mt-8 justify-between gap-y-4 lg:flex-row lg:gap-x-10 lg:mt-7 mb-12">
+            <p className="font-inter font-normal text-[17px] leading-[28px]">
+              Our power comes in the form of our values. We call ourselves “The Ethical Builder” not as a slogan, but as a guarantee. We are not trying to be the largest, we work on being the most trustworthy. Our team proudly delivers what we guarantee, on schedule, with durability.
             </p>
-            <p className="font-inter font-normal text-[18px] leading-[28px] text-[#555555]">
-              Elixir Homes stands as a symbol of refined architecture and uncompromised quality. With every project, we aim to create living spaces that embody elegance and functional durability.
+            <p className="font-inter font-normal text-[17px] leading-[28px]">
+               Our commitment to precision, sustainability, and attention to detail has shaped us into one of the most trusted ones.
             </p>
           </motion.div>
 
