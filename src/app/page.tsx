@@ -14,6 +14,7 @@ import Insights from "@/components/Insights";
 import { ProjectsDropdown } from "@/components/ProjectsDropdown";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/Footer";
+import ElixirBackgroundText from "@/components/ElixirBackgroundText";
 
 // --- Animation Variants (Framer Motion) ---
 const fadeUp = {
@@ -254,6 +255,7 @@ export default function Home() {
       <Gallery />
       <Testimonials />
       <Insights />
+      <ElixirBackgroundText />
       <Footer />
     </main>
   );

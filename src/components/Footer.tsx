@@ -32,7 +32,7 @@ export default function Footer() {
       <div className="max-w-[1400px] mx-auto relative z-10">
         
         {/* Top Section: CTA */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center pb-16 mb-16 border-b border-gray-700/50">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center pb-16 mb-16 border-b border-gray-white">
           <div className="lg:w-2/3">
             <h2 className="font-cormorant font-semibold text-[48px] md:text-[64px] text-white leading-[100%]">
               Let’s Discuss <br /> Your Vision With Us
@@ -106,7 +106,6 @@ export default function Footer() {
         </div>
 
       </div>
-
     </footer>
   );
 }
