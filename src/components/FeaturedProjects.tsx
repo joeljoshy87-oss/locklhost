@@ -78,8 +78,8 @@ export default function FeaturedProjects() {
   return (
     <div ref={component} className="bg-[#1B1A1F] text-white w-full overflow-hidden">
       {/* --- Section Header --- */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-24">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 py-20 lg:py-32">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 lg:gap-20">
           <div className="max-w-3xl">
             <span className="font-inter text-xs uppercase tracking-[0.3em] text-[#E31E24] mb-6 block font-medium">
               FEATURED PROJECTS
