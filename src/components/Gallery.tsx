@@ -60,7 +60,7 @@ export default function Gallery() {
           }}
           className="w-full"
       >
-          <CarouselContent className="-ml-1">
+          <CarouselContent className="-ml-1 items-center">
               {galleryItems.map((item, index) => (
                   <CarouselItem key={item.id} className="pl-1 md:basis-1/2 lg:basis-1/3">
                       <div className="p-1">
