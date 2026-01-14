@@ -25,7 +25,7 @@ export default function Gallery() {
   return (
     <div className="bg-white w-full py-20 lg:py-24 overflow-hidden">
       {/* Header aligned with max-width and padding */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 mb-16">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 mb-16 xl:pt-[120px]">
         <div className="flex flex-col lg:flex-row justify-between items-start gap-y-8">
           {/* Text content on the left */}
           <div className="lg:max-w-[55%]">
