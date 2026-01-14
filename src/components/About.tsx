@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useInView, useAnimate, useMotionValue, useTransform } from "framer-motion";
 import { SpinningText } from "./SpinningText";
 import { ArrowRight } from "lucide-react";
 
@@ -16,10 +16,34 @@ const fadeUp = {
 };
 
 const stats = [
-  { value: "4+", label: "Projects Completed" },
-  { value: "7+", label: "Builders Award" },
-  { value: "15+", label: "Years of Experience" },
+  { value: 4, label: "Projects Completed" },
+  { value: 7, label: "Builders Award" },
+  { value: 15, label: "Years of Experience" },
 ];
+
+function AnimatedStat({ value, label }: { value: number; label: string }) {
+  const [scope, animate] = useAnimate();
+  const isInView = useInView(scope, { once: true, margin: "-100px" });
+
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, latest => Math.round(latest));
+
+  useEffect(() => {
+    if (isInView) {
+      animate(count, value, { duration: 2, ease: "easeOut" });
+    }
+  }, [isInView, animate, count, value]);
+
+  return (
+    <div ref={scope} className="flex flex-col">
+      <div className="font-cormorant text-[48px] font-semibold text-[#1A1A1A] flex items-center">
+        <motion.span>{rounded}</motion.span>
+        <span>+</span>
+      </div>
+      <span className="font-inter text-sm text-[#777777] uppercase tracking-wider">{label}</span>
+    </div>
+  );
+}
 
 export default function About() {
   return (
@@ -51,14 +75,11 @@ export default function About() {
           </motion.div>
 
           {/* Stats Row */}
-          <motion.div variants={fadeUp} className="flex flex-wrap gap-12 md:gap-20 mb-12">
+          <div className="flex flex-wrap gap-12 md:gap-20 mb-12">
             {stats.map((stat, index) => (
-              <div key={index} className="flex flex-col">
-                <span className="font-cormorant text-[48px] font-semibold text-[#1A1A1A]">{stat.value}</span>
-                <span className="font-inter text-sm text-[#777777] uppercase tracking-wider">{stat.label}</span>
-              </div>
+              <AnimatedStat key={index} value={stat.value} label={stat.label} />
             ))}
-          </motion.div>
+          </div>
 
           <motion.button
             variants={fadeUp}

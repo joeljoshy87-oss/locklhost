@@ -12,17 +12,19 @@ const ElixirBackgroundText = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Set up a simple parallax effect
+      const isMobile = window.innerWidth < 768;
+      
       gsap.fromTo(textRef.current, 
-        { y: '-20%' }, // Start slightly up
+        // Reduced movement range for mobile to prevent "dead space" 
+        { y: isMobile ? '-2%' : '-15%' }, 
         {
-          y: '20%', // End slightly down
+          y: isMobile ? '2%' : '15%',
           ease: 'none',
           scrollTrigger: {
             trigger: containerRef.current,
-            start: 'top bottom', // When the top of the container hits the bottom of the viewport
-            end: 'bottom top',   // When the bottom of the container hits the top of the viewport
-            scrub: true,         // Smoothly scrub the animation as the user scrolls
+            start: 'top bottom', 
+            end: 'bottom top',   
+            scrub: 1,
           },
         }
       );
@@ -34,11 +36,21 @@ const ElixirBackgroundText = () => {
   return (
     <div 
       ref={containerRef}
-      className="w-full overflow-hidden select-none pointer-events-none flex justify-center items-center bg-black py-16"
+      /**
+       * Fixed the "Big Space":
+       * - py-6 on mobile vs py-16 on desktop reduces vertical padding
+       * - min-h-fit ensures the container only takes as much space as the text needs
+       */
+      className="w-full overflow-hidden select-none pointer-events-none flex justify-center items-center bg-black py-6 md:py-16 min-h-fit"
     >
       <h1 
         ref={textRef}
-        className="font-cormorant font-bold text-[30vw] md:text-[423.16px] leading-[1] text-[#171717] uppercase tracking-normal text-center"
+        /**
+         * Mobile Optimization:
+         * - text-[22vw] prevents the text from being too tall on narrow screens
+         * - leading-[0.7] removes the massive default top/bottom gaps found in display fonts
+         */
+        className="font-cormorant font-bold text-[22vw] md:text-[423.16px] leading-[0.7] md:leading-[1] text-[#171717] uppercase tracking-tighter md:tracking-normal text-center whitespace-nowrap"
       >
         ELIXIR
       </h1>
