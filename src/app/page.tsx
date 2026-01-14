@@ -256,7 +256,7 @@ export default function Home() {
       <Testimonials />
       <Insights />
       <ElixirBackgroundText />
-      <Footer />
+      <Footer /> 
     </main>
   );
 }
