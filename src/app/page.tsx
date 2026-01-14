@@ -15,6 +15,7 @@ import { ProjectsDropdown } from "@/components/ProjectsDropdown";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/Footer";
 import ElixirBackgroundText from "@/components/ElixirBackgroundText";
+import ContactInfo from "@/components/ContactInfo";
 
 // --- Animation Variants (Framer Motion) ---
 const fadeUp = {
@@ -255,8 +256,10 @@ export default function Home() {
       <Gallery />
       <Testimonials />
       <Insights />
-      <ElixirBackgroundText />
+     
       <Footer /> 
+      <ElixirBackgroundText />
+      <ContactInfo />
     </main>
   );
 }

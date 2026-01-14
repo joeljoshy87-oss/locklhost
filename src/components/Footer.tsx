@@ -51,7 +51,7 @@ export default function Footer() {
         </div>
 
         {/* Middle Section: Links and Info */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-24">
           
           {/* Column 1: Quick Links */}
           <div>
@@ -83,27 +83,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Get In Touch */}
-          <div>
-            <h3 className="text-white font-inter font-medium text-xs uppercase tracking-[0.2em] border-b border-gray-700 pb-3 mb-6 inline-block">Get In Touch</h3>
-            <address className="not-italic text-base leading-relaxed">
-              Elixir Villas & Apartments Pvt. Ltd. 123, <br/>
-              Thrissur, Kerala, India Elixir Villas & <br/>
-              Apartments Pvt. Ltd. Thrissur, Kerala, India
-            </address>
-            <div className='mt-4'>
-                <Link href="tel:+918946759810" className="block hover:text-white transition-colors text-base">+91-8946759810</Link>
-                <Link href="mailto:info@elixirhomes.com" className="block hover:text-white transition-colors text-base">info@elixirhomes.com</Link>
-            </div>
-          </div>
-
         </div>
 
-        {/* Bottom Section: Copyright */}
-        <div className="text-center text-xs text-gray-500 pt-8 mt-24">
-          <p>&copy; {new Date().getFullYear()} Elixir Vilas & Apartments Pvt. Ltd. | All Rights Reserved.</p>
-          <p className="mt-2">Crafted With ♥ by Woxro</p>
-        </div>
 
       </div>
     </footer>
