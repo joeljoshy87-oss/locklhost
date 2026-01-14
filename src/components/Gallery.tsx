@@ -2,21 +2,27 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 
 const galleryItems = [
-  { id: 1, src: "/buildings/flat.jpg", alt: "Elixir Anfield", className: "h-[300px] md:h-[450px]" },
-  { id: 2, src: "/buildings/2.webp", alt: "Elixir Highbury", className: "h-[400px] md:h-[600px] md:mt-20" },
-  { id: 3, src: "/buildings/3.webp", alt: "Elixir Greens", className: "h-[300px] md:h-[450px]" },
-  { id: 4, src: "/buildings/4.webp", alt: "Elixir Avalon", className: "h-[400px] md:h-[600px] md:mt-20" },
-  { id: 5, src: "/buildings/5.webp", alt: "The Orchid", className: "h-[300px] md:h-[450px]" },
-  { id: 6, src: "/buildings/1.jpg", alt: "Dining Room", className: "h-[400px] md:h-[600px] md:mt-20" },
+    { id: 1, src: "/buildings/flat.jpg", alt: "Elixir Anfield" },
+    { id: 2, src: "/buildings/2.webp", alt: "Elixir Highbury" },
+    { id: 3, src: "/buildings/3.webp", alt: "Elixir Greens" },
+    { id: 4, src: "/buildings/4.webp", alt: "Elixir Avalon" },
+    { id: 5, src: "/buildings/5.webp", alt: "The Orchid" },
 ];
 
 export default function Gallery() {
   return (
-    <div className="bg-white">
+    <div className="bg-white w-full">
       <section className="max-w-[1512px] mx-auto px-6 md:px-[100px] py-20 lg:py-24">
         
         {/* --- Header Section --- */}
@@ -31,7 +37,7 @@ export default function Gallery() {
             </div>
              <div className="w-full lg:w-1/2 flex flex-col items-start lg:items-end mt-8 lg:mt-0">
                  <p className="font-inter font-normal text-base md:text-[18px] leading-[28px] text-[#555555] max-w-md mb-8 text-left lg:text-right">
-                    As a symbol of refined architecture, we create living spaces that embody elegance, functional excellence, and lasting quality.
+                    Our projects are a testament to refined architecture. We create living spaces that embody elegance, functional excellence, and lasting quality.
                  </p>
                 <motion.button
                     whileHover={{ scale: 1.02 }}
@@ -45,30 +51,38 @@ export default function Gallery() {
             </div>
         </div>
 
-        {/* --- Masonry Grid Section --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {galleryItems.map((item) => (
-            <motion.div
-              key={item.id}
-              className={`relative overflow-hidden group rounded-sm w-full ${item.className}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <Image
-                src={item.src}
-                alt={item.alt}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-              <div className="absolute bottom-4 right-4 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-black font-bold opacity-0 group-hover:opacity-100 transition-all text-xl">
-                +
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {/* --- Carousel Section --- */}
+        <Carousel
+            opts={{
+                align: "start",
+                loop: true,
+            }}
+            className="w-full"
+        >
+            <CarouselContent>
+                {galleryItems.map((item) => (
+                    <CarouselItem key={item.id} className="md:basis-1/2 lg:basis-1/3">
+                        <div className="p-1">
+                            <div className="relative overflow-hidden group rounded-sm w-full h-[350px] md:h-[450px]">
+                                <Image
+                                    src={item.src}
+                                    alt={item.alt}
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                />
+                                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute bottom-4 right-4 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-black font-bold opacity-0 group-hover:opacity-100 transition-all text-xl">
+                                    +
+                                </div>
+                            </div>
+                        </div>
+                    </CarouselItem>
+                ))}
+            </CarouselContent>
+            <CarouselPrevious className="absolute left-[-20px] top-1/2 -translate-y-1/2" />
+            <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2" />
+        </Carousel>
 
       </section>
     </div>

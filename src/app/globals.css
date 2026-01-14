@@ -78,3 +78,16 @@
     @apply bg-background text-foreground;
   }
 }
+.no-scroll {
+  overflow: hidden !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  position: relative;
+}
