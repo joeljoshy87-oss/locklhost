@@ -11,6 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { cn } from "@/lib/utils";
 
 const galleryItems = [
     { id: 1, src: "/buildings/flat.jpg", alt: "Elixir Anfield" },
@@ -60,10 +61,15 @@ export default function Gallery() {
             className="w-full"
         >
             <CarouselContent>
-                {galleryItems.map((item) => (
+                {galleryItems.map((item, index) => (
                     <CarouselItem key={item.id} className="md:basis-1/2 lg:basis-1/3">
                         <div className="p-1">
-                            <div className="relative overflow-hidden group rounded-sm w-full h-[350px] md:h-[450px]">
+                            <div className={cn(
+                              "relative overflow-hidden group rounded-sm w-full",
+                              index % 3 === 0 && "h-[350px] md:h-[400px]", // Smaller
+                              index % 3 === 1 && "h-[400px] md:h-[500px]", // Taller
+                              index % 3 === 2 && "h-[350px] md:h-[450px]"  // Normal
+                            )}>
                                 <Image
                                     src={item.src}
                                     alt={item.alt}
