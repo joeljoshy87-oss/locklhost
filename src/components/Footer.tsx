@@ -107,12 +107,6 @@ export default function Footer() {
 
       </div>
 
-      {/* Background Giant Text */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-1/2 flex items-end justify-center z-0 pointer-events-none">
-          <span className="font-cormorant font-bold text-white/5 text-[20vw] md:text-[25vw] lg:text-[200px] leading-none select-none">
-              ELIXIR
-          </span>
-      </div>
     </footer>
   );
 }
