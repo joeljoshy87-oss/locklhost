@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useLayoutEffect, useEffect } from "react";
-import { motion } from "framer-motion";
+import React, { useRef, useLayoutEffect, useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import gsap from "gsap";
@@ -49,51 +49,63 @@ const projects = [
 ];
 
 export default function FeaturedProjects() {
-  const component = useRef(null);
-  const slider = useRef(null);
+  const containerRef = useRef(null);
+  const stickyRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     window.history.scrollRestoration = 'manual';
-    window.scrollTo(0, 0);
   }, []);
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
-      let panels = gsap.utils.toArray(".panel");
-      gsap.to(panels, {
-        xPercent: -100 * (panels.length - 1),
-        ease: "none",
-        scrollTrigger: {
-          trigger: slider.current,
-          pin: true,
-          scrub: 1,
-          snap: 1 / (panels.length - 1),
-          end: () => "+=" + (slider.current.offsetWidth),
+      ScrollTrigger.create({
+        trigger: stickyRef.current,
+        start: "top top",
+        end: `+=${projects.length * 100}%`,
+        pin: true,
+        scrub: 1,
+        onUpdate: (self) => {
+          const newIndex = Math.round(self.progress * (projects.length - 1));
+          if (newIndex !== activeIndex) {
+            setActiveIndex(newIndex);
+          }
         },
       });
-    }, component);
+    }, containerRef);
     return () => ctx.revert();
-  }, []);
+  }, [activeIndex]);
+
+  const scrollToProject = (index) => {
+    const scrollAmount = (index / (projects.length - 1)) * (projects.length * window.innerHeight);
+    const startPos = stickyRef.current.offsetTop;
+    window.scrollTo({
+      top: startPos + scrollAmount,
+      behavior: "smooth"
+    });
+  };
+
+  const currentProject = projects[activeIndex];
 
   return (
-    <div ref={component} className="bg-[#1B1A1F] text-white w-full overflow-hidden">
-      {/* --- Section Header --- */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 py-20 lg:py-32">
+    <div ref={containerRef} className="bg-[#1B1A1F] text-white w-full">
+      {/* --- Section Header (Scrolls Naturally) --- */}
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-3 py-24 lg:py-32">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 lg:gap-20">
           <div className="max-w-3xl">
-            <span className="font-inter text-xs uppercase tracking-[0.3em] text-[#E31E24] mb-6 block font-medium">
+            <span className="font-inter text-ls uppercase tracking-[0.3em] text-[#8b8e72] mb-6 block font-medium">
               FEATURED PROJECTS
             </span>
-            <h2 className="font-cormorant font-semibold text-5xl md:text-7xl lg:text-[80px] leading-[0.9] text-white">
+            <h2 className="font-cormorant font-semibold text-4xl md:text-7xl lg:text-[80px] leading-[0.9] text-white">
               Shaping Skylines with Distinction
             </h2>
-          
             <p className="text-gray-500 font-inter text-base md:text-lg leading-relaxed mt-8">
-              Our portfolio features elegant completed and ongoing projects across Thrissur, driven by our values of trust and innovation. From smart 2 BHK homes to luxurious 5 BHK residences, every Elixir home is thoughtfully crafted for modern lifestyles.
+              Our portfolio features elegant completed and ongoing projects across Thrissur, driven by our values of trust and innovation. 
+              From smart 2 BHK homes to luxurious 5 BHK residences, every Elixir home is thoughtfully crafted for modern lifestyles.
             </p>
           </div>
           <div className="flex-shrink-0">
-             <motion.button 
+            <motion.button 
               whileHover={{ scale: 1.05 }}
               className="bg-[#E31E24] text-white px-8 py-4 flex items-center gap-4 text-sm uppercase tracking-widest font-inter"
             >
@@ -103,78 +115,172 @@ export default function FeaturedProjects() {
         </div>
       </div>
 
-      {/* --- Horizontal Locked Slider --- */}
-      <div ref={slider} className="flex w-[400vw] h-screen overflow-hidden relative">
-        {projects.map((project, index) => (
-          <div key={project.id} className="panel w-screen h-full flex items-center justify-center relative">
-            
-            {/* Background Image with Darker Overlay for Text Clarity */}
+      {/* --- Sticky Project Display --- */}
+      <div ref={stickyRef} className="h-screen w-full relative overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="absolute inset-0 w-full h-full"
+          >
+            {/* Background Image */}
             <div className="absolute inset-0 z-0">
               <Image 
-                src={project.image} 
-                alt={project.title} 
+                src={currentProject.image} 
+                alt={currentProject.title} 
                 fill 
                 className="object-cover" 
-                priority={index === 0}
+                priority
               />
               <div className="absolute inset-0 bg-black/60 md:bg-black/40" />
             </div>
 
-            {/* Exact Figma Layout Overlay */}
-            <div className="relative z-10 w-full max-w-[1312px] mx-auto px-6 h-full flex flex-col justify-center">
-              
-              {/* Main Title - Matches Figma Height/Position */}
-              <div className="mb-4">
-                 <h3 className="font-cormorant text-6xl md:text-8xl lg:text-[96px] text-white leading-none">
-                    {project.title}
-                 </h3>
+            {/* Content Overlay - Exact 252px left offset on large screens */}
+            <div className="
+              relative z-10 
+              h-full 
+              flex flex-col 
+              justify-center
+              items-start
+              pl-6 sm:pl-10 md:pl-16               /* gradual on smaller screens */
+              lg:pl-[252px]                         /* exactly 252px from left on lg+ */
+              xl:pl-[252px] 
+              2xl:pl-[252px]
+            ">
+              {/* Title */}
+              <div className="mb-6 sm:mb-8 lg:mb-10">
+                <h3 className="
+                  font-cormorant 
+                  font-semibold 
+                  text-5xl 
+                  sm:text-6xl 
+                  md:text-7xl 
+                  lg:text-[5.8rem] 
+                  xl:text-[6.2rem] 
+                  leading-[0.82] 
+                  tracking-[-0.02em]
+                  text-white
+                ">
+                  {currentProject.title}
+                </h3>
               </div>
 
-              {/* Data Row with Top and Bottom Borders */}
-              <div className="border-t border-b border-white/30 py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-                <span className="font-inter text-sm md:text-base text-white/90 uppercase tracking-wide flex-1">
-                  {project.status}
+              {/* Data Row */}
+              <div className="
+                w-full 
+                max-w-[1200px]
+                border-t border-b border-white/40 
+                py-5 sm:py-6 lg:py-7 
+                flex flex-col sm:flex-row 
+                justify-between 
+                items-center 
+                gap-6 lg:gap-10
+              ">
+                <span className="font-inter text-sm sm:text-base lg:text-lg text-white/90 uppercase tracking-wider font-medium">
+                  {currentProject.status}
                 </span>
-                <span className="font-inter text-sm md:text-base text-white/70 flex-[2] text-center px-4">
-                  {project.location}
+
+                <span className="font-inter text-sm sm:text-base lg:text-lg text-white/70 text-center">
+                  {currentProject.location}
                 </span>
-                <span className="font-inter text-sm md:text-base text-white/90 tabular-nums flex-1 text-right">
-                  {String(index + 1).padStart(2, '0')} of {String(projects.length).padStart(2, '0')}
+
+                <span className="font-inter text-sm sm:text-base lg:text-lg text-white/80 tabular-nums">
+                  {String(activeIndex + 1).padStart(2, '0')} of {String(projects.length).padStart(2, '0')}
                 </span>
               </div>
 
-              {/* Bottom Details & Thumbnails Row */}
-              <div className="flex flex-col md:flex-row justify-between items-end mt-16 gap-8">
-                
-                {/* Left: Description & Button */}
-                <div className="max-w-md">
-                  <p className="font-inter text-sm md:text-base text-gray-300 leading-relaxed mb-8">
-                    {project.description}
+              {/* Bottom Section */}
+              <div className="
+                mt-12 sm:mt-16 lg:mt-20 
+                w-full 
+                max-w-[1200px]
+                flex flex-col lg:flex-row 
+                justify-between 
+                items-start lg:items-end 
+                gap-12 lg:gap-20
+              ">
+                {/* Description + Button */}
+                <div className="max-w-2xl">
+                  <p className="
+                    font-inter 
+                    text-sm sm:text-base lg:text-lg 
+                    text-gray-200 
+                    leading-relaxed lg:leading-8
+                  ">
+                    {currentProject.description}
                   </p>
-                  <button className="flex items-center gap-2 group text-white uppercase text-sm tracking-[0.2em] border-b border-white/30 pb-2 hover:border-white transition-all">
-                    VIEW PROJECT <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+
+                  <button className="
+                    mt-8 lg:mt-10
+                    group inline-flex items-center gap-3
+                    text-white uppercase text-sm lg:text-base 
+                    tracking-[0.2em] font-medium
+                    border-b border-white/40 pb-2
+                    hover:border-white transition-colors duration-300
+                  ">
+                    VIEW PROJECT
+                    <ArrowUpRight size={18} className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                   </button>
                 </div>
 
-                {/* Right: Sequential Thumbnails */}
-                <div className="flex items-center gap-2 md:gap-4 overflow-x-auto max-w-full pb-4">
-                  {project.thumbnails.map((thumb, tIndex) => (
-                    <div key={tIndex} className="relative group">
-                      <div className={`relative w-20 h-14 md:w-32 md:h-20 overflow-hidden transition-all duration-500 ${index === tIndex ? 'border-2 border-white scale-105' : 'opacity-40 grayscale hover:grayscale-0 hover:opacity-100'}`}>
-                        <Image src={thumb} alt="thumb" fill className="object-cover" />
+                {/* Thumbnails */}
+                <div className="
+                  flex items-end gap-3 sm:gap-4 lg:gap-5 
+                  overflow-x-auto lg:overflow-visible 
+                  pb-6 lg:pb-0
+                  scrollbar-thin scrollbar-thumb-white/30
+                ">
+                  {projects.map((thumb, tIndex) => (
+                    <div
+                      key={tIndex}
+                      className="relative group cursor-pointer flex-shrink-0"
+                      onClick={() => scrollToProject(tIndex)}
+                    >
+                      <div className={`
+                        relative 
+                        w-20 h-14 
+                        sm:w-24 sm:h-16 
+                        md:w-28 md:h-20 
+                        lg:w-32 lg:h-22 
+                        xl:w-36 xl:h-24 
+                        overflow-hidden 
+                        rounded 
+                        transition-all duration-500
+                        ${activeIndex === tIndex
+                          ? 'border-2 border-white scale-110 shadow-xl'
+                          : 'opacity-50 grayscale hover:opacity-90 hover:grayscale-0 border border-white/30'
+                        }
+                      `}>
+                        <Image
+                          src={thumb.image}
+                          alt={`Project thumbnail ${tIndex + 1}`}
+                          fill
+                          className="object-cover"
+                        />
                       </div>
-                      <span className="absolute -bottom-6 left-0 text-[10px] font-mono text-white/40">
+
+                      <span className={`
+                        absolute -bottom-6 left-0
+                        text-xs lg:text-sm 
+                        font-mono
+                        ${activeIndex === tIndex ? 'text-white' : 'text-white/50'}
+                      `}>
                         {String(tIndex + 1).padStart(2, '0')}
                       </span>
                     </div>
                   ))}
                 </div>
-
               </div>
             </div>
-          </div>
-        ))}
+          </motion.div>
+        </AnimatePresence>
       </div>
+
+      {/* Spacer */}
+      <div className="h-[100vh]" />
     </div>
   );
 }

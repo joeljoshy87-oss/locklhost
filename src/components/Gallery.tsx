@@ -74,11 +74,11 @@ export default function Gallery() {
                                   src={item.src}
                                   alt={item.alt}
                                   fill
-                                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                  className="object-cover transition-transform duration-700 py-3 group-hover:scale-105"
                                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                               />
                               <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                              <div className="absolute bottom-4 right-4 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-black font-bold opacity-0 group-hover:opacity-100 transition-all text-xl">
+                              <div className="absolute bottom-4 right-5 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-black font-bold opacity-0 group-hover:opacity-100 transition-all text-xl">
                                   +
                               </div>
                           </div>

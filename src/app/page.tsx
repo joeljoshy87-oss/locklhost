@@ -141,7 +141,7 @@ export default function Home() {
 
           {/* Desktop Action Buttons */}
           <div className="hidden md:flex items-center gap-4">
-            <button className="flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 border border-white/30 rounded-sm text-[10px] md:text-xs uppercase tracking-wider hover:bg-white hover:text-black transition-all">
+            <button className="flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 border border-white/30 rounded-sm text-[15px] md:text-xs uppercase tracking-wider hover:bg-white hover:text-black transition-all">
               Ring us Now <Phone size={14} />
             </button>
             <button className="flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 border border-white/30 rounded-sm text-[10px] md:text-xs uppercase tracking-wider hover:bg-[#25D366] hover:border-[#25D366] hover:text-white transition-all">
@@ -207,15 +207,14 @@ export default function Home() {
         </AnimatePresence>
 
         {/* --- Hero Content --- */}
-        <div className="relative z-30 h-full flex flex-col justify-center px-6 md:px-12 lg:px-24 max-w-[1400px]">
+        <div className="absolute bottom-28 z-30 h-fit flex flex-col md:px-12 lg:px-24 max-w-[1400px]">
 
           {/* Headline with GSAP Target - Responsive Font Sizes */}
-          <div ref={headlineRef} className="overflow-hidden mb-4 md:mb-6 mt-[-60px] md:mt-0">
+          <div ref={headlineRef} className="overflow-hidden mb-4 md:mb-6 mt-12 md:mt-20 ">
             <h1 className="font-cormorant font-semibold text-[42px] sm:text-[56px] md:text-[72px] leading-[110%] md:leading-[100%] text-white tracking-tight">
               <span className="inline-block headline-word mr-3 md:mr-4">Crafting</span>
               <span className="inline-block headline-word">Spaces</span>
               <br className="hidden md:block" />
-              <span className="inline-block md:hidden w-full h-0"></span> {/* Force break on mobile if needed */}
               <span className="inline-block headline-word mr-3 md:mr-4">Beyond</span>
               <span className="inline-block headline-word">Ordinary</span>
             </h1>
