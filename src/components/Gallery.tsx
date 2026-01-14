@@ -23,10 +23,9 @@ const galleryItems = [
 
 export default function Gallery() {
   return (
-    <div className="bg-white w-full">
-      <section className="max-w-[1512px] mx-auto px-6 md:px-[100px] py-20 lg:py-24">
-        
-        {/* --- Header Section --- */}
+    <div className="bg-white w-full py-20 lg:py-24 overflow-hidden">
+      {/* Centered Header */}
+      <div className="max-w-[1512px] mx-auto px-6 md:px-[100px]">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16">
             <div className="w-full lg:w-1/2">
               <span className="text-[#FF0000] font-inter text-sm md:text-[18px] leading-[28px] uppercase tracking-widest mb-4 block">
@@ -51,46 +50,46 @@ export default function Gallery() {
                 </motion.button>
             </div>
         </div>
+      </div>
 
-        {/* --- Carousel Section --- */}
-        <Carousel
-            opts={{
-                align: "start",
-                loop: true,
-            }}
-            className="w-full"
-        >
-            <CarouselContent>
-                {galleryItems.map((item, index) => (
-                    <CarouselItem key={item.id} className="md:basis-1/2 lg:basis-1/3">
-                        <div className="p-1">
-                            <div className={cn(
-                              "relative overflow-hidden group rounded-sm w-full",
-                              index % 3 === 0 && "h-[350px] md:h-[400px]", // Smaller
-                              index % 3 === 1 && "h-[400px] md:h-[500px]", // Taller
-                              index % 3 === 2 && "h-[350px] md:h-[450px]"  // Normal
-                            )}>
-                                <Image
-                                    src={item.src}
-                                    alt={item.alt}
-                                    fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                />
-                                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                <div className="absolute bottom-4 right-4 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-black font-bold opacity-0 group-hover:opacity-100 transition-all text-xl">
-                                    +
-                                </div>
-                            </div>
-                        </div>
-                    </CarouselItem>
-                ))}
-            </CarouselContent>
-            <CarouselPrevious className="absolute left-[-20px] top-1/2 -translate-y-1/2" />
-            <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2" />
-        </Carousel>
+      {/* Full-width Carousel */}
+      <Carousel
+          opts={{
+              align: "start",
+              loop: true,
+          }}
+          className="w-full"
+      >
+          <CarouselContent>
+              {galleryItems.map((item, index) => (
+                  <CarouselItem key={item.id} className="md:basis-1/2 lg:basis-1/3">
+                      <div className="p-1">
+                          <div className={cn(
+                            "relative overflow-hidden group rounded-sm w-full",
+                            index % 3 === 0 && "h-[350px] md:h-[400px]", // Smaller
+                            index % 3 === 1 && "h-[400px] md:h-[500px]", // Taller
+                            index % 3 === 2 && "h-[350px] md:h-[450px]"  // Normal
+                          )}>
+                              <Image
+                                  src={item.src}
+                                  alt={item.alt}
+                                  fill
+                                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              />
+                              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                              <div className="absolute bottom-4 right-4 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-black font-bold opacity-0 group-hover:opacity-100 transition-all text-xl">
+                                  +
+                              </div>
+                          </div>
+                      </div>
+                  </CarouselItem>
+              ))}
+          </CarouselContent>
+          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10" />
+          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10" />
+      </Carousel>
 
-      </section>
     </div>
   );
 }
