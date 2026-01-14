@@ -87,12 +87,13 @@ export default function FeaturedProjects() {
             <h2 className="font-cormorant font-semibold text-5xl md:text-7xl lg:text-[80px] leading-[0.9] text-white">
               Shaping Skylines with Distinction
             </h2>
-          </div>
-          <div className="max-w-sm">
-            <p className="text-gray-400 font-inter text-base md:text-lg leading-relaxed mb-8">
-              Elixir Homes stands as a symbol of refined architecture and uncompromised quality across Thrissur.
+          
+            <p className="text-gray-500 font-inter text-base md:text-lg leading-relaxed mt-8">
+              Our portfolio features elegant completed and ongoing projects across Thrissur, driven by our values of trust and innovation. From smart 2 BHK homes to luxurious 5 BHK residences, every Elixir home is thoughtfully crafted for modern lifestyles.
             </p>
-            <motion.button 
+          </div>
+          <div className="flex-shrink-0">
+             <motion.button 
               whileHover={{ scale: 1.05 }}
               className="bg-[#E31E24] text-white px-8 py-4 flex items-center gap-4 text-sm uppercase tracking-widest font-inter"
             >
