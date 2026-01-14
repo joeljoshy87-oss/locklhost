@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -34,11 +34,11 @@ export default function Gallery() {
               <h2 className="font-cormorant font-semibold text-4xl md:text-[64px] leading-[105%] text-[#1A1A1A]">
                 A Glimpse Into <br className="hidden lg:block" /> Elegance
               </h2>
-            </div>
-             <div className="w-full lg:w-1/2 flex flex-col items-start lg:items-end mt-8 lg:mt-0">
-                 <p className="font-inter font-normal text-base md:text-[18px] leading-[28px] text-[#555555] max-w-md mb-8 text-left lg:text-right">
+               <p className="font-inter font-normal text-base md:text-[18px] leading-[28px] text-[#555555] max-w-md mt-8">
                     Our projects are a testament to refined architecture. We create living spaces that embody elegance, functional excellence, and lasting quality.
                  </p>
+            </div>
+             <div className="w-full lg:w-1/2 flex flex-col items-start lg:items-end mt-8 lg:mt-0">
                 <motion.button
                     whileHover={{ scale: 1.02 }}
                     className="w-fit h-[60px] bg-[#E31E24] text-white flex items-center justify-center gap-4 transition-colors hover:bg-black px-8"
@@ -60,9 +60,9 @@ export default function Gallery() {
           }}
           className="w-full"
       >
-          <CarouselContent>
+          <CarouselContent className="-ml-1">
               {galleryItems.map((item, index) => (
-                  <CarouselItem key={item.id} className="md:basis-1/2 lg:basis-1/3">
+                  <CarouselItem key={item.id} className="pl-1 md:basis-1/2 lg:basis-1/3">
                       <div className="p-1">
                           <div className={cn(
                             "relative overflow-hidden group rounded-sm w-full",
