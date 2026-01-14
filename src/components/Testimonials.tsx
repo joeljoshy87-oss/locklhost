@@ -12,7 +12,7 @@ const testimonialData = [
     name: "Vijith Nambiar",
     role: "Film Director",
     quote: "Elixir Homes stands as a symbol of refined architecture and uncompromised quality. With every project, we aim to create living spaces that embody elegance, functional Elixir Homes stands as a symbol of refined architecture and uncompromised quality.",
-    image: "/img/testimonial-1.jpg" // Main living room image
+    image: "/testimonials.webp" // Main living room image
   }
 ];
 
@@ -97,7 +97,7 @@ export default function Testimonials() {
                 <div className="flex items-center gap-4">
                   <div className="relative w-12 h-12 rounded-full overflow-hidden">
                      <Image 
-                        src="/img/client-avatar.jpg" 
+                        src="/testimonials.webp" 
                         alt={current.name} 
                         fill 
                         className="object-cover"

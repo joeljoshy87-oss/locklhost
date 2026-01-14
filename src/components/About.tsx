@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { SpinningText } from "./SpinningText";
+import { ArrowRight } from "lucide-react";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -40,11 +41,11 @@ export default function About() {
             Inspired by Vision, Built <br className="hidden md:block" /> with Precision
           </motion.h2>
 
-          <motion.div variants={fadeUp} className="text-[#7B7B7B] flex flex-col mt-8 justify-between gap-y-4 lg:flex-row lg:gap-x-10 lg:mt-7 mb-12">
-            <p className="font-inter font-normal text-[17px] leading-[28px]">
+          <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 gap-x-10 text-[#7B7B7B] font-inter text-[17px] leading-[28px] mb-12">
+            <p>
               Our power comes in the form of our values. We call ourselves “The Ethical Builder” not as a slogan, but as a guarantee. We are not trying to be the largest, we work on being the most trustworthy. Our team proudly delivers what we guarantee, on schedule, with durability.
             </p>
-            <p className="font-inter font-normal text-[17px] leading-[28px]">
+            <p>
                Our commitment to precision, sustainability, and attention to detail has shaped us into one of the most trusted ones.
             </p>
           </motion.div>
@@ -65,7 +66,7 @@ export default function About() {
             className="w-fit bg-[#FF0000] text-white px-8 py-4 font-inter text-sm uppercase tracking-widest flex items-center gap-4 group transition-all"
           >
             Know More
-            <span className="group-hover:translate-x-1 transition-transform">→</span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </motion.button>
         </motion.div>
 
