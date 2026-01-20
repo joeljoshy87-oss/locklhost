@@ -12,7 +12,7 @@ const projects = [
     id: "01",
     title: "Elixir Anfield",
     location: "Near Hill Gardens Colony & HiLite Mall, Thrissur - Kuttanellur Main Road",
-    description: "Elixir Anfield is set in one of Thrissur's finest residential localities, surrounded by well-known colonies such as Hill Gardens and Green Valley.",
+    description: "Elixir Anfield is set in one of Thrissur’s finest residential localities, surrounded by well-known colonies such as Hill Gardens, Lesona Enclave, Garden Enclave, Green Valley, and Silent Valley.",
     image: "/buildings/flat.jpg",
     status: "Ongoing Apartment Project",
     thumbnails: ["/buildings/flat.jpg", "/buildings/2.webp", "/buildings/3.webp", "/buildings/4.webp", "/buildings/5.webp"],
@@ -21,7 +21,7 @@ const projects = [
     id: "02",
     title: "Elixir Highbury",
     location: "Ayyanthole | Thrissur",
-    description: "A testament to modern design, offering unparalleled comfort and style in the heart of the city.",
+    description: "“The Orchid” is one of our signature projects, created with a strong focus on luxury and comfort. Located in the heart of Kuttanellur, it stands in one of Thrissur’s finest residential areas.",
     image: "/buildings/2.webp",
     status: "Completed Apartment Project",
     thumbnails: ["/buildings/flat.jpg", "/buildings/2.webp", "/buildings/3.webp", "/buildings/4.webp", "/buildings/5.webp"],
@@ -30,7 +30,7 @@ const projects = [
     id: "03",
     title: "Elixir Greens",
     location: "Puranattukara | Thrissur",
-    description: "Experience tranquility and luxury in our exclusive villa community, designed for sustainable living.",
+    description: "Akkara Gardens is a luxury villa Project at Kuttanellur, Thrissur. Spread across 1.20 acres with 12 exclusive units, it offers privacy, sustainability, and refined living.",
     image: "/buildings/3.webp",
     status: "Completed Villa Project",
     thumbnails: ["/buildings/flat.jpg", "/buildings/2.webp", "/buildings/3.webp", "/buildings/4.webp", "/buildings/5.webp"],
@@ -39,7 +39,7 @@ const projects = [
     id: "04",
     title: "Elixir Avalon",
     location: "Kuttanellur | Thrissur",
-    description: "Cutting-edge apartments designed for the future of urban living with smart home features.",
+    description: "Elixir Manavath Heights was a 4-acre land development project at Vadakkenchery, near Alathur in Palakkad.",
     image: "/buildings/4.webp",
     status: "Ongoing Apartment Project",
     thumbnails: ["/buildings/flat.jpg", "/buildings/2.webp", "/buildings/3.webp", "/buildings/4.webp", "/buildings/5.webp"],
@@ -111,7 +111,7 @@ export default function FeaturedProjects() {
       </div>
 
       {/* Slider Section */}
-      <div ref={slider} className="relative w-full h-[80vh]  overflow-hidden">
+      <div ref={slider} className="relative w-full h-screen  overflow-hidden">
         {projects.map((project, index) => (
           <div
             key={project.id}
@@ -133,40 +133,44 @@ export default function FeaturedProjects() {
             
 <div className="relative z-10 w-[74%]  mt-[26%] mx-auto pl-1 h-full  flex flex-col justify-start">
               <div className="mb-0">
-                <h3 className="font-cormorant text-6xl md:text-8xl lg:text-[63px] text-white leading-none pb-5">
+                <h3 className="font-cormorant  text-6xl md:text-8xl lg:text-[63px] text-white leading-none pb-5">
                   {project.title}
                 </h3>
               </div>
 
-              <div className="border-t border-b border-white/30 p-2 py-2 flex flex-col md:flex-row justify-around items-center gap-7 text-center md:text-left">
-                <span className="font-inter text-sm md:text-base text-white/90 uppercase tracking-wide flex-1">
+             <div className="border-t border-b border-white/30   mb-32 py-1 flex flex-col md:flex-row justify-between items-center gap-1 text-center md:text-left">
+              <div className="w-1/2 flex justify-start p-5 mr-10 items-center ">
+                <span className="font-inter text-sm md:text-base text-white/90 uppercase tracking-wide">
                   {project.status}
                 </span>
-                <span className="px-5 font-inter text-sm md:text-base text-white/70 flex-[1] text-center whitespace-nowrap px-5">
+              </div>
+              <div className="w-1/2 flex justify-between items-center">
+                <span className="font-inter text-sm md:text-base text-white/70 lg:-ml-36 2xl:-ml-32 whitespace-nowrap">
                   {project.location}
                 </span>
-                <span className="font-inter text-sm md:text-base text-white/90 tabular-nums flex-1 text-right">
+                <span className="font-inter text-sm md:text-base text-white/90 tabular-nums">
                   {String(index + 1).padStart(2, '0')} of {String(projects.length).padStart(2, '0')}
                 </span>
               </div>
+            </div>
 
-              <div className="flex flex-col md:flex-row justify-between items-around gap-10">
-                <div className="max-w-md  mt-20 ">
-                  <p className="font-inter text-sm md:text-base text-gray-300 leading-relaxed mb-8">
+              <div className="flex flex-col   w-full mt-16 md:flex-row  justify-center items-around gap-10  ">
+                <div className="max-w-2xl lg:max-w-3x ml-5  ">
+                  <p className="font-inter  para-text text-sm md:text-lg text-gray-300 mb-8 ">
                     {project.description}
                   </p>
-                  <button className="flex items-end   gap-2 group text-white uppercase text-sm tracking-[0.2em] border-b border-white/30 pb-2 hover:border-white transition-all">
+                  <button className="flex items-end  mr-24  gap-2 group text-white uppercase text-sm tracking-[0.2em] border-b border-white/30 pb-2 hover:border-white transition-all">
                     VIEW PROJECT <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                   </button>
                 </div>
 
-                <div className="flex items-center gap-2 md:gap-4 overflow-x-auto max-w-full pb-4">
+                <div className="flex ml-20 scrollbar-hide items-end gap-2 md:gap-4 overflow-x-auto max-w-full">
                   {project.thumbnails.map((thumb, tIndex) => (
                     <div key={tIndex} className="relative group">
                       <div className={`relative w-20 h-14 md:w-32 md:h-20 overflow-hidden transition-all duration-500 ${index === tIndex ? 'border-2 border-white scale-105' : 'opacity-40 grayscale hover:grayscale-0 hover:opacity-100'}`}>
                         <Image src={thumb} alt="thumb" fill className="object-cover" />
                       </div>
-                      <span className="absolute -bottom-6 left-0 text-[10px] font-mono text-white/40">
+                      <span className="absolute -top-8 left-0 text-[20px]  font-mono text-white/40">
                         {String(tIndex + 1).padStart(2, '0')}
                       </span>
                     </div>
