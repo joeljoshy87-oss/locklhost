@@ -12,7 +12,7 @@ const inter = Inter({
 const cormorant = Cormorant_Garamond({ 
   subsets: ['latin'],
   variable: '--font-cormorant',
-  weight: ['400', '600'] // As per your spec (SemiBold is 600)
+  weight: ["300", "400", "500", "600"] // As per your spec (SemiBold is 600)
 });
 
 export const metadata: Metadata = {

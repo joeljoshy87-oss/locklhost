@@ -1,119 +1,104 @@
 "use client";
 
 import React, { useLayoutEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const galleryItems = [
+const GALLERY_ITEMS = [
   { id: 1, src: "/buildings/1.jpg", alt: "Dining Room" },
-  { id: 2, src: "/buildings/2.webp", alt: "Modern Villa Exterior" },
+  { id: 2, src: "/buildings/2.webp", alt: "Villa Exterior" },
   { id: 3, src: "/buildings/3.webp", alt: "Living Space" },
-  { id: 4, src: "/buildings/4.webp", alt: "Kitchen Area" },
-  { id: 5, src: "/buildings/flat.jpg", alt: "Master Bedroom" },
- 
+  { id: 4, src: "/buildings/4.webp", alt: "Kitchen" },
 ];
 
-export default function Gallery() {
-  const sectionRef = useRef(null);
-  const galleryWrapperRef = useRef(null);
+export default function GallerySection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      // 1. Calculate how much the gallery needs to move
-      // We subtract the height of the window so the last image stops at the bottom
-      const totalHeight = galleryWrapperRef.current.offsetHeight;
-      const viewportHeight = window.innerHeight;
-      const scrollDistance = totalHeight - (viewportHeight * 0.8);
+    if (!sectionRef.current || !galleryRef.current) return;
 
-      // 2. The Pinning Animation
-      gsap.to(galleryWrapperRef.current, {
-        y: -scrollDistance,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",      // Pin when the section hits the top
-          end: "+=250%",         // LOCK duration: increase this to make scrolling slower/tighter
-          pin: true,             // This locks the viewport
-          scrub: 1,              // Smoothly links scroll to movement
-          anticipatePin: 1,
-          onRefresh: (self) => {
-            // Re-calculate if layout changes
-            if (galleryWrapperRef.current) {
-               gsap.set(galleryWrapperRef.current, { y: 0 });
-            }
-          }
-        },
-      });
-    }, sectionRef);
-
-    // Ensure GSAP knows the correct heights after React finishes rendering
-    ScrollTrigger.refresh();
-
-    return () => ctx.revert();
+    gsap.to(galleryRef.current, {
+      y: -300,
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+        pin: true,
+      },
+    });
   }, []);
 
   return (
-    // sectionRef is the "Pin Container"
-    <section ref={sectionRef} className="bg-white w-full overflow-hidden">
-      <div className="flex flex-col lg:flex-row h-screen max-w-[1512px] mx-auto px-6 md:px-[100px] items-center gap-12">
+    <section
+      ref={sectionRef}
+      className="relative bg-white w-full overflow-hidden"
+    >
+      <div className="max-w-[1600px] mx-auto px-6 py-24 grid grid-cols-1 lg:grid-cols-3 gap-12 min-h-screen">
+
+        {/* ───────────── LEFT COLUMN ───────────── */}
+        <div className="grid grid-cols-[1fr_auto] grid-rows-auto gap-x-12 gap-y-6 max-w-4xl">
+
+{/* GALLERY */}
+<span className="col-span-2 text-[#FF0000] font-inter text-sm md:text-[18px] uppercase tracking-widest">
+  GALLERY
+</span>
+
+{/* HEADING */}
+<h2 className="font-cormorant font-semibold text-4xl md:text-[64px] leading-[105%] text-[#1A1A1A]">
+  A Glimpse Into Elegance
+</h2>
+
+{/* BUTTON — explicitly aligned with PARAGRAPH */}
+<button className="self-start h-[60px] px-10 bg-[#E31E24] text-white flex items-center gap-3 uppercase tracking-widest font-inter text-sm hover:bg-black transition-colors whitespace-nowrap">
+  View Gallery →
+</button>
+
+{/* PARAGRAPH */}
+<p className="text-[#7B7B7B] text-[16px] leading-[26px] max-w-xl">
+  Step into the world of Elixir Homes through our gallery, where every image
+  reflects our commitment to quality and fine living. From architectural
+  brilliance to crafted interiors, each frame showcases excellence. Explore
+  the spaces where your dream home begins.
+</p>
+  <button className="h-[60px] px-10 bg-[#E31E24] text-white uppercase">
+              View Gallery
+            </button>
+          </div>
+          </div>
+
+          
+
+
         
-        {/* --- Left Side: Pinned Content --- */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-center py-20">
-          <span className="text-[#FF0000] font-inter text-sm md:text-[18px] uppercase tracking-widest mb-4">
-            GALLERY
-          </span>
-          <h2 className="font-cormorant font-semibold text-4xl md:text-[64px] leading-[105%] text-[#1A1A1A] mb-8">
-            A Glimpse Into <br /> Elegance
-          </h2>
-          <p className="font-inter text-base md:text-[18px] text-[#7B7B7B] max-w-md mb-12">
-            Elixir Homes stands as a symbol of refined architecture. Every project 
-            is thoughtfully crafted for modern lifestyles.
-          </p>
 
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            className="w-full md:w-[250px] h-[60px] bg-[#E31E24] text-white flex items-center justify-center gap-4 transition-all hover:bg-black"
+        {/* ───────────── RIGHT COLUMNS (GALLERY) ───────────── */}
+        <div className="lg:col-span-2">
+          <div
+            ref={galleryRef}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
-            <span className="font-inter text-sm md:text-[18px] uppercase">View Gallery</span>
-            <ArrowRight size={20} />
-          </motion.button>
-        </div>
-
-        {/* --- Right Side: The Scrolling Reel --- */}
-        <div className="w-full lg:w-1/2 h-screen relative">
-          {/* This div moves UP while the parent is PINNED */}
-          <div 
-            ref={galleryWrapperRef} 
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 py-[10vh]"
-          >
-            {galleryItems.map((item, index) => (
+            {GALLERY_ITEMS.map((item) => (
               <div
                 key={item.id}
-                className={`relative overflow-hidden group rounded-sm w-full 
-                  ${index % 3 === 1 ? 'h-[400px] md:h-[550px] md:mt-12' : 'h-[300px] md:h-[450px]'}
-                `}
+                className="relative h-[300px] overflow-hidden rounded-xl"
               >
                 <Image
                   src={item.src}
                   alt={item.alt}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="50vw"
+                  className="object-cover"
                 />
-                <div className="absolute bottom-4 right-4 w-10 h-10 bg-[#FFD700] rounded-full flex items-center justify-center text-black font-bold opacity-0 group-hover:opacity-100 transition-all">
-                  D
-                </div>
               </div>
             ))}
           </div>
         </div>
 
-      </div>
+  
     </section>
   );
 }

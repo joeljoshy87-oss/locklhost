@@ -88,7 +88,7 @@ export default function Home() {
   const menuItems = ["Our Story", "Projects", "Gallery", "Testimonial", "Contact"];
 
   return (
-    <main className="w-full bg-black">
+    <main className="w-full bg-white">
       <div className="relative w-full h-screen overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
@@ -107,15 +107,15 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           className={cn(
-            "fixed top-0 left-0 z-50 flex items-center justify-between px-6 md:px-12 py-6 md:py-8 w-full text-white transition-all duration-300",
+            "fixed top-0  w-full z-50 flex items-center justify-between px-4 md:px-[40px] py-6 md:py-6 xl:py-7 xl:pl-9 sm:pt-7 xl:px-[121px]   text-white transition-all duration-300",
             isScrolled ? "bg-black/80 backdrop-blur-sm shadow-lg" : "bg-transparent",
           )}
           onMouseLeave={() => setIsProjectsOpen(false)}
         >
           <div className="flex items-center gap-10">
             {/* Logo */}
-            <div className="flex flex-col items-center z-50 relative">
-              <img src="/logo/hlogo3.svg" alt="Elixir Homes Logo" className="w-15 md:w-16" />
+            <div className="flex absolute  flex-col items-center z-50 relative">
+              <img src="/logo/hlogo3.svg" alt="Elixir Homes Logo" className="w-[65px] mx-1  md:w-12 -my-4 xl:w-[72px]  " />
             </div>
 
             {/* Desktop Links  para-text text-white font-[350]! font-inter whitespace-nowrap */}
@@ -123,12 +123,12 @@ export default function Home() {
               {menuItems.map((item) => (
                 <div
                   key={item}
-                  className="relative"
+                  className="relative  pl-5 "
                   onMouseEnter={() => item === "Projects" && setIsProjectsOpen(true)}
                 >
                   <Link
                     href="#"
-                    className="hover:text-white transition-colors relative group flex items-center"
+                    className=" absolute flex-nowrap -mr-3 justify-around  hover:text-white transition-colors relative group flex items-center text-white font-inter text-[17px] font-light tracking-wide"
                   >
                     {item}
                     {item === "Projects" && <span className="ml-1 text-[10px]">▼</span>}
@@ -140,13 +140,24 @@ export default function Home() {
           </div>
 
           {/* Desktop Action Buttons */}
-          <div className="hidden md:flex items-center gap-4">
-            <button className="flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 border border-white/30 rounded-sm text-[15px] md:text-xs uppercase tracking-wider hover:bg-white hover:text-black transition-all">
-              Ring us Now <Phone size={14} />
+          <div className="hidden md:flex  items-start gap-4 justify-around mr-8 -mt-1   ">
+            <button className="px-0  py-3.5 lg:py-0 lg:h-10 xl:h-15 xl:p-6 xl:pl-7 xl:pr-7   xl:px-6 2xl:h-13 border border-white/80 text-white text-[13px] font-sans 2xl:text-[sm] flex items-center gap-3 hover:bg-white/10 transition whitespace-nowrap">
+              Ring us Now 
+              <img 
+    src="https://elixir-live-woxdevops.vercel.app/call.svg" 
+    alt="WhatsApp" 
+    className="w-4 h-4 object-contain" 
+  />
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 border border-white/30 rounded-sm text-[10px] md:text-xs uppercase tracking-wider hover:bg-[#25D366] hover:border-[#25D366] hover:text-white transition-all">
-              Send a Message <MessageCircle size={14} />
-            </button>
+            <button className="px-0 py-3.5 lg:py-0  lg:h-10 xl:h-11 xl:px-6 xl:p-6 xl:pl-7 xl:pr-7 2xl:h-13 border border-white/80 text-white text-[13px] font-sans 2xl:text-sm flex items-center gap-3 hover:bg-white/10 transition whitespace-nowrap group">
+  Send a Message 
+  <img 
+    src="https://elixir-live-woxdevops.vercel.app/whatsapp.svg" 
+    alt="WhatsApp" 
+    className="w-4 h-4 object-contain" 
+  />
+</button>
+            
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -206,48 +217,48 @@ export default function Home() {
           )}
         </AnimatePresence>
 
-        {/* --- Hero Content --- */}
-        <div className="absolute bottom-28 z-30 h-fit flex flex-col md:px-12 lg:px-24 max-w-[1400px]">
+        {/* --- Hero Content - CONVERTED TO GRID SYSTEM --- */}
+        <div className="absolute bottom-10 z-30 -mx-1   min-h-fit max-w-[1400px] xl:mx-[10px] w-full px-6 md:px-8 lg:px-24">
+          <div className="grid grid-rows-[auto_auto_auto]  sm:px-4 sm:-mr-2 ml-1  gap-6 ">
+            {/* Headline with GSAP Target - Responsive Font Sizes */}
+            <div ref={headlineRef} className=" relative py-1 -mb-2 w-full overflow-hidden ">
+              <h1 className="   flex-wrap leading-[49px] sm:leading-[50px]  font-cormorant justify-between  headline-word xl:mb-[16px] xl:mt-[16px] xl:leading-[100%] xl:text-[70px] font-semibold text-[42px] sm:text-[42px] md:text-[58px] leading-[100%]  md:leading-[100%] text-white  ">
+              Crafting  Spaces  <span className="xl:block xl:mt-5"> Beyond 
+            
+              Ordinary
+                </span>
+              </h1>
+            </div>
 
-          {/* Headline with GSAP Target - Responsive Font Sizes */}
-          <div ref={headlineRef} className="overflow-hidden mb-4 md:mb-6 mt-12 md:mt-20 ">
-            <h1 className="font-cormorant font-semibold text-[42px] sm:text-[56px] md:text-[72px] leading-[110%] md:leading-[100%] text-white tracking-tight">
-              <span className="inline-block headline-word mr-3 md:mr-4">Crafting</span>
-              <span className="inline-block headline-word">Spaces</span>
-              <br className="hidden md:block" />
-              <span className="inline-block headline-word mr-3 md:mr-4">Beyond</span>
-              <span className="inline-block headline-word">Ordinary</span>
-            </h1>
+            {/* Subtext with Framer Motion - Responsive Width & Size */}
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 1.2 }}
+              className="w-full max-w-auto  lg:max-w-[600px] lg:max-w-[600px]  justify-start"
+            >
+              <p className=" sm:text-justify xl:text-left justify-content xl:mb-4 sm:-mb-1   md:mb-1 sm:line-clamp-3 md:line-clamp-3  xl:line-clamp-none leading-[153%] xl:text-[20px]   font-inter tracking-wide text-[15px]  md:text-[15px]   md:leading-[23px] sm:tracking-[0px]  text-white opacity-80 text-left ">
+                Elixir Homes is one of the leading builders and the most trusted real estate
+                developer in Thrissur, with a proven track record of delivering promises on
+                time to its customers. So here comes a golden chance to be a part of Elixir!
+              </p>
+            </motion.div>
+
+            {/* CTA Button */}
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 1.4 }}
+              className="flex flex-nowrap mb-[40px] md:mb-10   sm:mb-11  "
+            >
+              <button className="md:justify-around md:pl-[4%] md:pr-[4%] xl:justify-center xl:w-[28%]  xl:gap-5 xl:p-4  sm:leading-[300%] p-[2px] flex sm:pl-5 items-center justify-between gap-15  w-full px-5 pr-5 sm:pr-5  lg:w-1/3 sm:w-full  md:w-[32%] md:p-[14px] leading-[44px] border border-white text-white font-sans text-[13px] xl:text-[16px]  md:text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300">
+                View Projects
+                <ArrowRight className="flex items-center  h-4 w-4  group-hover:transition-transform group-hover:translate-x-1" />
+              </button>
+            </motion.div>
           </div>
-
-          {/* Subtext with Framer Motion - Responsive Width & Size */}
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: 1.2 }}
-            className="w-full max-w-[350px] md:max-w-[500px] lg:max-w-[600px] mb-8 md:mb-12"
-          >
-            <p className="font-inter font-normal text-[14px] sm:text-[16px] md:text-[18px] leading-[22px] md:leading-[28px] text-gray-200 opacity-90">
-              Elixir Homes is one of the leading builders and the most trusted real estate
-              developer in Thrissur, with a proven track record of delivering promises on
-              time to its customers. So here comes a golden chance to be a part of Elixir!
-            </p>
-          </motion.div>
-
-          {/* CTA Button */}
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: 1.4 }}
-          >
-            <button className="group flex items-center gap-4 md:gap-6 px-7 py-3 md:px-9 md:py-3 border border-white text-white font-inter text-xs md:text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300">
-              View Projects
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
-          </motion.div>
-
         </div>
       </div>
       <About />
@@ -255,7 +266,7 @@ export default function Home() {
       <Gallery />
       <Testimonials />
       <Insights />
-     
+    
       <Footer /> 
       <ElixirBackgroundText />
       <ContactInfo />

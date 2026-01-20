@@ -25,23 +25,23 @@ export default function Gallery() {
   return (
     <div className="bg-white w-full py-20 lg:py-24 overflow-hidden">
       {/* Header aligned with max-width and padding */}
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 pt-[120px] pb-[77px]">
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-y-8">
+      <div className="max-w-[1400px] mx-auto px-15 md:px-12 lg:px-0 pt-[120px] pb-[77px]">
+        <div className="w-full h-fit flex justify-between md:mb-20 lg:mb-0">
           {/* Text content on the left */}
-          <div className="lg:max-w-[55%]">
+          <div className="w-full h-auto md:w-[48%] lg:w-[45%] xl:w-[740px]  mb-10 md:mb-0">
             <span className="text-[#FF0000] font-inter text-sm md:text-[18px] leading-[28px] uppercase tracking-widest block mb-4">
               GALLERY
             </span>
             <h2 className="font-cormorant font-semibold text-4xl md:text-[64px] leading-[105%] text-[#1A1A1A] [word-spacing:0.1em] text-left">
               A Glimpse Into Elegance
             </h2>
-            <p className="font-inter font-normal text-base md:text-[18px] leading-[28px] text-[#7B7B7B] mt-6">
-              Step into the world of Elixir Homes through our gallery, where every image reflects our commitment to quality and fine living. From architectural brilliance to crafted interiors, each frame showcases excellence.
+            <p className="font-inter font-light text-[16px] leading-[26px] text-[#7B7B7B] mt-6 max-w-2xl">
+            Step into the world of Elixir Homes through our gallery, where every image reflects our commitment to quality and fine living. From architectural brilliance to crafted interiors, each frame showcases excellence. Explore the spaces where your dream home begins.
             </p>
           </div>
 
           {/* Button on the right, aligned to the end */}
-          <div className="w-full lg:w-auto flex justify-end lg:items-end flex-shrink-0">
+          <div className="hidden relative md:flex items-end justify-end min-h-full md:w-[48%] lg:w-[50%] xl:w-[418.5px] ">
             <motion.button
               whileHover={{ scale: 1.02 }}
               className="h-[60px] bg-[#E31E24] text-white flex items-center justify-center gap-4 transition-colors hover:bg-black px-10 uppercase tracking-widest font-inter text-sm md:text-[16px]"
