@@ -47,38 +47,40 @@ function AnimatedStat({ value, label }: { value: number; label: string }) {
 
 export default function About() {
   return (
-    <div className="mx-auto w-[95%] max-w-[1400px] px-4 sm:w-[90%] lg:w-[88%] py-20 lg:py-32 xl:pt-40 xl:pb-52">
+    <div className="mx-auto w-[95%] max-w-[1400px] px-0 sm:w-[90%] lg:w-[88%] py-20 lg:py-32 xl:pt-40 xl:pb-52">
       <div className="w-full flex justify-between">
         
         {/* Left Content */}
-        <div className="w-full pb-8 md:w-[48%] lg:max-w-2xl xl:max-w-3xl 2xl:max-w-4xl">
-        <motion.span variants={fadeInUp} className="block text-[#FF0000] font-inter text-lg md:text-base uppercase tracking-widest mb-5">
-            About Us
-          </motion.span>
-          
-          <motion.h2 variants={fadeInUp} className=" leading-[1.15] font-cormorant pb-10 font-semibold text-[48px] md:text-[64px]   text-[#1A1A1A] mb-8">
-            Inspired by Vision, Built <br className="hidden md:block" /> with Precision
-          </motion.h2>
-          
-          <motion.div 
-           className="text-gray-500 text-lg leading-7 flex flex-col mt-8 justify-between gap-y-4 lg:flex-row lg:mt-12 lg:gap-x-16 xl:gap-x-24 xl:mt-20 2xl:gap-x-20"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            transition={{ delay: 0.2 }}
-          >
-            <p className="para-text font-inter">
-              Our power comes in the form of our values. We call ourselves “The Ethical Builder” not as a slogan, but as a guarantee. We are not trying to be the largest, we work on being the most trustworthy. Our team proudly delivers what we guarantee, on schedule, with durability.
-            </p>
-            <p className="para-text font-inter  ">
-              Our commitment to precision, sustainability, and attention to detail has shaped us into one of the most trusted ones.
-            </p>
-          </motion.div>
+       {/* Left Content - Updated with perfect alignment */}
+          <div className="w-full md:w-[48%] lg:w-[56%] xl:w-[60%] 2xl:w-[51.7%]">
+            <motion.span variants={fadeInUp} className="block text-[#EE3E25] font-inter text-sm xl:text-[17px] uppercase mb-3 xl:mt-0.5">
+              About Us
+            </motion.span>
+            
+            <motion.h2 variants={fadeInUp} className="font-cormorant tracking-normal  font-semibold text-4xl md:text-5xl lg:text-6xl xl:text-[64px]  text-[#1A1A1A] mt-4 lg:mt-5.75 xl:mt-6">
+              Inspired by Vision Built, with Precision
+            </motion.h2>
+            
+            {/* --- PERFECTLY ALIGNED PARAGRAPH CONTAINER --- */}
+            <motion.div 
+              className="text-[#7B7B7B] flex flex-col mt-8 justify-around   xl:mb-10 gap-y-4 lg:flex-row lg:gap-x-10 lg:mt-7   xl:mt-24.25"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              transition={{ delay: 0.2 }}
+            >
+              <p className=" flex-row font-comfortaa w-1/1 text-pretty md:text-[15px] max-w-full text-[14px] xl:text-[19px]  xl:mt-24  ">
+                Our power comes in the form of our values. We call ourselves  "The Ethical Builder" not as  a slogan, but as a guarantee. We are not trying to be the largest, we work on being the most trustworthy. Our team proudly delivers what we guarantee,  on schedule, <br />with durability.
+              </p>
+              <p className="flex-row w-[54rem] w-1/1 font-comfortaa text-base  text-balance md:text-[15px]  xl:text-[19px]  xl:mb-10  xl:mt-24 lg:mt-0">
+                Our commitment to precision, sustainability, and attention to detail has shaped us into one of the most trusted ones.
+              </p>
+            </motion.div>
           
           {/* Stats - Desktop */}
             <motion.div 
-              className="hidden md:flex justify-between mt-7 lg:mt-7 mb-12 lg:mb-12 xl:mt-14 xl:mb-16 max-w-5xl mx-auto w-full px-4"
+              className="hidden md:flex justify-between mt-7 lg:mt-7 mb-12 lg:mb-12 xl:mt-3 xl:mb-20 md:mt-10 md:mb-12  max-w-5xl mx-auto w-full "
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -95,7 +97,7 @@ export default function About() {
                     <span>{stat.value}</span>
                     <span className="text-3xl md:text-4xl lg:text-5xl">+</span>
                   </div>
-                  <p className="font-inter text-base sm:text-lg text-gray-600 mt-2 md:mt-3 xl:mt-4 leading-relaxed">
+                  <p className="font-inter w-1/2 text-base sm:text-lg text-gray-400 mt-2 xl:text-[17px] xl:text-nowrap md:text-[100%]  md:text-left  md:items-center xl:mt-4 leading-relaxed  ">
                     {stat.label}
                   </p>
                 </div>
@@ -147,7 +149,7 @@ export default function About() {
          
         {/* Right Image */}
         <motion.div 
-          className="hidden relative md:block md:w-[48%] lg:w-[35%] xl:w-[27rem] xl:h-[48rem] xl:right-18 2xl:right-16"
+          className="hidden relative md:block md:w-[46%] md:h-[35rem] lg:w-[35%] xl:w-[27rem] xl:h-[48rem] xl:right-18 2xl:right-16"
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -159,9 +161,9 @@ export default function About() {
             fill
             className="w-full h-auto object-cover"
           />
-         <div className="absolute w-28 h-28 rounded-full flex items-center justify-center bottom-20 -right-4 lg:-bottom-12 lg:-right-10 xl:-bottom-20 xl:-right-14 2xl:-bottom-24">
+         <div className="absolute  w-28 h-28 rounded-full flex items-center justify-center -bottom-10 -right-4 lg:-bottom-12 lg:-right-10 xl:-bottom-20 xl:-right-12 2xl:-bottom-20">
             <SpinningText text="THE ETHICAL BUILDER">
-              <span className="text-[100px] font-bold font-cormorant text-[#EE3E25] leading-none select-none">
+              <span className="lg:text-[130px] xl:text-[130px] text-[110px]   font-bold font-cormorant text-[#EE3E25] leading-none select-none">
                 E
               </span>
             </SpinningText>

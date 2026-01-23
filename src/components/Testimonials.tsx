@@ -1,149 +1,166 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// Placeholder data
 const testimonialData = [
   {
     id: 1,
-    name: "Vijith Nambiar",
-    role: "Film Director",
-    quote: "We own a 3BHK apartment at “The Orchid” of Elixir in Thrissur. I wanted to buy a property in Kuttanellur, Thrissur road. In search of renowned home builders and developers, for affordable yet elegant apartments, most of them showed me expensive properties. Sometimes, locations were not as per my requirement. Later on, my friend suggested Elixir. Because of that precise decision, I bought my dream home which was handed over to us in 2014. Today I feel much happy & satisfied with my decision of taking a flat in Elixir Apartment. It’s the quality of their work, professionalism and delivery on the exact time makes them stand out from other builders.",
+    name: "Joby Payyappilly",
+    role: "Film Director & Musician",
+    quote: " We had many choices when we looked for affordable flats with the required amenities. But we stumbled at Elixir Homes because of its ideal layout and utilities. the wiring duct and drainage system were all just perfect. Moreover, the dealings were super perfect. I didn’t have to worry about a thing because Elixir Homes is an Ethical Builder. ",
     image: "/testimonials.webp" 
-  }
+  },
+  // Add more testimonials as needed
 ];
 
 export default function Testimonials() {
   const [index, setIndex] = useState(0);
   const current = testimonialData[index];
+  const sliderRef = useRef(null);
+  const [isDown, setIsDown] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  // Mouse drag logic for testimonials
+  const handleMouseDown = (e) => {
+    if (!sliderRef.current) return;
+    setIsDown(true);
+    setStartX(e.pageX - sliderRef.current.offsetLeft);
+    setScrollLeft(sliderRef.current.scrollLeft);
+  };
+
+  const handleMouseLeave = () => setIsDown(false);
+  const handleMouseUp = () => setIsDown(false);
+
+  const handleMouseMove = (e) => {
+    if (!isDown || !sliderRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - sliderRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    sliderRef.current.scrollLeft = scrollLeft - walk;
+  };
 
   return (
-    <section className="relative w-full bg-[#1a1a1a] overflow-hidden">
-      
-      {/* --- Header Section --- */}
-      <div className="w-[95%] sm:w-[90%] xl:w-[86.9%] max-w-[87.5rem] mx-auto pt-20 pb-[1.875rem] lg:pt-30 lg:pb-[3.125rem] xl:pt-[12.5rem] 2xl:pt-[12.5rem] xl:pb-[4.8125rem]">
-        <div className="w-full h-fit flex justify-between">
-          
+    <section className="bg-[#1A1A1A] w-full overflow-hidden">
+      <div className="w-[95%] sm:w-[90%] xl:w-[86.9%] max-w-[1400px] mx-auto pt-20 pb-7.5 lg:pt-[11.4%]  lg:pb-7 xl:mt-[8.5%] xl:pb-19.25">
+        <div className="flex flex-col  lg:flex-row justify-between items-start lg:items-end gap-10">
           {/* Left Column: Text */}
-          <div className="w-full h-auto md:w-[48%] lg:w-[45%] xl:w-[46.25rem] mb-10 md:mb-0">
-            <div style={{ opacity: 1 }}>
-              <h5 className="taghead-text text-[#8B8E72] font-inter xl:mt-0.5 uppercase tracking-widest text-sm font-medium">
-                testimonials
-              </h5>
-            </div>
-            <div style={{ opacity: 1 }}>
-              <h2 className="font-cormorant section-title text-white mt-4 xl:w-[80%] lg:mt-[1.4375rem] xl:mt-[1.4375rem] text-[48px] md:text-[64px] leading-[100%] font-semibold">
-                Trusted by Those Who Call It Home
-              </h2>
-            </div>
-            <div style={{ opacity: 1 }}>
-              <p className="para-text font-inter text-[#7B7B7B] mt-8 lg:mt-7 xl:mt-[2.625rem] text-[18px] leading-[28px]">
-                The true measure of our success is the happiness of the families who live in our homes. Their words reflect the trust, comfort, and confidence they’ve placed in Elixir Homes. Read their stories and experiences...
-              </p>
-            </div>
+          <div className="w-full lg:w-[47%] xl:w-full mb-10 lg:mb-0">
+            <h5 className="text-[#8B8E72] font-mono uppercase lg text-[13px] text-lg font-medium mb-4 lg:mb-6">
+              testimonials
+            </h5>
+            <h2 className="text-justify font-cormorant text-white  text-5xl md:text-6xl md:text-left lg:text-[65px] font-semibold mt-4  xl:mt-8 xl:w-full !leading-[1.2]">
+              Trusted by Those Who <br className="hidden lg:hidden xl:block" /> Call  It Home
+            </h2>{/*<br className="hidden lg:block xl:hidden" />*/}
+            <p className="font-inter text-[#7B7B7B] mt-8 mb-5  leading-[1.6]  md:max-w-lg xl:text-[17px] lg:text-[15px] xl:mt-16 xl:text-nowrap lg:text-wrap">
+             The true measure of our success is the happiness of the families who live in our homes.<br className="hidden lg:hidden xl:block" /> Their words reflect the trust, comfort, and confidence they've placed in Elixir Homes.<br className="hidden lg:hidden xl:block" /> Read their stories and experiences...
+            </p>
           </div>
 
-          {/* Right Column: Slider Controls */}
-          <div className="relative hidden lg:flex items-end justify-end min-h-full md:w-[48%] lg:w-[50%] xl:w-[26.15rem]" style={{ opacity: 1 }}>
-            <div className="flex gap-4">
-              <button disabled className="opacity-40 cursor-not-allowed transition hover:opacity-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff80" strokeWidth="0.7" strokeLinecap="round" strokeLinejoin="round" className="size-10">
-                  <path d="m8 5 -7 7 7 7"></path>
-                  <path d="M18 12h-16"></path>
-                </svg>
+          {/* Right Column: Slider Controls - Only visible on lg and above */}
+          <div className="hidden ml-8 lg:flex items-end mb-7 justify-end min-h-full lg:w-[50%] w-[50%] xl:w-[418.5px] ">
+            <div className="flex gap-6">
+              <button 
+                disabled 
+                className="  opacity-40 cursor-not-allowed transition"
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft className="size-10 text-white/50 stroke-[0.7] -mr-3" />
               </button>
-              <button className="opacity-100 transition hover:opacity-60">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="0.7" strokeLinecap="round" strokeLinejoin="round" className="size-10">
-                  <path d="M5 12h16"></path>
-                  <path d="m15 5 7 7-7 7"></path>
-                </svg>
+              <button 
+                className="opacity-100 transition hover:opacity-60"
+                aria-label="Next testimonial"
+              >
+                <ChevronRight className="  size-10 text-white stroke-[0.7]" />
               </button>
             </div>
           </div>
-
         </div>
       </div>
 
-      {/* --- Main Content Split --- */}
-      <div className="max-w-[1512px] mx-auto">
-        <div className="flex flex-col lg:flex-row w-full min-h-[792px]">
-          
-          {/* Left Side: Large Image */}
-          <div className="relative w-full lg:w-[756px] h-[500px] lg:h-[792px] overflow-hidden">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={current.id}
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.8 }}
-                className="relative w-full h-full"
-              >
-                <Image
-                  src={current.image}
-                  alt="Interior"
-                  fill
-                  className="object-cover"
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Right Side: Quote Content - CORRECTED ALIGNMENT */}
-          <div className="w-full lg:w-1/2 flex items-center justify-center bg-[#1a1a1a] px-6 py-12 md:py-20 lg:p-0">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={current.id}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.6 }}
-                // Added max-w to contain text like the image, removed large top margins
-                className="flex flex-col w-full max-w-[500px] lg:max-w-[600px] xl:max-w-[700px]"
-              >
-                
-                {/* Quote Icon */}
-                <div className="relative w-[50px] h-[35px] md:w-[79px] md:h-[58px] mb-8 lg:mb-12">
-                   <Image 
-                      src="/QuoteIcon.webp" 
-                      alt="Quote Icon" 
-                      fill
-                      className="object-contain opacity-80"
-                   />
-                </div>
-
-                {/* Quote Text */}
-                <p className="font-cormorant italic text-white/80 text-[20px] md:text-[26px] xl:text-[30px] leading-relaxed mb-12">
-                  “{current.quote}”
-                </p>
-
-                {/* Profile Section */}
-                <div className="flex items-center gap-4">
-                  <div className="relative w-[50px] h-[50px] md:w-[60px] md:h-[60px] rounded-full overflow-hidden">
-                    <Image 
-                      src="/testimonials.webp" 
-                      alt={current.name} 
-                      fill 
-                      className="object-cover" 
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-white font-medium text-[16px] md:text-[20px] font-poppins">
-                      {current.name}
-                    </p>
-                    <p className="font-inter text-[#8B8E72] text-sm md:text-base uppercase tracking-wider">
-                      {current.role}
-                    </p>
-                  </div>
-                </div>
-
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
+      {/* Main Content Split */}
+      <div className="w-full mx-auto flex flex-col lg:flex-row bg-[#373833] h-auto min-h-[600px] lg:min-h-full xl:mt-16 ">
+        {/* Left Side: Image - Full width on mobile, half on lg */}
+        <div className="relative w-full lg:w-1/2 h-[450px] lg:h-auto overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.8 }}
+              className="relative w-full h-full"
+            >
+              <Image
+                src={current.image}
+                alt="Testimonial Background"
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </motion.div>
+          </AnimatePresence>
         </div>
+
+        {/* Right Side: Quote Content - Full width on mobile, half on lg */}
+        <div className="w-full lg:w-1/2 flex items-start justify-center md:ml-2 py-16 px-6 lg:px-12">
+          <div className="max-w-[400px] w-full">
+            <div className="flex flex-col transition-opacity mt-20 duration-300">
+              {/* Quote Icon */}
+              <div className="relative w-24 h-16 mb-6 opacity-60">
+                <Image 
+                  src="/QuoteIcon.webp" 
+                  alt="Quote Icon" 
+                  fill 
+                  className="object-contain object-left" 
+                  sizes="96px"
+                />
+              </div>
+
+              {/* Quote Text */}
+              <p className="mt-28 font-cormorant italic text-white/80 text-2xl xl:text-[23px] text-balance max-w-[400px]">
+                &ldquo;{current.quote}&rdquo;
+              </p>
+
+              {/* Profile Section */}
+              <div className="flex items-center mt-36">
+                <div className="relative w-16 h-16 rounded-full overflow-hidden border border-white/20 flex-shrink-0">
+                  <Image 
+                    src="/Testimonials.jpg" 
+                    alt={current.name} 
+                    fill 
+                    className="object-cover" 
+                  />
+                </div>
+                <div className="flex flex-col ml-4">
+                  <p className="text-white font-sans text-xl xl:text-[19px] font-mediumbold ">
+                    {current.name}
+                  </p>
+                  <p className="font-sans text-[19px] text-[#CACACA]">
+                    {current.role}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Dots Navigation - Only visible below lg */}
+      <div className="flex justify-center gap-3 mb-8 lg:hidden">
+        {testimonialData.map((_, i) => (
+          <button
+            key={i}
+            aria-label={`Go to testimonial ${i + 1}`}
+            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+              i === index ? 'bg-white scale-125' : 'bg-white/30'
+            }`}
+          />
+        ))}
       </div>
     </section>
   );

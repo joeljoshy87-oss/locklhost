@@ -1,6 +1,7 @@
 // app/page.tsx
 "use client";
 
+
 import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -55,21 +56,22 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProjectsOpen, setIsProjectsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  
+  // FIX: Use a Ref to hold the timeout ID so we can clear it from anywhere
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // --- GSAP Animation for Headline ---
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Split text animation effect
       gsap.from(".headline-word", {
         y: 100,
         opacity: 0,
         duration: 1,
         stagger: 0.1,
         ease: "power4.out",
-        delay: 0.5, // Wait for nav to start
+        delay: 0.5,
       });
     }, headlineRef);
-
     return () => ctx.revert();
   }, []);
 
@@ -78,12 +80,27 @@ export default function Home() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // --- FIX: Unified Hover Logic ---
+  const handleMouseEnter = () => {
+    // If there is a pending close request, cancel it
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setIsProjectsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    // Wait 200ms before closing. If user re-enters (nav or dropdown),
+    // handleMouseEnter will run and cancel this timeout.
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsProjectsOpen(false);
+    }, 200);
+  };
 
   const menuItems = ["Our Story", "Projects", "Gallery", "Testimonial", "Contact"];
 
@@ -97,7 +114,6 @@ export default function Home() {
             alt="Luxury Interior"
             className="absolute inset-0 w-full h-full object-cover opacity-90"
           />
-          {/* Dark Gradient Overlay: Adjusted for better mobile text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent md:from-black/70 md:via-black/40" />
         </div>
 
@@ -107,32 +123,49 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           className={cn(
-            "fixed top-0  w-full z-50 flex items-center justify-between px-4 md:px-[40px] py-6 md:py-6 xl:py-7 xl:pl-9 sm:pt-7 xl:px-[121px]   text-white transition-all duration-300",
-            isScrolled ? "bg-black/80 backdrop-blur-sm shadow-lg" : "bg-transparent",
+            "fixed top-0 w-full xl:h-[100px] lg:h-[80px] z-50 flex items-center justify-between xl:justify-between lg:justify-between px-6 sm:px-8 md:px-9  lg:py-3  py-4 md:py-4 xl:py-2 text-white transition-all duration-300  ",
+            isScrolled ? "bg-[#2C2C2C] backdrop-blur-sm shadow-lg" : "bg-transparent",
           )}
-          onMouseLeave={() => setIsProjectsOpen(false)}
         >
-          <div className="flex items-center gap-10">
+          <div className="flex items-center gap-8 pt-2 xl:pl-[6.5%] lg:pl-[5%]"> 
             {/* Logo */}
-            <div className="flex absolute  flex-col items-center z-50 relative">
-              <img src="/logo/hlogo3.svg" alt="Elixir Homes Logo" className="w-[65px] mx-1  md:w-12 -my-4 xl:w-[72px]  " />
+            <div className=" z-50 lg:ml-4 xl:w-[72px] xl:h-[72px] lg:w-[48px] lg:h-[48px] flex items-center justify-center">
+              <Link href="/">
+                <img src="/logo/hlogo3.svg" alt="Elixir Homes Logo" className="w-full h-full object-cover " />
+              </Link>
             </div>
 
-            {/* Desktop Links  para-text text-white font-[350]! font-inter whitespace-nowrap */}
-            <div className="hidden lg:flex items-center gap-10 font-inter text-sm font-light tracking-wide text-white font-[350]!">
+            {/* Desktop Links */}
+            <div className="hidden lg:flex lg:ml-8 xl:ml-10  items-center xl:gap-12 lg:gap-7 font-poiret lg:justify-center xl:justify-evenly " style={{ fontWeight: 100 }}>
               {menuItems.map((item) => (
                 <div
-                  key={item}
-                  className="relative  pl-5 "
-                  onMouseEnter={() => item === "Projects" && setIsProjectsOpen(true)}
+                  key={item}  
+                  className="relative"
+                  // FIX: Apply the unified handlers here
+                  onMouseEnter={() => item === "Projects" ? handleMouseEnter() : null}
+                  onMouseLeave={() => item === "Projects" ? handleMouseLeave() : null}
                 >
                   <Link
-                    href="#"
-                    className=" absolute flex-nowrap -mr-3 justify-around  hover:text-white transition-colors relative group flex items-center text-white font-inter text-[17px] font-light tracking-wide"
+                    href={item === "Our Story" ? "/about" : item === "Projects" ? "/projects" : item === "Gallery" ? "/gallery" : item === "Testimonial" ? "/testimonials" : "/contact"}
+                    className="relative group flex items-start text-white font-inter -mt-1 text-sm md:text-base lg:text-[15px] lg:text-nowrap font-light tracking-wide hover:text-white transition-colors"
                   >
                     {item}
-                    {item === "Projects" && <span className="ml-1 text-[10px]">▼</span>}
-                    <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all group-hover:w-full"></span>
+                   {item === "Projects" && (
+                    <svg
+                      className={cn(
+                        "ml-1 w-5 h-5 mt-1 transition-transform duration-300",
+                        isProjectsOpen && "rotate-180"
+                      )}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={1.5}
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  )}
+
+                    <span className="absolute -bottom-2  left-0 w-0 h-[1px] bg-white transition-all group-hover:w-full"></span>
                   </Link>
                 </div>
               ))}
@@ -140,30 +173,30 @@ export default function Home() {
           </div>
 
           {/* Desktop Action Buttons */}
-          <div className="hidden md:flex  items-start gap-4 justify-around mr-8 -mt-1   ">
-            <button className="px-0  py-3.5 lg:py-0 lg:h-10 xl:h-15 xl:p-6 xl:pl-7 xl:pr-7   xl:px-6 2xl:h-13 border border-white/80 text-white text-[13px] font-sans 2xl:text-[sm] flex items-center gap-3 hover:bg-white/10 transition whitespace-nowrap">
+          <div className="hidden md:flex items-center  gap-4  xl:justify-between mx-5 xl:mx-[5.2%]  lg:ml-9">
+            <button className=" px-9 py-4 lg:px-5 lg:py-2 xl:px-9 xl:py-4 justify-center border border-white/80 text-white text-xs md:text-sm font-inter flex items-center gap-2 hover:bg-white/10 transition-colors text-nowrap ">
               Ring us Now 
-              <img 
-    src="https://elixir-live-woxdevops.vercel.app/call.svg" 
-    alt="WhatsApp" 
-    className="w-4 h-4 object-contain" 
-  />
+              <img src="https://elixir-live-woxdevops.vercel.app/call.svg" alt="Call" className="w-3 h-3 md:w-4 md:h-4 object-contain" />
             </button>
-            <button className="px-0 py-3.5 lg:py-0  lg:h-10 xl:h-11 xl:px-6 xl:p-6 xl:pl-7 xl:pr-7 2xl:h-13 border border-white/80 text-white text-[13px] font-sans 2xl:text-sm flex items-center gap-3 hover:bg-white/10 transition whitespace-nowrap group">
-  Send a Message 
-  <img 
-    src="https://elixir-live-woxdevops.vercel.app/whatsapp.svg" 
-    alt="WhatsApp" 
-    className="w-4 h-4 object-contain" 
-  />
-</button>
-            
+            <button className="px-6 py-4 lg:px-5 lg:py-2 xl:px-9 xl:py-4   justify-center border border-white/80 text-white text-xs md:text-sm font-inter flex items-center gap-2 hover:bg-white/10 transition-colors text-nowrap  ">
+              Send a Message 
+              <img src="https://elixir-live-woxdevops.vercel.app/whatsapp.svg" alt="WhatsApp" className="w-3 h-3 md:w-4 md:h-4 object-contain" />
+            </button>
           </div>
 
           {/* Mobile Menu Toggle */}
-          <div className="lg:hidden z-50">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white p-2">
-              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          <div className="lg:hidden flex items-center gap-4">
+            <div className="md:hidden"> 
+              <button className="p-2 border border-white/80 rounded-sm hover:bg-white/10 transition-colors">
+                <img src="https://elixir-live-woxdevops.vercel.app/call.svg" alt="Call" className="w-4 h-4 object-contain" />
+              </button>
+            </div>
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)} 
+              className="text-white p-2 hover:bg-white/10 rounded-sm transition-colors"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </motion.nav>
@@ -176,8 +209,10 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="fixed top-0 left-0 w-full z-40"
-              onMouseLeave={() => setIsProjectsOpen(false)}
+              className="fixed top-0 justify-start left-20 w-2/1 xl:w-full xl:left-0 z-40"
+              // FIX: Apply the exact same unified handlers to the dropdown
+              onMouseEnter={handleMouseEnter} 
+              onMouseLeave={handleMouseLeave}
             >
               <ProjectsDropdown />
             </motion.div>
@@ -217,45 +252,46 @@ export default function Home() {
           )}
         </AnimatePresence>
 
-        {/* --- Hero Content - CONVERTED TO GRID SYSTEM --- */}
-        <div className="absolute bottom-10 z-30 -mx-1   min-h-fit max-w-[1400px] xl:mx-[10px] w-full px-6 md:px-8 lg:px-24">
-          <div className="grid grid-rows-[auto_auto_auto]  sm:px-4 sm:-mr-2 ml-1  gap-6 ">
-            {/* Headline with GSAP Target - Responsive Font Sizes */}
-            <div ref={headlineRef} className=" relative py-1 -mb-2 w-full overflow-hidden ">
-              <h1 className="   flex-wrap leading-[49px] sm:leading-[50px]  font-cormorant justify-between  headline-word xl:mb-[16px] xl:mt-[16px] xl:leading-[100%] xl:text-[70px] font-semibold text-[42px] sm:text-[42px] md:text-[58px] leading-[100%]  md:leading-[100%] text-white  ">
-              Crafting  Spaces  <span className="xl:block xl:mt-5"> Beyond 
-            
-              Ordinary
-                </span>
+        {/* --- Hero Content --- */}
+        <div className="absolute  bottom-10 z-30 w-full px-4 sm:px-6 md:px-8 lg:px-[5%] xl:mx-20 max-w-full mx-auto">
+          <div className="flex flex-col w-[90%] gap-6">
+            <div ref={headlineRef} className="relative py-1 -mb-1 w-full overflow-visible">
+              <h1 className="font-cormorant font-semibold text-white text-[36px] sm:text-[42px] md:text-[52px] lg:text-[68px] xl:text-[70px] leading-[1.1] sm:leading-[1.05] md:leading-[0.95] xl:leading-[0.9]">
+                Crafting Spaces <span className="block sm:inline lg:block lg:mt-5 xl:block xl:mt-5">Beyond Ordinary</span>
               </h1>
             </div>
 
-            {/* Subtext with Framer Motion - Responsive Width & Size */}
             <motion.div
               variants={fadeUp}
               initial="hidden"
               animate="visible"
               transition={{ delay: 1.2 }}
-              className="w-full max-w-auto  lg:max-w-[600px] lg:max-w-[600px]  justify-start"
+              className="w-full lg:w-[660px] xl:max-w-[750px]"
             >
-              <p className=" sm:text-justify xl:text-left justify-content xl:mb-4 sm:-mb-1   md:mb-1 sm:line-clamp-3 md:line-clamp-3  xl:line-clamp-none leading-[153%] xl:text-[20px]   font-inter tracking-wide text-[15px]  md:text-[15px]   md:leading-[23px] sm:tracking-[0px]  text-white opacity-80 text-left ">
+              <p className=" font-comfortaa text-nowrap mt-5 sm:text-[14px] md:text-[2px] lg:text-[15px] lg:mt-3 xl:text-[19px]  xl:leading-[1.4] overflow-visible  mb-2 sm:leading-[1.6]  tracking-wide text-white opacity-80 " style={{ fontFeatureSettings: '"liga" 1, "kern" 1', // Ligatures and kerning
+  fontVariant: 'normal', }}>
                 Elixir Homes is one of the leading builders and the most trusted real estate
-                developer in Thrissur, with a proven track record of delivering promises on
-                time to its customers. So here comes a golden chance to be a part of Elixir!
+                developer in <br />Thrissur, with a proven track record of delivering promises on
+                time to its customers. So <br className="hidden xl:block 3xl:block 2xl:hidden" /> here <br className="hidden lg:block xl:hidden 2xl:hidden" />comes a golden chance to be a part of Elixir!
               </p>
             </motion.div>
 
-            {/* CTA Button */}
             <motion.div
               variants={fadeUp}
               initial="hidden"
               animate="visible"
               transition={{ delay: 1.4 }}
-              className="flex flex-nowrap mb-[40px] md:mb-10   sm:mb-11  "
+              className="w-full sm:w-auto"
             >
-              <button className="md:justify-around md:pl-[4%] md:pr-[4%] xl:justify-center xl:w-[28%]  xl:gap-5 xl:p-4  sm:leading-[300%] p-[2px] flex sm:pl-5 items-center justify-between gap-15  w-full px-5 pr-5 sm:pr-5  lg:w-1/3 sm:w-full  md:w-[32%] md:p-[14px] leading-[44px] border border-white text-white font-sans text-[13px] xl:text-[16px]  md:text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300">
-                View Projects
-                <ArrowRight className="flex items-center  h-4 w-4  group-hover:transition-transform group-hover:translate-x-1" />
+              <button 
+                className="flex items-center justify-evenly w-full sm:w-[320px] md:w-[1/2] xl:w-[325px] px-8 py-4 
+                
+                lg:mb-10 lg:text-[14px] lg:h-[47px] lg:w-[300px] lg:px-12
+                
+                xl:mb-10 border border-white text-white font-inter text-[13px] sm:text-[14px] md:text-[15px]  xl:text-[16px] uppercase font-light hover:bg-white hover:text-black transition-all duration-300 group"
+              >
+                <span>VIEW PROJECTS</span>
+                <ArrowRight className="h-4 w-4   transition-transform group-hover:translate-x-2" />
               </button>
             </motion.div>
           </div>
@@ -266,7 +302,6 @@ export default function Home() {
       <Gallery />
       <Testimonials />
       <Insights />
-    
       <Footer /> 
       <ElixirBackgroundText />
       <ContactInfo />

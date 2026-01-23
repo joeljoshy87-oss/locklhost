@@ -21,6 +21,7 @@ const config: Config = {
       fontFamily: {
         inter: ["var(--font-inter)", "sans-serif"],
         cormorant: ["var(--font-cormorant)", "serif"],
+        poiret: ["var(--font-poiret)", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

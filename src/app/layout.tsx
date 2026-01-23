@@ -1,7 +1,8 @@
 // app/layout.tsx
 import type { Metadata } from 'next';
-import { Inter, Cormorant_Garamond } from 'next/font/google';
+import { Inter, Cormorant_Garamond, Poiret_One ,Comfortaa} from 'next/font/google';
 import './globals.css';
+import { SmoothScroll } from '@/components/SmoothScroll';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -12,7 +13,19 @@ const inter = Inter({
 const cormorant = Cormorant_Garamond({ 
   subsets: ['latin'],
   variable: '--font-cormorant',
-  weight: ["300", "400", "500", "600"] // As per your spec (SemiBold is 600)
+  weight: ["300", "400", "500", "600"]
+});
+
+const poiret = Poiret_One({
+  subsets: ['latin'],
+  weight: '400', // Poiret One only supports 400
+  variable: '--font-poiret', // creates CSS variable
+});
+const comfortaa = Comfortaa({
+  subsets: ['latin'],
+  // Comfortaa supports weights: 300, 400, 500, 600, 700
+  weight: ['300', '400', '500', '600', '700'], // specify what you need
+  variable: '--font-comfortaa',
 });
 
 export const metadata: Metadata = {
@@ -20,18 +33,12 @@ export const metadata: Metadata = {
   description: 'Crafting Spaces Beyond Ordinary',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${cormorant.variable} antialiased`}>
-        {children}
+      <body className={`${inter.variable} ${cormorant.variable} ${poiret.variable} ${comfortaa.variable} antialiased`}>
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );
 }
-
-    

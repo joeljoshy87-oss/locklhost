@@ -50,7 +50,7 @@ const ElixirBackgroundText = () => {
          * - text-[22vw] prevents the text from being too tall on narrow screens
          * - leading-[0.7] removes the massive default top/bottom gaps found in display fonts
          */
-        className="font-cormorant font-bold text-[22vw] md:text-[423.16px] leading-[0.7] md:leading-[1] text-[#171717] uppercase tracking-tighter md:tracking-normal text-center whitespace-nowrap"
+        className="font-cormorant font-bold text-[22vw] md:text-[1/2x] leading-[0.7] md:leading-[1] text-[#171717] uppercase tracking-tighter md:tracking-normal text-center whitespace-nowrap"
       >
         ELIXIR
       </h1>

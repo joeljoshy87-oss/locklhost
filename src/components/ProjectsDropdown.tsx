@@ -48,11 +48,11 @@ const itemVariants = {
   hidden: { opacity: 0, y: -10 },
   visible: { opacity: 1, y: 0 },
 };
-
+ //lg:pt-[120px]
 export const ProjectsDropdown = () => {
   return (
-    <div className="bg-[#1C1C1C] text-white w-full pt-[120px] pb-12 shadow-lg border-b border-white/10">
-      <div className="max-w-[1400px] mx-auto px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+    <div className="bg-[#1C1C1C] max-w-full items-center text-white w-full xl:mt-[95px] pb-3 shadow-lg border-b border-white/10 ">
+      <div className=" mx-auto px-36 grid grid-cols-1 mb-6  md:grid-cols-2 lg:grid-cols-3 gap-x-5  gap-y-0">
         {projects.map((project, index) => (
           <motion.div
             key={project.id}
@@ -64,8 +64,8 @@ export const ProjectsDropdown = () => {
             className="group"
           >
             <Link href="#">
-              <div className="flex items-start gap-5">
-                <div className="relative w-[150px] h-[100px] overflow-hidden flex-shrink-0">
+              <div className="flex gap-5 mt-10 ">
+                <div className="relative w-[120px] h-[90px] mt-7 overflow-hidden flex-shrink-0">
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -74,7 +74,7 @@ export const ProjectsDropdown = () => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center mt-6 gap-3">
                     <h3 className="font-cormorant text-xl font-medium text-white transition-colors group-hover:text-[#FFD700]">
                       {project.title}
                     </h3>
@@ -82,10 +82,10 @@ export const ProjectsDropdown = () => {
                       <ArrowRight size={14} className="text-white transition-colors group-hover:text-black" />
                     </div>
                   </div>
-                  <span className={`text-sm font-medium mt-1 ${project.status.startsWith('Ongoing') ? 'text-green-400' : 'text-red-400'}`}>
+                  <span className={`text-sm  font-medium mt-1 xl:mt-5 ${project.status.startsWith('Ongoing') ? 'text-green-400' : 'text-red-400'}`}>
                     {project.status}
                   </span>
-                  <p className="text-xs text-gray-400 mt-2 line-clamp-2">
+                  <p className="text-xs text-gray-400 mt-1 line-clamp-2">
                     {project.location}
                   </p>
                 </div>
