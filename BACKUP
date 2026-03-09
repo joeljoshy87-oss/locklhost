@@ -1,0 +1,47 @@
+<div className="w-full lg:w-1/2 lg:items-center flex items-start justify-start xl:justify-center md:ml-0 md:w-full md:py-0 py-16 px-6 lg:px-12 mb-14">
+          <div className="max-w-[400px] w-full">
+            <div className="flex flex-col transition-opacity mt-20 md:mt-7 duration-300">
+              {/* Quote Icon */}
+              <div className="relative w-24 h-16 mb-6 opacity-99 md:w-[79] md:h-[58]">
+                <Image 
+                  src="/QuoteIcon.webp" 
+                  alt="Quote Icon" 
+                  fill 
+                  className="object-contain object-left" 
+                  sizes="96px"
+                />
+              </div>
+
+              {/* Quote Text */}
+              <p className="mt-28 md:mt-3 md:text-[min(10vw,23.1px)]  md:w-auto md:leading-[145%] max-w-100 font-cormorantUpright italic text-white/80 text-2xl xl:text-[23px]  max-w-[400px]">
+                &ldquo;{current.quote}&rdquo;
+              </p>
+
+              {/* Profile Section */}
+              <div className="flex items-center mt-36 
+              md:mt-9
+            
+              ">
+                <div className="relative w-16 h-16 
+                md:w-[50px] md:h-[50px]
+                rounded-full overflow-hidden border border-white/20 flex-shrink-0">
+                  <Image 
+                    src="/Testimonials.jpg" 
+                    alt={current.name} 
+                    fill 
+                    className="object-cover" 
+                  />
+                </div>
+                <div className="flex flex-col ml-4">
+                  <p className="text-white font-sans text-xl xl:text-[19px] font-mediumbold ">
+                    {current.name}
+                  </p>
+                  <p className="font-comfortaa     text-[19px] text-[#CACACA]
+                  md:text-sm">
+                    {current.role}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
