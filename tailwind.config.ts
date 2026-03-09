@@ -20,8 +20,10 @@ const config: Config = {
     extend: {
       fontFamily: {
         inter: ["var(--font-inter)", "sans-serif"],
+        
         cormorant: ["var(--font-cormorant)", "serif"],
         poiret: ["var(--font-poiret)", "sans-serif"],
+        cormorantUpright: ['var(--font-cormorant-upright)', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",

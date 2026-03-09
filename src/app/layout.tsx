@@ -1,6 +1,6 @@
 // app/layout.tsx
 import type { Metadata } from 'next';
-import { Inter, Cormorant_Garamond, Poiret_One ,Comfortaa} from 'next/font/google';
+import { Inter, Cormorant_Garamond,Cormorant_Upright, Poiret_One ,Comfortaa} from 'next/font/google';
 import './globals.css';
 import { SmoothScroll } from '@/components/SmoothScroll';
 
@@ -13,9 +13,14 @@ const inter = Inter({
 const cormorant = Cormorant_Garamond({ 
   subsets: ['latin'],
   variable: '--font-cormorant',
-  weight: ["300", "400", "500", "600"]
+  weight: ["300", "400", "500", "600"],
+  style: ['italic', 'normal'],
 });
-
+const cormorantUpright = Cormorant_Upright({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-cormorant-upright',
+});
 const poiret = Poiret_One({
   subsets: ['latin'],
   weight: '400', // Poiret One only supports 400
@@ -36,7 +41,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${cormorant.variable} ${poiret.variable} ${comfortaa.variable} antialiased`}>
+      <body className={`${inter.variable} ${cormorant.variable} ${poiret.variable} ${comfortaa.variable} ${cormorantUpright.variable} antialiased`}>
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

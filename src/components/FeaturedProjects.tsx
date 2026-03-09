@@ -71,13 +71,8 @@ export default function FeaturedProjects() {
       setIsLargeScreen(window.matchMedia("(min-width: 1024px)").matches);
     };
 
-    // Initial check
     checkScreenSize();
-
-    // Add event listener for window resize
     window.addEventListener('resize', checkScreenSize);
-
-    // Cleanup function to remove the event listener
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
@@ -94,15 +89,17 @@ export default function FeaturedProjects() {
 
         ScrollTrigger.create({
           trigger: slider.current,
-          start: "top 14%",
-          end: "+=3000",
+          // CHANGE 1: Anchor top of slider to top of viewport
+          start: "top top", 
+          // CHANGE 2: Define duration logic (adjust 3000 to preference)
+          end: "+=3000", 
           pin: true,
-          snap: 1 / (panels.length - 1),
+          // anticipatePin helps reduce flicker on some browsers
+          anticipatePin: 1, 
           onUpdate: (self) => {
             const newIndex = Math.round(self.progress * (panels.length - 1));
 
             if (newIndex !== currentIndex) {
-              // FADE OUT the old one
               gsap.to(panels[currentIndex], {
                 opacity: 0,
                 visibility: "hidden",
@@ -111,7 +108,6 @@ export default function FeaturedProjects() {
                 ease: "power2.inOut"
               });
 
-              // FADE IN the new one
               gsap.to(panels[newIndex], {
                 opacity: 1,
                 visibility: "visible",
@@ -138,28 +134,26 @@ export default function FeaturedProjects() {
   return (
     <div ref={component} className="bg-[#1B1A1F] text-white w-full">
       {/* Header Section */}
-      <div className="w-full sm:w-[90%] xl:w-[1251px] lg:h-[563px] 2xl:w-[74%] max-w-full mx-auto pt-20  pb-12 md:pt-24 md:pb-14 lg:pt-20 xl:pt-40  lg:pb-20">
-        <div className="flex flex-col md:flex-row justify-between lg:justify-start items-start md:items-end gap-12 lg:gap-20 xl:mb-5">
-          {/* --- Left Side: Text Content --- */}
+      <div className="w-full  max-md:w-[96%] max-lg:w-[90%] xl:w-full lg:h-[563px] 2xl:w-[74%] max-w-full mx-auto pt-20 mb-[4%] md:pt-[10.3%] md:pb-14 lg:pt-20 xl:pt-40 lg:pb-20">
+        <div className="flex flex-col md:flex-row justify-between lg:justify-start items-start md:items-end gap-12 lg:gap-20 xl:mb-5 lg:pl-14 xl:pl-[1.5%]   ">
           <div className="max-w-full h-full">
-            <span className="font-inter text-[15px] uppercase xl:text-[18px] lg:text-[16px] text-[#8B8E72] mb-6 block font-medium">
+            <span className="font-mono text-[15px] uppercase xl:text-[18px] lg:text-[16px] md:text-[15px] text-[#8B8E72] mb-6 md:mb-4  block font-medium">
               FEATURED PROJECTS
             </span>
-            <h2 className="  lg:leading-[1.2] lg:max-h-full lg:w-full xl:w-full xl:h-full font-cormorant mb-8 font-semibold text-5xl md:text-6xl   xl:text-[64px] lg:text-[65px]  text-white ">
-              Shaping <br className="hidden lg:block  " /> Skylines with <br className="hidden lg:block  " /> Distinction
+            <h2 className="lg:leading-[1.2] lg:max-h-full lg:w-full xl:w-full xl:h-full font-cormorant mb-8 font-semibold text-5xl md:text-[57.8px]   md:leading-[114.5%] xl:text-[64px] lg:text-[65px] text-white tracking-tight ">
+              Shaping <br className="hidden md:block lg:block xl:hidden" /> Skylines with <br className="hidden md:block lg:block" /> Distinction
             </h2>
-            <p className=" w-[415px] text-gray-500 font-comfortaa text-base text-pretty md:text-[16px] xl:text-[18px] lg:text-[16px] -tracking-wide leading-[150%] ">
-              Our portfolio features elegant completed and ongoing  projects across Thrissur, driven <br className="hidden lg:hidden xl:block  " />by our values of trust and innovation. From smart 2 BHK homes to luxurious 5 BHK <br  className="hidden lg:hidden xl:block "/>residences, every Elixir home is thoughtfully crafted for modern lifestyles.
-            </p>
+           <p className="font-inter text-[#7B7B7B] whitespace-nowrap mt-8 lg:mt-7 xl:mt-10.5 md:text-[15.6px] lg:text-[15px] xl:text-[17px] leading-[1.6] max-w-2xl lg:max-w-[500px] xl:max-w-[660px] max-md:text-[clamp(13px,3vw,14px)] ">
+      Our portfolio features elegant completed and ongoing <br className="hidden xl:hidden md:block  lg:block max-md:block" />projects across Thrissur, driven <br className="hidden xl:block md:hidden lg:hidden" />by our  <br className="hidden xl:hidden md:block  lg:hidden" />values of trust and<br className="hidden xl:hidden md:hidden   lg:block max-md:block" /> innovation. From smart 2 <br className="hidden xl:hidden md:block  lg:hidden" /> BHK<br className="hidden xl:hidden md:hidden  lg:hidden" /> homes to luxurious 5 BHK <br className="hidden xl:block md:hidden  lg:block max-md:block" />residences, <br className="hidden xl:hidden md:block  lg:hidden" /> every Elixir home is thoughtfully crafted for<br className="hidden xl:hidden md:block  lg:block  max-md:block" /> modern lifestyles.
+    </p>
           </div>
 
-          {/* --- Right Side: Button --- */}
-          <div className="w-full md:w-auto flex  items-center lg:ml-[16%] mb-0 lg:mt-0 md:mt-0  ">
+          <div className="w-full md:w-auto flex items-center lg:ml-[23%] mb-0 lg:mt-0 md:mt-0">
             <motion.button
               whileHover={{ scale: 1.05 }}
-              className="bg-[#E31E24] text-white justify-stretch w-full md:w-[250px] lg:text-[15px] lg:w-full gap-10  py-4 lg:py-[14px] items-center  text-nowrap  px-8 lg:px-[40px]    flex flex-row text-sm uppercase font-inter hover:bg-[#d0181d] transition-colors"
+              className="bg-[#E31E24] text-white justify-stretch w-full md:w-[250px] lg:text-[15px] lg:w-full gap-10 py-4 lg:py-[14px] items-center text-nowrap px-8 lg:px-[40px] flex flex-row text-sm uppercase font-inter hover:bg-[#d0181d] transition-colors"
             >
-              View All Projects <ArrowRight size={23} />
+              View All Projects <ArrowRight size={20} />
             </motion.button>
           </div>
         </div>
@@ -168,7 +162,9 @@ export default function FeaturedProjects() {
       {/* Desktop Slider Section - Only visible on large screens */}
       <div 
         ref={slider} 
-        className="hidden lg:block relative w-full min-h-[35rem] sm:min-h-[50rem] md:min-h-[37.5rem] lg:min-h-[43.75rem] 2xl:min-h-[53rem] overflow-hidden"
+        // CHANGE 3: Use h-screen (or h-[100dvh]) instead of min-h in rem.
+        // This forces the pinned container to fill the window exactly.
+        className="hidden lg:block relative w-full h-screen overflow-hidden"
       >
         {projects.map((project, index) => (
           <div
@@ -184,36 +180,39 @@ export default function FeaturedProjects() {
                 className="object-cover"
                 priority={index === 0}
               />
-              <div className="absolute mb-5 inset-0 bg-black/60 md:bg-black/50" />
+              <div className="absolute mb-5 inset-0 bg-black/60 md:bg-black/50 h-full" />
             </div>
 
             {/* Content Overlay */}
-            <div className="relative z-10 w-[95%] sm:w-[90%] xl:w-[86.9%] max-w-[1400px] mx-auto mt-[10%] sm:mt-[15%] md:mt-[20%] lg:mt-[51%] h-full flex flex-col justify-start  ">
-              <div className="mb-0">
-                <h3 className="font-cormorant  font-semibold text-5xl md:text-7xl lg:text-[64px] xl:text-[64px] xl:mt-3 text-white">
+            {/* CHANGE 4: Removed mt-[X%] and used 'flex justify-center' (via parent) and proper spacing 
+                to ensure content is centered vertically regardless of screen height. */}
+            <div className="relative lg:mb-10 xl:mb-24  z-10 w-[95%] sm:w-[90%] xl:w-[86.9%] max-w-[1400px] mx-auto h-full flex flex-col justify-end items-start lg:justify-end">
+              
+              <div className="relative bottom-[21%]  mb-0  items-start ">
+                <h3 className="font-cormorant text-left align-top  items-start font-semibold text-5xl md:text-7xl lg:text-[64px] xl:text-[64px] xl:mt-3 text-white">
                   {project.title}
                 </h3>
               </div>
 
-              <div className="flex w-full justify-around lg:justify-start items-center border-y-[0.5px] border-white/50 mb-8 md:mb-10 lg:mb-10 h-12 md:h-14 mt-4 lg:mt-2  xl:mt-5 lg:h-[61px] lg:px-0 px-2.5">
+              <div className="bottom-[21%] relative flex w-full  justify-around lg:justify-start items-center border-y-[0.5px] border-white/50 mb-8 md:mb-10 lg:mb-10 h-12 md:h-14 mt-4 lg:mt-2 xl:mt-5 lg:h-[61px] lg:px-0 px-2.5">
                 <div className="w-1/2 flex justify-items-start items-center">
-                  <span className="font-comfortaa lg:text-[15px] xl:text-[18px] pl-3 text-sm md:text-base text-white/90  tracking-wide">
+                  <span className="font-comfortaa lg:text-[15px] xl:text-[18px] pl-3 text-sm md:text-base text-white/90 tracking-wide">
                     {project.status}
                   </span>
                 </div>
                 <div className="w-1/2 flex justify-between items-center">
-                  <span className="font-comfortaa  xl:text-[18px] text-sm md:text-[15px] lg:text-[15px] text-white/70 lg:-ml-36 2xl:-ml-32 whitespace-nowrap">
+                  <span className="font-comfortaa xl:text-[18px] text-sm md:text-[15px] lg:text-[15px] text-white/70 lg:-ml-36 2xl:-ml-32 whitespace-nowrap">
                     {project.location}
                   </span>
-                  <span className=" w-1/2 font-inter lg:ml-4  xl:text-[18px] text-sm lg:text-[15px] lg:text-right xl:text-right md:text-base text-white/90 tabular-nums">
+                  <span className="w-1/2 font-inter lg:ml-4 xl:text-[18px] text-sm lg:text-[15px] lg:text-right xl:text-right md:text-base text-white/90 tabular-nums">
                     {String(index + 1).padStart(2, '0')} of {String(projects.length).padStart(2, '0')}
                   </span>
                 </div>
               </div>
 
-              <div className="flex mt-[14%] flex-col w-full xl:w-full  md:flex-col lg:flex-row justify-between items-center gap-10 lg:gap-0">
-                <div className=" lg:max-w-3xl xl:w-[37.5%] ">
-                  <p className="font-comfortaa xl:leading-snug  xl:text-[18px] text-sm md:text-[15px] lg:flex-row    text-gray-300 mb-8">
+              <div className="flex mt-[2%]  flex-col w-full xl:w-full md:flex-col lg:flex-row justify-between items-center gap-10 lg:gap-0 ">
+                <div className="lg:max-w-3xl xl:w-[37.5%]">
+                  <p className="font-comfortaa xl:leading-snug xl:text-[18px] text-sm md:text-[15px] lg:flex-row text-gray-300 mb-8">
                     {project.description}
                   </p>
                   <button className="flex items-end gap-2 group text-white uppercase text-sm tracking-[0.2em] border-b border-white/30 pb-2 hover:border-white transition-all">
@@ -221,15 +220,15 @@ export default function FeaturedProjects() {
                   </button>
                 </div>
 
-                <div className="flex  flex-row place-items-end justify-end gap-2 md:gap-3 xl:gap-5  lg:gap-1  xl:-mb-16  scrollbar-hide">
+                <div className="flex  flex-row place-items-end justify-end gap-2 md:gap-3 xl:gap-5 lg:gap-1 xl:-mb-16 scrollbar-hide">
                   {project.thumbnails.map((thumb, tIndex) => {
                     const isActive = thumb === project.image;
                     return (
                       <div key={tIndex} className="relative group shrink-0 cursor-pointer">
                         <div 
                           className={`
-                            relative w-20 h-14 md:w-32 md:h-20 xl:w-[100px] xl:h-[60px]
- overflow-hidden transition-all duration-300
+                            relative w-20 h-14 md:w-28 md:h-19 xl:w-[100px] xl:h-[60px] 
+                            overflow-hidden transition-all duration-300
                             ${isActive 
                               ? 'opacity-100 border-2 border-white' 
                               : 'opacity-50 grayscale hover:grayscale-0 hover:opacity-100'
@@ -252,6 +251,7 @@ export default function FeaturedProjects() {
       </div>
 
       {/* Mobile/Tablet Project View - Only visible on small screens */}
+      {/* Kept largely the same, but ensure images are closed properly */}
       <div className="relative lg:hidden w-full min-h-[840px]">
         <div className="absolute inset-0 z-20 bg-black/60"></div>
         <div className="absolute z-10 inset-0">
@@ -289,10 +289,10 @@ export default function FeaturedProjects() {
             </div>
           </div>
         </div>
-        <div className="w-full flex absolute bottom-12 z-20">
+        <div className="w-full flex absolute bottom-[8.7%] z-20">
           <div className="w-[95%] sm:w-[90%] mx-auto">
             <p className="font-inter text-white/80 text-sm mb-3">0{currentProjectIndex + 1} of 0{projects.length}</p>
-            <h2 className="font-cormorant font-semibold text-3xl md:text-4xl text-white">{currentProject.title}</h2>
+            <h2 className="font-cormorant font-semibold text-3xl md:text-6xl text-white">{currentProject.title}</h2>
             <div className="flex flex-col w-full border-t-[0.5px] border-white/50 mt-6 pt-3">
               <div className="flex justify-between">
                 <p className="font-inter text-white/90 text-sm">{currentProject.status}</p>
@@ -303,7 +303,7 @@ export default function FeaturedProjects() {
               {currentProject.description}
             </p>
             <a href={`/${currentProject.title.toLowerCase().replace(/\s+/g, '-')}`}>
-              <button className="border-b border-white w-full sm:w-fit flex text-white items-center justify-between gap-7.75 px-5 py-2.5">
+              <button className="border-b border-white w-full sm:w-fit flex text-white items-center justify-between gap-7 px-5 py-2.5 ">
                 <p className="font-inter font-normal uppercase text-sm tracking-widest">VIEW PROJECTS</p>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="size-6.25">
                   <path d="M7 7h10v10"></path>

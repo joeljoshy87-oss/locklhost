@@ -12,13 +12,10 @@ const ElixirBackgroundText = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const isMobile = window.innerWidth < 768;
-      
       gsap.fromTo(textRef.current, 
-        // Reduced movement range for mobile to prevent "dead space" 
-        { y: isMobile ? '-2%' : '-15%' }, 
+        { y: '-5%' }, 
         {
-          y: isMobile ? '2%' : '15%',
+          y: '5%',
           ease: 'none',
           scrollTrigger: {
             trigger: containerRef.current,
@@ -36,24 +33,18 @@ const ElixirBackgroundText = () => {
   return (
     <div 
       ref={containerRef}
-      /**
-       * Fixed the "Big Space":
-       * - py-6 on mobile vs py-16 on desktop reduces vertical padding
-       * - min-h-fit ensures the container only takes as much space as the text needs
-       */
-      className="w-full overflow-hidden select-none pointer-events-none flex justify-center items-center bg-black py-6 md:py-16 min-h-fit"
+      /* 1. Added negative margin-bottom and responsive widths to match target */
+      className="relative overflow-hidden -mb-16 mx-auto border-t border-white/30 sm:border-t-0 select-none pointer-events-none bg-black"
     >
-      <h1 
-        ref={textRef}
-        /**
-         * Mobile Optimization:
-         * - text-[22vw] prevents the text from being too tall on narrow screens
-         * - leading-[0.7] removes the massive default top/bottom gaps found in display fonts
-         */
-        className="font-cormorant font-bold text-[22vw] md:text-[1/2x] leading-[0.7] md:leading-[1] text-[#171717] uppercase tracking-tighter md:tracking-normal text-center whitespace-nowrap"
-      >
-        ELIXIR
-      </h1>
+      <div className="text-center mt-5">
+        <h2 
+          ref={textRef}
+          /* 2. Exact pixel-based font sizes from your target HTML */
+          className="text-[110px] sm:text-[220px] lg:text-[290px] xl:text-[395px] 2xl:text-[430px] font-bold font-cormorant tracking-wide leading-none text-white/10 uppercase"
+        >
+          ELIXIR
+        </h2>
+      </div>
     </div>
   );
 };

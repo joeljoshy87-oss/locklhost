@@ -62,22 +62,26 @@ export default function About() {
             </motion.h2>
             
             {/* --- PERFECTLY ALIGNED PARAGRAPH CONTAINER --- */}
-            <motion.div 
-              className="text-[#7B7B7B] flex flex-col mt-8 justify-around   xl:mb-10 gap-y-4 lg:flex-row lg:gap-x-10 lg:mt-7   xl:mt-24.25"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              transition={{ delay: 0.2 }}
-            >
-              <p className=" flex-row font-comfortaa w-1/1 text-pretty md:text-[15px] max-w-full text-[14px] xl:text-[19px]  xl:mt-24  ">
-                Our power comes in the form of our values. We call ourselves  "The Ethical Builder" not as  a slogan, but as a guarantee. We are not trying to be the largest, we work on being the most trustworthy. Our team proudly delivers what we guarantee,  on schedule, <br />with durability.
-              </p>
-              <p className="flex-row w-[54rem] w-1/1 font-comfortaa text-base  text-balance md:text-[15px]  xl:text-[19px]  xl:mb-10  xl:mt-24 lg:mt-0">
-                Our commitment to precision, sustainability, and attention to detail has shaped us into one of the most trusted ones.
-              </p>
-            </motion.div>
-          
+           {/* --- UPDATED PARAGRAPH CONTAINER --- */}
+<motion.div 
+  className="text-[#7B7B7B] flex flex-col mt-8 justify-between gap-y-6 lg:flex-row lg:gap-x-10 lg:mt-7 xl:mt-24.25"
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true }}
+  variants={fadeInUp}
+  transition={{ delay: 0.2 }}
+>
+  {/* First Paragraph */}
+  <p className="font-comfortaa text-[14px] md:text-[15px] xl:text-[19px] leading-relaxed max-w-2xl lg:max-w-none">
+    Our power comes in the form of our values. We call ourselves "The Ethical Builder" not as a slogan, but as a guarantee. We are not trying to be the largest, we work on being the most trustworthy. Our team proudly delivers what we guarantee, on schedule, with durability.
+  </p>
+
+  {/* Second Paragraph - Removed fixed w-[54rem] which was causing the break issues */}
+  <p className="font-comfortaa text-[14px] md:text-[15px] xl:text-[19px] leading-relaxed max-w-2xl lg:max-w-none">
+    Our commitment to precision, sustainability, and attention to detail has shaped us into one of the most trusted ones.
+  </p>
+</motion.div>
+
           {/* Stats - Desktop */}
             <motion.div 
               className="hidden md:flex justify-between mt-7 lg:mt-7 mb-12 lg:mb-12 xl:mt-3 xl:mb-20 md:mt-10 md:mb-12  max-w-5xl mx-auto w-full "
@@ -138,7 +142,7 @@ export default function About() {
             variants={fadeInUp}
             transition={{ delay: 0.4 }}
           >
-           <a href="/about" className="group inline-flex items-center justify-between gap-8 bg-[#EE3E25] px-8 py-4 text-white transition-all duration-300 hover:bg-white hover:text-[#EE3E25] border border-[#EE3E25] w-full sm:w-fit">
+           <a href="/about" className="group inline-flex items-center justify-between gap-8 bg-[#d41c04] px-8 py-4 md:py-6 lg:py-4 text-white transition-all duration-300 hover:bg-white hover:text-[#dd1a00] border border-[#EE3E25] w-full sm:w-fit">
             <span className="font-inter text-sm font-medium tracking-widest uppercase">
               Know More
               </span>
