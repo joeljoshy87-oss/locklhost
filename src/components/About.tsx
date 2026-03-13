@@ -97,11 +97,11 @@ export default function About() {
                 { value: 15, label: "Years of Experience" }
               ].map((stat, index) => (
                 <div key={index} className="flex flex-col items-start min-w-[140px] ">
-                  <div className="font-cormorant text-4xl md:text-5xl lg:text-7xl font-semibold text-gray-900 flex items-baseline gap-1">
+                  <div className="font-cormorant text-4xl sm:text-5xl  text-gray-900 flex font-semibold items-baseline">
                     <span>{stat.value}</span>
                     <span className="text-3xl md:text-4xl lg:text-5xl">+</span>
                   </div>
-                  <p className="font-inter w-1/2 text-base sm:text-lg text-gray-400 mt-2 xl:text-[17px] xl:text-nowrap md:text-[100%]  md:text-left  md:items-center xl:mt-4 leading-relaxed  ">
+                  <p className="font-inter w-1/2  sm:text-lg text-gray-400 mt-2 xl:text-[17px] xl:text-nowrap md:text-[100%]  md:text-left  md:items-center xl:mt-4 leading-relaxed  ">
                     {stat.label}
                   </p>
                 </div>
@@ -124,7 +124,7 @@ export default function About() {
               { value: 7, label: "Builders Award" }
             ].map((stat, index) => (
               <div key={index} className="flex flex-col min-w-[120px]">
-                <div className="font-cormorant text-4xl sm:text-5xl font-semibold text-gray-900 flex items-baseline">
+                <div className="font-cormorant text-4xl sm:text-5xl  text-gray-900 flex items-baseline">
                   <span>{stat.value}</span>
                   <span className="text-3xl sm:text-4xl ml-1">+</span>
                 </div>
@@ -135,25 +135,43 @@ export default function About() {
             ))}
           </motion.div>
           
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            transition={{ delay: 0.4 }}
-          >
-           <a href="/about" className="group inline-flex items-center justify-between gap-8 bg-[#d41c04] px-8 py-4 md:py-6 lg:py-4 text-white transition-all duration-300 hover:bg-white hover:text-[#dd1a00] border border-[#EE3E25] w-full sm:w-fit">
-            <span className="font-inter text-sm font-medium tracking-widest uppercase">
-              Know More
-              </span>
-              <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-          </a>
-          </motion.div>
+         <motion.div
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true }}
+  variants={fadeInUp}
+  transition={{ delay: 0.4 }}
+  style={{ opacity: 1, transform: "none" }} // Matching your snippet's style
+>
+  <a 
+    href="/about" 
+    className="group inline-flex items-center justify-between gap-8 bg-[#e4260d] px-8 py-4 md:py-6 lg:py-4 text-white transition-all duration-300 hover:bg-white hover:text-[#dd1a00] border border-[#EE3E25] w-full sm:w-fit"
+  >
+    <span className="font-inter text-sm font-medium tracking-widest uppercase">
+      Know More
+    </span>
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      width="24" 
+      height="24" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      className="lucide lucide-arrow-right h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
+    >
+      <path d="M5 12h14"></path>
+      <path d="m12 5 7 7-7 7"></path>
+    </svg>
+  </a>
+</motion.div>
         </div>
          
         {/* Right Image */}
         <motion.div 
-          className="hidden relative md:block md:w-[46%] md:h-[35rem] lg:w-[35%] xl:w-[27rem] xl:h-[48rem] xl:right-18 2xl:right-16"
+          className="hidden relative md:block md:w-[48%] lg:w-[35%] xl:w-[418.5px] xl:h-192.5 xl:right-18 2xl:right-16"
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}

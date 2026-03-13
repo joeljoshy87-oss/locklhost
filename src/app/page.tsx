@@ -195,20 +195,25 @@ export default function Home() {
               </a>
             </div>
 
-            {/* --- MOBILE SECTION: Your Existing Mobile Menu Toggle --- */}
-            <div className="flex lg:hidden items-center gap-3 lg:gap-4">
-              <button 
-                onClick={() => setIsMenuOpen(!isMenuOpen)} 
-                className="text-white p-2 hover:bg-white/10 rounded-sm transition-colors"
-                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              >
-                {isMenuOpen ? (
-                  <X size={24} />
-                ) : (
-                  <img src="/menu.svg" alt="Menu" className="w-6 h-6 object-contain" />
-                )}
-              </button>
-            </div>
+           {/* --- MOBILE SECTION: Updated Minimalist Menu Toggle --- */}
+<div className="flex lg:hidden items-center gap-3 lg:gap-4">
+  <button 
+    onClick={() => setIsMenuOpen(!isMenuOpen)} 
+    className="lg:hidden flex flex-col justify-center gap-2 w-10 h-8 transition-opacity hover:opacity-80" 
+    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+  >
+    {isMenuOpen ? (
+      // X Icon for the 'Open' state
+      <X size={24} className="text-white self-center" />
+    ) : (
+      // The two-line "exactly as requested" design for the 'Closed' state
+      <>
+        <span className="block w-full h-[2px] bg-white"></span>
+        <span className="block w-full h-[2px] bg-white"></span>
+      </>
+    )}
+  </button>
+</div>
 
           </div>
         </div>
